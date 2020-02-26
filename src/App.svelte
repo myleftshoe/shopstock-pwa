@@ -46,15 +46,13 @@
 	}
 </style>
 <script>
-	export let name;
 	export let selectedItem = {};
 
-	import {afterUpdate} from 'svelte'
+	import { afterUpdate } from 'svelte'
 	import { scrollTo } from "svelte-scrollto";
 	import shortid from 'shortid';
 	import data from './items.js';
-	import Keypad, {keypad} from './keypad.svelte';
-	// import {count} from './store.js';
+	import Keypad, { keypad } from './keypad.svelte';
 	import EditItem from './edit-item.svelte';
 
 	let items = data.map(name => ({id:'A'+shortid.generate(),name, qty: '', unit:''}));
