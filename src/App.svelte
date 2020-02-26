@@ -142,8 +142,7 @@
 		}
 	}
 
-	function handleKeypadOpen() {
-		keypad.type = keypad.NUMERIC;
+	function ensureSelectedItemIsVisible() {
 		const selectedElement = document.getElementById(selectedItem.id);
 		const bodyElement = document.getElementsByTagName('body')[0];
 		console.log(selectedElement);
@@ -159,8 +158,13 @@
 				onDone: () => setTimeout(() => {autoscroll = false},1000)
 			});
 		}
-
 	}
+	
+	function handleKeypadOpen() {
+		keypad.type = keypad.NUMERIC;
+		ensureSelectedItemIsVisible(selectedItem);
+	}
+
 </script>
 <div id='container' class='container' class:autoscroll 
 	on:scroll={handleScroll} 
