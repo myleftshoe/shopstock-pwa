@@ -138,7 +138,7 @@
 	}
 
 </script>
-<div id='container' class='container' class:autoscroll 
+<main id='container' class='container' class:autoscroll 
 	on:scroll={handleScroll} 
 	on:pointerdown={() => pointerDown = true}
 	on:pointerup={() => pointerDown = false}	
@@ -150,7 +150,7 @@
 		/>
 	{/each}
 	<div id='spacer'></div>
-</div>
+</main>
 <Keypad 
 	on:click={handleKeypadClick} 
 	on:open={handleKeypadOpen}
