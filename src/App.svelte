@@ -87,8 +87,10 @@
 	}
 
 	function handleKeypadClick(e) {
+
 		const key = e.target.innerText;
 		const type = e.target.dataset.type;
+
 		if (type==='header')
 			return;
 		if (type === 'unit') {
@@ -133,14 +135,13 @@
 	}
 
 	function handleUnitChange(e) {
-		selectedItem.unit =  e.target.value;
+		selectedItem.unit = e.target.value;
 		updateItems();
 	}
 
 	function handleScroll() {
-		if (!autoscroll && pointerDown) {
+		if (!autoscroll && pointerDown) 
 			keypad.close();
-		}
 	}
 
 	function ensureSelectedItemIsVisible() {
