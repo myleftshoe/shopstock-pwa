@@ -40,9 +40,9 @@
     };
 </script>
 <script>
+    import { createEventDispatcher } from 'svelte';
     import NumericKeypad from './numeric-keypad.svelte';
     import UnitKeypad from './unit-keypad.svelte';
-    import { createEventDispatcher } from 'svelte';
     
     let container;
     
