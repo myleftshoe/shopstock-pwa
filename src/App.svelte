@@ -14,36 +14,6 @@
 		flex-shrink:0;
 		/* background-color: #232323; */
 	}
-	.row {
-		display:flex;
-		flex-direction: row;
-		justify-content: space-between;
-		margin:1px;
-		background-color: #ddd
-	}
-	.selected {
-		background-color: yellowgreen;
-	}
-	.item { 
-		padding: 16px 12px;
-		border:none;
-		background-color: transparent;
-		flex-basis:100%;
-		/* pointer-events: none; */
-	}
-	.quantity {
-		display:flex;
-		flex-direction: column;
-		width: 30vw;
-		/* height:100%; */
-		padding:5px;
-		background-color: yellowgreen;
-		justify-content:center;
-		align-items:center;
-	}
-	.unit { 
-		font-size: 10px;
-	}
 </style>
 <script>
 	export let selectedItem = {};
@@ -52,6 +22,7 @@
 	import shortid from 'shortid';
 	import data from './items.js';
 	import Keypad, { keypad } from './keypad.svelte';
+	import Item from './item.svelte';
 	import EditItem from './edit-item.svelte';
 
 	let items = data.map(name => ({id:'A'+shortid.generate(),name, qty: '', unit:''}));
@@ -174,18 +145,10 @@
 	on:pointerup={() => pointerDown = false}	
 >
 	{#each items as item, index}
-		<div id={item.id} data-name={item.name} 
-			class='row' 
-			class:selected={selectedItem.id === item.id} 
-		>
-			<input type=text readonly class='item' value={item.name} on:click={handleItemClick}/>
-			<div class='quantity' on:click={handleQtyClick} >
-				<div tabindex='0'>{item.qty}</div>
-				<!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
-				<div class='unit'>{item.unit}</div>
-				
-			</div>
-		</div>
+		<Item {item} selected={selectedItem.id === item.id}
+			onItemClick={handleItemClick}
+			onQtyClick={handleQtyClick}
+		/>
 	{/each}
 	<div id='spacer'></div>
 </div>
