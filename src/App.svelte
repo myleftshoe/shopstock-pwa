@@ -68,7 +68,7 @@
 			case 'unit': {
 				selectedItem.unit = key;
 				updateItems();
-				keypad.type = keypad.NUMERIC;
+				// keypad.type = keypad.NUMERIC;
 				return;
 			}
 			case 'fraction': {
