@@ -30,18 +30,17 @@
 
 	console.table(items)
 
-	const findItemById = id => items.find(item => item.id === id) 
-
 	function handleQtyClick(e) {
-		selectedItem = findItemById(e.currentTarget.parentNode.id);
+		selectedItem = e.detail.item;
 		keypad.type = keypad.NUMERIC;
 		keypad.open();
 	}
 
 	function handleItemClick(e) {
 		keypad.close();
-		const el = e.target;
-		if (selectedItem.id !== el.parentNode.id) {
+		const el = e.detail.target;
+		const item = e.detail.item;
+		if (item !== selectedItem) {
 			el.readOnly = true;
 		}
 		else {
@@ -49,7 +48,7 @@
 			el.focus();
 			el.select();
 		}
-		selectedItem = findItemById(el.parentNode.id);
+		selectedItem = item;
 	}
 
 	function updateItems() {
@@ -146,8 +145,8 @@
 >
 	{#each items as item, index}
 		<Item {item} selected={selectedItem.id === item.id}
-			onItemClick={handleItemClick}
-			onQtyClick={handleQtyClick}
+			on:itemclick={handleItemClick}
+			on:qtyclick={handleQtyClick}
 		/>
 	{/each}
 	<div id='spacer'></div>

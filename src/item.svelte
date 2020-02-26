@@ -33,12 +33,24 @@
 <script>
     export let item;
     export let selected = false;
-    export let onItemClick = () => {};
-    export let onQtyClick = () => {};
+
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
+	function handleItemClick(e) {
+		const target = e.target;
+		dispatch('itemclick', {item, target});
+	};
+
+	function handleQtyClick(e) {
+		const target = e.target;
+		dispatch('qtyclick', {item, target});
+	}
+
 </script>
 <div id={item.id} data-name={item.name} class='row' class:selected>
-    <input type=text readonly class='item' value={item.name} on:click={onItemClick}/>
-    <div class='quantity' on:click={onQtyClick} >
+    <input type=text readonly class='item' value={item.name} on:click={handleItemClick}/>
+    <div class='quantity' on:click={handleQtyClick} >
         <div tabindex='0'>{item.qty}</div>
         <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
         <div class='unit'>{item.unit}</div>
