@@ -93,10 +93,7 @@
 				break;
 			}
 			case 'decrement': {
-				if (qty < 2)
-					qty = 0;
-				else
-					qty--;
+				qty = qty < 2 ? 0 : qty - 1;
 				break;
 			}
 			case 'number': { 
