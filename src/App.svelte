@@ -53,7 +53,8 @@
 	import * as animateScroll from "svelte-scrollto";
 	import shortid from 'shortid';
 	import data from './items.js';
-	import Keypad, {KEYPAD_TYPE} from './keypad.svelte';
+	import Keypad, {keypad} from './keypad.svelte';
+	// import {count} from './store.js';
 	import EditItem from './edit-item.svelte';
 
 	let items = data.map(name => ({id:'A'+shortid.generate(),name, qty: '', unit:''}));
@@ -66,7 +67,8 @@
 
 	function handleQtyClick(e) {
 		selectedItem = findItemById(e.currentTarget.parentNode.id);
-		keypad.type = KEYPAD_TYPE.NUMERIC;
+		// keypad.type = keypad.NUMERIC;
+		console.log('fsfsd', $keypad)
 		keypad.open();
 	}
 
@@ -95,19 +97,6 @@
 			handleKeypadOpen();
 	}
 
-	const keypad = {
-		visible: false,
-		type: KEYPAD_TYPE.NUMERIC,
-		open() {
-			if (!keypad.visible) 
-				keypad.visible = true;
-		},
-		close() {
-			if (keypad.visible) 
-				keypad.visible = false;
-		}
-	}
-
 	function handleKeypadClick(e) {
 		const key = e.target.innerText;
 		const type = e.target.dataset.type;
@@ -117,7 +106,7 @@
 		if (type === 'unit') {
 			selectedItem.unit = key;
 			items = [...items];
-			keypad.type = KEYPAD_TYPE.NUMERIC;
+			keypad.type = keypad.NUMERIC;
 			return;
 		}
 		if (['1/4', '1/2', '3/4'].includes(key)) {
@@ -168,6 +157,7 @@
 	}
 
 	function handleKeypadOpen() {
+		keypad.type = keypad.NUMERIC;
 		const selectedElement = document.getElementById(selectedItem.id);
 		const bodyElement = document.getElementsByTagName('body')[0];
 		console.log(selectedElement);
@@ -208,8 +198,6 @@
 	<div id='spacer'></div>
 </div>
 <Keypad 
-	visible={keypad.visible} 
-	type={keypad.type}
 	on:click={handleKeypadClick} 
 	on:open={handleKeypadOpen}
 	on:change={handleUnitChange}
