@@ -15,7 +15,8 @@
 </style>
 <script>
     export let type;
+    export let value;
 </script>
-<button on:click data-type={type}>
-    <slot/>
+<button on:click data-type={type} data-key={value}>
+    {value}
 </button>

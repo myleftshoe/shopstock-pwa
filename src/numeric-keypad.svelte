@@ -4,26 +4,26 @@
     import Key from './key.svelte';
 </script>
 <KeyRow>
-    <Key type='number'>1</Key>
-    <Key type='number'>2</Key>
-    <Key type='number'>3</Key>
-    <Key type='fraction'>1/4</Key>
+    <Key type='number' value='1'/>
+    <Key type='number' value='2'/>
+    <Key type='number' value='3'/>
+    <Key type='fraction' value='1/4'/>
 </KeyRow>
 <KeyRow>
-    <Key type='number'>4</Key>
-    <Key type='number'>5</Key>
-    <Key type='number'>6</Key>
-    <Key type='fraction'>1/2</Key>
+    <Key type='number' value='4'/>
+    <Key type='number' value='5'/>
+    <Key type='number' value='6'/>
+    <Key type='fraction' value='1/2'/>
 </KeyRow>
 <KeyRow>
-    <Key type='number'>7</Key>
-    <Key type='number'>8</Key>
-    <Key type='number'>9</Key>
-    <Key type='fraction'>3/4</Key>
+    <Key type='number' value='7'/>
+    <Key type='number' value='8'/>
+    <Key type='number' value='9'/>
+    <Key type='fraction' value='3/4'/>
 </KeyRow>
 <KeyRow>
-    <Key type='increment'>+</Key>
-    <Key type='number'>0</Key>
-    <Key type='decrement'>-</Key>
-    <Key type='clear'>X</Key>
+    <Key type='increment' value='+'/>
+    <Key type='number' value='0'/>
+    <Key type='decrement' value='-'/>
+    <Key type='clear' value='X'/>
 </KeyRow>

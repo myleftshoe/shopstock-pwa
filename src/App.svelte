@@ -57,8 +57,7 @@
 
 	function handleKeypadClick(e) {
 
-		const key = e.target.innerText;
-		const type = e.target.dataset.type;
+		const {type, key} = e.target.dataset;
 
 		switch (type) {
 			case 'header': {
@@ -144,7 +143,7 @@
 	on:pointerup={() => pointerDown = false}	
 >
 	{#each items as item, index}
-		<Item {item} selected={selectedItem.id === item.id}
+		<Item {item} selected={selectedItem === item}
 			on:itemclick={handleItemClick}
 			on:qtyclick={handleQtyClick}
 		/>

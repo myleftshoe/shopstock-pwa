@@ -4,14 +4,14 @@
     const type = 'unit';
 </script>
 <KeyRow>
-    <Key {type}>bags</Key>
-    <Key {type}>black tubs</Key>
+    <Key {type} value='bags'/>
+    <Key {type} value='black tubs'/>
 </KeyRow>
 <KeyRow>
-    <Key {type}>boxes</Key>
-    <Key {type}>trays</Key>
+    <Key {type} value='boxes'/>
+    <Key {type} value='trays'/>
 </KeyRow>
 <KeyRow>
-    <Key {type}>bin</Key>
-    <Key {type}>shelf</Key>
+    <Key {type} value='bin'/>
+    <Key {type} value='shelf'/>
 </KeyRow>
