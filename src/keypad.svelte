@@ -27,22 +27,16 @@
 </style>
 <script context='module'>
     import { writable, get } from 'svelte/store';
-
-    function createKeypad() {
-        const { subscribe, set, update } = writable({visible:false, type: 'numeric'});
-
-        return {
-            subscribe,
-            open: () => update(current => ({...current, visible:true})),
-            close: () => update(current => ({...current, visible:false})),
-            set type(type) { update(current => ({...current, type})) },
-            get type() { return get(keypad).type },
-            NUMERIC: 'numeric',
-            UNIT: 'unit'
-        };
-    }
-
-    export const keypad = createKeypad();
+    const { subscribe, update } = writable({visible:false, type: 'numeric'});
+    export const keypad =  {
+        subscribe,
+        open: () => update(current => ({...current, visible:true})),
+        close: () => update(current => ({...current, visible:false})),
+        set type(type) { update(current => ({...current, type})) },
+        get type() { return get(keypad).type },
+        NUMERIC: 'numeric',
+        UNIT: 'unit'
+    };
 </script>
 <script>
     export let visible = true;
