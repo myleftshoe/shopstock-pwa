@@ -48,7 +48,6 @@
 <script>
 	export let selectedItem = {};
 
-	import { afterUpdate } from 'svelte'
 	import { scrollTo } from "svelte-scrollto";
 	import shortid from 'shortid';
 	import data from './items.js';
