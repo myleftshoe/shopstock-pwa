@@ -50,7 +50,7 @@
 	export let selectedItem = {};
 
 	import {afterUpdate} from 'svelte'
-	import * as animateScroll from "svelte-scrollto";
+	import { scrollTo } from "svelte-scrollto";
 	import shortid from 'shortid';
 	import data from './items.js';
 	import Keypad, {keypad} from './keypad.svelte';
@@ -152,7 +152,7 @@
 		console.log(boundingRect.bottom,  bodyBoundingRect.bottom );
 		if (boundingRect.bottom > bodyBoundingRect.bottom/2) {
 			autoscroll = true;
-			animateScroll.scrollTo({
+			scrollTo({
 				container: '#container', 
 				element: `#${selectedItem.id}`,
 				offset:-200,
