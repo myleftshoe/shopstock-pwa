@@ -23,7 +23,6 @@
 	import data from './items.js';
 	import Keypad, { keypad } from './keypad.svelte';
 	import Item from './item.svelte';
-	import EditItem from './edit-item.svelte';
 
 	let items = data.map(name => ({id:'A'+shortid.generate(),name, qty: '', unit:''}));
 	let autoscroll = false;
