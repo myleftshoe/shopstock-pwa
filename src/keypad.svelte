@@ -26,12 +26,13 @@
     }
 </style>
 <script context='module'>
+    // keypad store
     import { writable, get } from 'svelte/store';
     const { subscribe, update } = writable({visible:false, type: 'numeric'});
     export const keypad =  {
         subscribe,
-        open: () => update(current => ({...current, visible:true})),
-        close: () => update(current => ({...current, visible:false})),
+        open() { update(current => ({...current, visible:true})) },
+        close() { update(current => ({...current, visible:false})) },
         set type(type) { update(current => ({...current, type})) },
         get type() { return get(keypad).type },
         NUMERIC: 'numeric',
@@ -42,6 +43,7 @@
     import NumericKeypad from './numeric-keypad.svelte';
     import UnitKeypad from './unit-keypad.svelte';
     import { createEventDispatcher } from 'svelte';
+    
     let container;
     
     const dispatch = createEventDispatcher();
