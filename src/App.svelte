@@ -83,6 +83,10 @@
 		selectedItem = findItemById(el.parentNode.id);
 	}
 
+	function updateItems() {
+		items = [...items];
+	}
+
 	function handleKeypadClick(e) {
 		const key = e.target.innerText;
 		const type = e.target.dataset.type;
@@ -90,19 +94,19 @@
 			return;
 		if (type === 'unit') {
 			selectedItem.unit = key;
-			items = [...items];
+			updateItems();
 			keypad.type = keypad.NUMERIC;
 			return;
 		}
 		if (['1/4', '1/2', '3/4'].includes(key)) {
 			selectedItem.qty = key;
-			items = [...items];
+			updateItems();
 			return;
 		}
 		if (key === 'X') {
 			selectedItem.qty = '';
 			selectedItem.unit = '';
-			items = [...items];
+			updateItems();
 			return;
 		}
 
@@ -126,12 +130,12 @@
 					qty = Number(`${qty}${key}`);
 		}
 		selectedItem.qty =  qty;
-		items = [...items]
+		updateItems();
 	}
 
 	function handleUnitChange(e) {
 		selectedItem.unit =  e.target.value;
-		items = [...items]
+		updateItems();
 	}
 
 	function handleScroll() {
