@@ -65,10 +65,11 @@
         else
             keypad.type = keypad.NUMERIC;
     }
+    $:headerText = $keypad.type === keypad.NUMERIC ? 'Choose unit ...' : '';
 </script>
 
 <div bind:this={container} class='container' class:hidden={!$keypad.visible} on:click on:transitionend={handleTransitionEnd}>
-    <div class='unit' data-type='popup' on:click={toggleType}>Choose unit ...</div>
+    <div class='unit' data-type='header' on:click={toggleType}>{headerText}</div>
     {#if ($keypad.type === keypad.NUMERIC)}
         <NumericKeypad/>
     {:else}

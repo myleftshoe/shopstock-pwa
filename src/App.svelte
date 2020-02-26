@@ -101,7 +101,7 @@
 		const key = e.target.innerText;
 		const type = e.target.dataset.type;
 		console.log(type, key)
-		if (type==='popup')
+		if (type==='header')
 			return;
 		if (type === 'unit') {
 			selectedItem.unit = key;
