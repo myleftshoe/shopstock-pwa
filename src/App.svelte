@@ -61,44 +61,47 @@
 		const key = e.target.innerText;
 		const type = e.target.dataset.type;
 
-		if (type==='header')
-			return;
-		if (type === 'unit') {
-			selectedItem.unit = key;
-			updateItems();
-			keypad.type = keypad.NUMERIC;
-			return;
-		}
-		if (['1/4', '1/2', '3/4'].includes(key)) {
-			selectedItem.qty = key;
-			updateItems();
-			return;
-		}
-		if (key === 'X') {
-			selectedItem.qty = '';
-			selectedItem.unit = '';
-			updateItems();
-			return;
+		switch (type) {
+			case 'header': {
+				return;
+			}
+			case 'unit': {
+				selectedItem.unit = key;
+				updateItems();
+				keypad.type = keypad.NUMERIC;
+				return;
+			}
+			case 'fraction': {
+				selectedItem.qty = key;
+				updateItems();
+				return;
+			}
+			case 'clear': {
+				selectedItem.qty = '';
+				selectedItem.unit = '';
+				updateItems();
+				return;
+			}
 		}
 
 		let qty = Number(selectedItem.qty);
 		if (isNaN(qty))
 			return;
-		switch (key) {
-			case '+': {
+
+		switch (type) {
+			case 'increment': {
 				qty++;
 				break;
 			}
-			case '-': {
+			case 'decrement': {
 				if (qty < 2)
 					qty = 0;
 				else
 					qty--;
 				break;
 			}
-			default: 
-				if ('0123456789'.includes(key)) 
-					qty = Number(`${qty}${key}`);
+			case 'number': 
+				qty = Number(`${qty}${key}`);
 		}
 		selectedItem.qty =  qty;
 		updateItems();
