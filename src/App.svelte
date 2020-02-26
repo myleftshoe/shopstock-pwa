@@ -67,16 +67,13 @@
 
 	function handleQtyClick(e) {
 		selectedItem = findItemById(e.currentTarget.parentNode.id);
-		// keypad.type = keypad.NUMERIC;
-		console.log('fsfsd', $keypad)
+		keypad.type = keypad.NUMERIC;
 		keypad.open();
 	}
 
 	function handleItemClick(e) {
 		keypad.close();
 		const el = e.target;
-		console.log(selectedItem, el.id)
-		// keypad.visible = !keypad.visible;
 		if (selectedItem.id !== el.parentNode.id) {
 			el.readOnly = true;
 		}
@@ -85,22 +82,12 @@
 			el.focus();
 			el.select();
 		}
-			
 		selectedItem = findItemById(el.parentNode.id);
-
-
-		return;
-		selectedItem = findItemById(e.currentTarget.id);
-		if (!keypad.visible) 
-			keypad.visible = true;
-		else
-			handleKeypadOpen();
 	}
 
 	function handleKeypadClick(e) {
 		const key = e.target.innerText;
 		const type = e.target.dataset.type;
-		console.log(type, key)
 		if (type==='header')
 			return;
 		if (type === 'unit') {
@@ -151,7 +138,6 @@
 
 	function handleScroll() {
 		if (!autoscroll && pointerDown) {
-			console.log('autoffsdds')
 			keypad.close();
 		}
 	}
