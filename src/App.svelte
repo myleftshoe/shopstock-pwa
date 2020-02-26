@@ -154,12 +154,12 @@
 			scrollTo({
 				container: '#container', 
 				element: `#${selectedItem.id}`,
-				offset:-200,
+				offset: -200,
 				onDone: () => setTimeout(() => {autoscroll = false},1000)
 			});
 		}
 	}
-	
+
 	function handleKeypadOpen() {
 		keypad.type = keypad.NUMERIC;
 		ensureSelectedItemIsVisible(selectedItem);
