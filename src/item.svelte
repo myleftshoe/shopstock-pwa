@@ -39,6 +39,12 @@
 
 	function handleItemClick(e) {
 		const target = e.target;
+		target.readOnly = true;
+		if (selected) {
+			target.readOnly = false;
+			target.focus();
+			target.select();
+		}
 		dispatch('itemclick', {item, target});
 	};
 

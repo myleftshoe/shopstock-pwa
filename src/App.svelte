@@ -37,18 +37,8 @@
 	}
 
 	function handleItemClick(e) {
+		selectedItem = e.detail.item;;
 		keypad.close();
-		const el = e.detail.target;
-		const item = e.detail.item;
-		if (item !== selectedItem) {
-			el.readOnly = true;
-		}
-		else {
-			el.readOnly = false;
-			el.focus();
-			el.select();
-		}
-		selectedItem = item;
 	}
 
 	function updateItems() {
