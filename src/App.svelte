@@ -85,8 +85,7 @@
 		}
 
 		let qty = Number(selectedItem.qty);
-		if (isNaN(qty))
-			return;
+		if (isNaN(qty)) return;
 
 		switch (type) {
 			case 'increment': {
@@ -100,8 +99,10 @@
 					qty--;
 				break;
 			}
-			case 'number': 
+			case 'number': { 
 				qty = Number(`${qty}${key}`);
+				break;
+			}
 		}
 		selectedItem.qty =  qty;
 		updateItems();
