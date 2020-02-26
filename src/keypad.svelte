@@ -39,26 +39,16 @@
     };
 </script>
 <script>
-    export let visible = true;
     import NumericKeypad from './numeric-keypad.svelte';
     import UnitKeypad from './unit-keypad.svelte';
     import { createEventDispatcher } from 'svelte';
-    // export let type = 'numeric';
     let container;
     
     const dispatch = createEventDispatcher();
-    function handleTransitionEnd() {
-        if (visible)
-            dispatch('open');
-        else    
-            dispatch('close');
-    }
-    function toggleType() {
-        if ($keypad.type === keypad.NUMERIC)
-            keypad.type = keypad.UNIT;
-        else
-            keypad.type = keypad.NUMERIC;
-    }
+    const handleTransitionEnd = () => dispatch($keypad.visible ? 'open' : 'close');
+    
+    const toggleType = () => keypad.type = $keypad.type === keypad.NUMERIC ? keypad.UNIT : keypad.NUMERIC;
+
     $:headerText = $keypad.type === keypad.NUMERIC ? 'Choose unit ...' : '';
 </script>
 
