@@ -17,12 +17,13 @@
 </style>
 <script>
 	import { scrollTo } from "svelte-scrollto";
-	import shortid from 'shortid';
-	import data from './items.js';
+	import { getItems } from './store.js';
 	import Keypad, { NUMERIC, UNIT } from './keypad.svelte';
 	import Item from './item.svelte';
 
-	let items = data.map(name => ({id:'A'+shortid.generate(),name, qty: '', unit:''}));
+	const items = getItems();
+	console.table(items);
+
 	let selectedItem = {};
 
 	let autoscroll = false;
@@ -30,8 +31,6 @@
 
 	let keypadType = NUMERIC;
 	let keypadVisible = false;
-
-	console.table(items)
 
 	function handleQtyClick(e) {
 		selectedItem = e.detail.item;
