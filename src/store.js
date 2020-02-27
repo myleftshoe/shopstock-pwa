@@ -7,7 +7,12 @@ export function getItems() {
 	if (!items) {
 		localStorage.clear();
 		items = data.map(name => ({id:'A'+shortid.generate(),name, qty: '', unit:''}));
-		localStorage.setItem(localStorageKey, JSON.stringify(items));
+		persist(items);
     }
     return items;
+}
+
+export function persist(items) {
+    const localStorageKey = new Date().toDateString();
+    localStorage.setItem(localStorageKey, JSON.stringify(items));
 }

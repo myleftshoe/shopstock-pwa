@@ -17,11 +17,11 @@
 </style>
 <script>
 	import { scrollTo } from "svelte-scrollto";
-	import { getItems } from './store.js';
+	import { getItems, persist } from './store.js';
 	import Keypad, { NUMERIC, UNIT } from './keypad.svelte';
 	import Item from './item.svelte';
 
-	const items = getItems();
+	let items = getItems();
 	console.table(items);
 
 	let selectedItem = {};
@@ -45,6 +45,7 @@
 
 	function updateItems() {
 		items = [...items];
+		persist(items); 
 	}
 
 	function handleKeypadClick(e) {
