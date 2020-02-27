@@ -16,8 +16,6 @@
 	}
 </style>
 <script>
-	export let selectedItem = {};
-
 	import { scrollTo } from "svelte-scrollto";
 	import shortid from 'shortid';
 	import data from './items.js';
@@ -25,6 +23,8 @@
 	import Item from './item.svelte';
 
 	let items = data.map(name => ({id:'A'+shortid.generate(),name, qty: '', unit:''}));
+	let selectedItem = {};
+
 	let autoscroll = false;
 	let pointerDown = false;
 
