@@ -26,20 +26,12 @@
     }
 </style>
 <script context='module'>
-    // keypad store
-    import { writable, get } from 'svelte/store';
-    const { subscribe, update } = writable({visible:false, type: 'numeric'});
-    export const keypad = {
-        subscribe,
-        open() { update(current => ({...current, visible:true})) },
-        close() { update(current => ({...current, visible:false})) },
-        set type(type) { update(current => ({...current, type})) },
-        get type() { return get(keypad).type },
-        NUMERIC: 'numeric',
-        UNIT: 'unit'
-    };
+    export const NUMERIC = 'numeric';
+    export const UNIT = 'unit';
 </script>
 <script>
+    export let type = NUMERIC;
+    export let visible = false;
     import { createEventDispatcher } from 'svelte';
     import NumericKeypad from './numeric-keypad.svelte';
     import UnitKeypad from './unit-keypad.svelte';
@@ -47,15 +39,15 @@
     let container;
     
     const dispatch = createEventDispatcher();
-    const handleTransitionEnd = () => dispatch($keypad.visible ? 'open' : 'close');
+    const handleTransitionEnd = () => dispatch(visible ? 'open' : 'close');
     
-    const toggleType = () => keypad.type = $keypad.type === keypad.NUMERIC ? keypad.UNIT : keypad.NUMERIC;
+    const toggleType = () => type = type === NUMERIC ? UNIT : NUMERIC;
 
-    $:headerText = $keypad.type === keypad.NUMERIC ? 'Choose unit ...' : '';
-    $:keypadComponent = $keypad.type === keypad.NUMERIC ? NumericKeypad : UnitKeypad;
+    $:headerText = type === NUMERIC ? 'Choose unit ...' : '';
+    $:keypadComponent = type === NUMERIC ? NumericKeypad : UnitKeypad;
 </script>
 
-<div bind:this={container} class='container' class:hidden={!$keypad.visible} on:click on:transitionend={handleTransitionEnd}>
+<div bind:this={container} class='container' class:hidden={!visible} on:click on:transitionend={handleTransitionEnd}>
     <div class='unit' data-type='header' on:click={toggleType}>{headerText}</div>
     <svelte:component this={keypadComponent} />
 </div>

@@ -21,24 +21,27 @@
 	import { scrollTo } from "svelte-scrollto";
 	import shortid from 'shortid';
 	import data from './items.js';
-	import Keypad, { keypad } from './keypad.svelte';
+	import Keypad, { NUMERIC, UNIT } from './keypad.svelte';
 	import Item from './item.svelte';
 
 	let items = data.map(name => ({id:'A'+shortid.generate(),name, qty: '', unit:''}));
 	let autoscroll = false;
 	let pointerDown = false;
 
+	let keypadType = NUMERIC;
+	let keypadVisible = false;
+
 	console.table(items)
 
 	function handleQtyClick(e) {
 		selectedItem = e.detail.item;
-		keypad.type = keypad.NUMERIC;
-		keypad.open();
+		keypadType = NUMERIC;
+		keypadVisible = true;
 	}
 
 	function handleItemClick(e) {
-		selectedItem = e.detail.item;;
-		keypad.close();
+		selectedItem = e.detail.item;
+		keypadVisible = false;
 	}
 
 	function updateItems() {
@@ -100,7 +103,7 @@
 
 	function handleScroll() {
 		if (!autoscroll && pointerDown) 
-			keypad.close();
+			keypadVisible = false;
 	}
 
 	function ensureSelectedItemIsVisible() {
@@ -122,7 +125,7 @@
 	}
 
 	function handleKeypadOpen() {
-		keypad.type = keypad.NUMERIC;
+		keypadType = NUMERIC;
 		ensureSelectedItemIsVisible(selectedItem);
 	}
 
@@ -140,7 +143,9 @@
 	{/each}
 	<div id='spacer'></div>
 </main>
-<Keypad 
+<Keypad
+	bind:type={keypadType}
+	bind:visible={keypadVisible}
 	on:click={handleKeypadClick} 
 	on:open={handleKeypadOpen}
 	on:change={handleUnitChange}
