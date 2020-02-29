@@ -106,18 +106,14 @@
 			keypadVisible = false;
 	}
 
-	function ensureSelectedItemIsVisible() {
-		const selectedElement = document.getElementById(selectedItem.id);
-		const bodyElement = document.getElementsByTagName('body')[0];
-		console.log(selectedElement);
-		const boundingRect = selectedElement.getBoundingClientRect();
-		const bodyBoundingRect = bodyElement.getBoundingClientRect();
-		console.log(boundingRect.bottom,  bodyBoundingRect.bottom );
-		if (boundingRect.bottom > bodyBoundingRect.bottom/2) {
+	function ensureItemIsVisible(item) {
+		const elementBottom = document.getElementById(item.id).getBoundingClientRect().bottom;
+		const bodyMidpoint = document.getElementsByTagName('body')[0].getBoundingClientRect().bottom / 2;
+		if (elementBottom > bodyMidpoint) {
 			autoscroll = true;
 			scrollTo({
 				container: '#container', 
-				element: `#${selectedItem.id}`,
+				element: `#${item.id}`,
 				offset: -200,
 				onDone: () => setTimeout(() => {autoscroll = false},1000)
 			});
@@ -126,7 +122,7 @@
 
 	function handleKeypadOpen() {
 		keypadType = NUMERIC;
-		ensureSelectedItemIsVisible(selectedItem);
+		ensureItemIsVisible(selectedItem);
 	}
 
 </script>
