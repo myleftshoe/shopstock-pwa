@@ -26,15 +26,15 @@
     }
 </style>
 <script context='module'>
-    export const NUMERIC = 'numeric';
-    export const UNIT = 'unit';
+    import NumericKeypad from './numeric-keypad.svelte';
+    import UnitKeypad from './unit-keypad.svelte';
+    export const NUMERIC = NumericKeypad;
+    export const UNIT = UnitKeypad;
 </script>
 <script>
     export let type = NUMERIC;
     export let visible = false;
     import { createEventDispatcher } from 'svelte';
-    import NumericKeypad from './numeric-keypad.svelte';
-    import UnitKeypad from './unit-keypad.svelte';
 
     let container;
     
@@ -44,10 +44,9 @@
     const toggleType = () => type = type === NUMERIC ? UNIT : NUMERIC;
 
     $:headerText = type === NUMERIC ? 'Choose unit ...' : '';
-    $:keypadComponent = type === NUMERIC ? NumericKeypad : UnitKeypad;
 </script>
 
 <div bind:this={container} class='container' class:hidden={!visible} on:click on:transitionend={handleTransitionEnd}>
     <div class='unit' data-type='header' on:click={toggleType}>{headerText}</div>
-    <svelte:component this={keypadComponent} />
+    <svelte:component this={type} />
 </div>
