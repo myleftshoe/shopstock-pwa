@@ -96,11 +96,6 @@
 		updateItems();
 	}
 
-	function handleUnitChange(e) {
-		selectedItem.unit = e.target.value;
-		updateItems();
-	}
-
 	function handleScroll() {
 		if (!autoscroll && pointerDown) 
 			keypadVisible = false;
@@ -144,5 +139,4 @@
 	bind:visible={keypadVisible}
 	on:click={handleKeypadClick} 
 	on:open={handleKeypadOpen}
-	on:change={handleUnitChange}
 />
