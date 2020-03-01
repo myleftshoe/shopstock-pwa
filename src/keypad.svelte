@@ -41,12 +41,10 @@
     const dispatch = createEventDispatcher();
     const handleTransitionEnd = () => dispatch(visible ? 'open' : 'close');
     
-    const toggleType = () => type = type === NUMERIC ? UNIT : NUMERIC;
-
-    $:headerText = type === NUMERIC ? 'Choose unit ...' : '';
+    $:headerText = type === NUMERIC ? 'Choose unit ...' : '[ back ]';
 </script>
 
 <div bind:this={container} class='container' class:hidden={!visible} on:click on:transitionend={handleTransitionEnd}>
-    <div class='unit' data-type='header' on:click={toggleType}>{headerText}</div>
+    <div class='unit' data-type='header'>{headerText}</div>
     <svelte:component this={type} />
 </div>

@@ -54,6 +54,7 @@
 
 		switch (type) {
 			case 'header': {
+				keypadType = keypadType === NUMERIC ? UNIT : NUMERIC;
 				return;
 			}
 			case 'unit': {
