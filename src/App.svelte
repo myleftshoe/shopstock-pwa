@@ -98,10 +98,7 @@
 			keypadVisible = false;
 	}
 
-	function ensureItemIsVisible(item) {
-		const elementBottom = document.getElementById(item.id).getBoundingClientRect().bottom;
-		const bodyMidpoint = document.getElementsByTagName('body')[0].getBoundingClientRect().bottom / 2;
-		if (elementBottom > bodyMidpoint) {
+	function scrollIntoView(item) {
 			autoscroll = true;
 			scrollTo({
 				container: '#container', 
@@ -109,7 +106,13 @@
 				offset: -200,
 				onDone: () => setTimeout(() => {autoscroll = false},1000)
 			});
-		}
+	}
+
+	function ensureItemIsVisible(item) {
+		const elementBottom = document.getElementById(item.id).getBoundingClientRect().bottom;
+		const bodyMidpoint = document.getElementsByTagName('body')[0].getBoundingClientRect().bottom / 2;
+		if (elementBottom > bodyMidpoint) 
+			scrollIntoView(item);
 	}
 
 	function handleKeypadOpen() {
