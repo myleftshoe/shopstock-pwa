@@ -52,46 +52,42 @@
 
 		const {type, key} = e.target.dataset;
 
+		const stop = true;
 		switch (type) {
-			case 'header': {
+			case 'header':
 				keypadType = keypadType === NUMERIC ? UNIT : NUMERIC;
 				return;
-			}
-			case 'unit': {
+			case 'unit':
 				selectedItem.unit = key;
-				updateItems();
-				// keypad.type = keypad.NUMERIC;
-				return;
-			}
-			case 'fraction': {
+				break;
+			case 'fraction':
 				selectedItem.qty = key;
-				updateItems();
-				return;
-			}
-			case 'clear': {
+				break;
+			case 'clear':
 				selectedItem.qty = '';
 				selectedItem.unit = '';
-				updateItems();
-				return;
-			}
+				break;
+			default: stop = false;
+		}
+
+		if (stop) {
+			updateItems();
+			return;
 		}
 
 		let qty = Number(selectedItem.qty);
 		if (isNaN(qty)) return;
 
 		switch (type) {
-			case 'increment': {
+			case 'increment':
 				qty++;
 				break;
-			}
-			case 'decrement': {
+			case 'decrement':
 				qty = qty < 2 ? 0 : qty - 1;
 				break;
-			}
-			case 'number': { 
+			case 'number':
 				qty = Number(`${qty}${key}`);
 				break;
-			}
 		}
 		selectedItem.qty =  qty;
 		updateItems();
