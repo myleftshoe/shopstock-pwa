@@ -19,7 +19,7 @@
 	import { scrollTo } from "svelte-scrollto";
 	import { getItems, persist } from './store.js';
 	import Keypad, { NUMERIC, UNIT } from './keypad.svelte';
-	import Item from './item.svelte';
+	import Items from './items.svelte';
 
 	let items = getItems();
 	console.table(items);
@@ -127,12 +127,7 @@
 	on:pointerdown={() => pointerDown = true}
 	on:pointerup={() => pointerDown = false}	
 >
-	{#each items as item, index}
-		<Item {item} selected={selectedItem === item}
-			on:itemclick={handleItemClick}
-			on:qtyclick={handleQtyClick}
-		/>
-	{/each}
+	<Items {items} {selectedItem} on:itemclick={handleItemClick} on:qtyclick={handleQtyClick}/>
 	<div id='spacer'></div>
 </main>
 <Keypad
