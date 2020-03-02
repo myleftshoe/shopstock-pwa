@@ -99,13 +99,13 @@
 	}
 
 	function scrollIntoView(item) {
-			autoscroll = true;
-			scrollTo({
-				container: '#container', 
-				element: `#${item.id}`,
-				offset: -200,
-				onDone: () => setTimeout(() => {autoscroll = false},1000)
-			});
+		autoscroll = true;
+		scrollTo({
+			container: '#container', 
+			element: `#${item.id}`,
+			offset: -200,
+			onDone: () => setTimeout(() => {autoscroll = false},1000)
+		});
 	}
 
 	function ensureItemIsVisible(item) {
