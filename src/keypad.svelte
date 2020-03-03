@@ -1,50 +1,58 @@
 <style>
-    .container { 
+    .container {
         background-color: #000;
-        position:absolute;
-        bottom:0;
+        position: absolute;
+        bottom: 0;
         display: flex;
         flex-direction: column;
-        justify-content:flex-end;
-        height:50vh;
-        width:100vw;
-        transition: transform .3s ease;
+        justify-content: flex-end;
+        height: 50vh;
+        width: 100vw;
+        transition: transform 0.3s ease;
     }
     .hidden {
-        transform:translateY(50vh)
+        transform: translateY(50vh);
     }
     .unit {
         position: relative;
-        display:flex;
+        display: flex;
         align-items: center;
         justify-content: center;
         /* background: red; */
         /* flex-shrink:1; */
-        height:7vh;
-        width:100vw;
-        color:white;
+        height: 7vh;
+        width: 100vw;
+        color: white;
     }
 </style>
-<script context='module'>
-    import NumericKeypad from './numeric-keypad.svelte';
-    import UnitKeypad from './unit-keypad.svelte';
-    export const NUMERIC = NumericKeypad;
-    export const UNIT = UnitKeypad;
+
+<script context="module">
+    import NumericKeypad from './numeric-keypad.svelte'
+    import UnitKeypad from './unit-keypad.svelte'
+    export const NUMERIC = NumericKeypad
+    export const UNIT = UnitKeypad
 </script>
+
 <script>
-    export let type = NUMERIC;
-    export let visible = false;
-    import { createEventDispatcher } from 'svelte';
+    export let type = NUMERIC
+    export let visible = false
+    import { createEventDispatcher } from 'svelte'
 
-    let container;
-    
-    const dispatch = createEventDispatcher();
-    const handleTransitionEnd = () => dispatch(visible ? 'open' : 'close');
-    
-    $:headerText = type === NUMERIC ? 'Choose unit ...' : '[ back ]';
+    let container
+
+    const dispatch = createEventDispatcher()
+    const handleTransitionEnd = () => dispatch(visible ? 'open' : 'close')
+
+    $: headerText = type === NUMERIC ? 'Choose unit ...' : '[ back ]'
 </script>
 
-<div bind:this={container} class='container' class:hidden={!visible} on:click on:transitionend={handleTransitionEnd}>
-    <div class='unit' data-type='header'>{headerText}</div>
+<div
+    bind:this={container}
+    class="container"
+    class:hidden={!visible}
+    on:click
+    on:transitionend={handleTransitionEnd}
+>
+    <div class="unit" data-type="header">{headerText}</div>
     <svelte:component this={type} />
 </div>
