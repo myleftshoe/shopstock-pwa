@@ -52,7 +52,7 @@
     function handleKeypadClick(e) {
         const { type, key } = e.target.dataset
 
-        const stop = true
+        let stop = true
         switch (type) {
             case 'header':
                 keypadType = keypadType === NUMERIC ? UNIT : NUMERIC
