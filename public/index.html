@@ -10,9 +10,8 @@
 	<link rel='manifest' href='/manifest.json'>
 
 	<script>
-		// Registering our Service worker
 		if ('serviceWorker' in navigator) {
-			navigator.serviceWorker.register('sw.js', { scope: './' })
+			navigator.serviceWorker.register('sw.js')
 		}
 	</script>
 	<title>Shop Stock</title>

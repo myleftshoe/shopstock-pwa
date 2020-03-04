@@ -1,12 +1,13 @@
 const cacheName = 'ShopStock'
 const cacheFiles = [
-    './index.html',
-    './manifest.json',
-    './bundle.css',
-    './bundle.js',
-    './global.css',
-    './favicon.png',
-    './images/icons/icon-512x512.png',
+    '/',
+    '/index.html',
+    '/manifest.json',
+    '/bundle.css',
+    '/bundle.js',
+    '/global.css',
+    '/favicon.png',
+    '/images/icons/icon-512x512.png',
 ]
 
 // Cache all the files to make a PWA
