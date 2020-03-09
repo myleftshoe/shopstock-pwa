@@ -3,7 +3,8 @@
         display: flex;
         flex-direction: column;
         width: 100vw;
-        height: 100vh;
+        height: 100%;
+        position: fixed;
         overflow-y: auto;
     }
     .autoscroll {
@@ -16,14 +17,18 @@
     }
 </style>
 
-<script>
+<script async>
+    import { onMount } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { getItems, persist } from './store.js'
+    import { getCachedItems, persist } from './store.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
+    import Spinner from './spinner.svelte'
 
-    let items = getItems()
-    console.table(items)
+    let items = getCachedItems();
+    // onMount(async () => {
+    //     items = await getItems()
+    // })
 
     let selectedItem = {}
 
@@ -127,25 +132,31 @@
     }
 </script>
 
-<main
-    id="container"
-    class="container"
-    class:autoscroll
-    on:scroll={handleScroll}
-    on:pointerdown={() => (pointerDown = true)}
-    on:pointerup={() => (pointerDown = false)}
->
-    <Items
-        {items}
-        {selectedItem}
-        on:itemclick={handleItemClick}
-        on:qtyclick={handleQtyClick}
+{#if !items}
+    <p>...waiting</p>
+    <Spinner />
+{:else}
+    <main
+        id="container"
+        class="container"
+        class:autoscroll
+        on:scroll={handleScroll}
+        on:pointerdown={() => (pointerDown = true)}
+        on:pointerup={() => (pointerDown = false)}
+    >
+        <Items
+            {items}
+            {selectedItem}
+            on:itemclick={handleItemClick}
+            on:qtyclick={handleQtyClick}
+        />
+        <div id="spacer" />
+
+    </main>
+    <Keypad
+        bind:type={keypadType}
+        bind:visible={keypadVisible}
+        on:click={handleKeypadClick}
+        on:open={handleKeypadOpen}
     />
-    <div id="spacer" />
-</main>
-<Keypad
-    bind:type={keypadType}
-    bind:visible={keypadVisible}
-    on:click={handleKeypadClick}
-    on:open={handleKeypadOpen}
-/>
+{/if}

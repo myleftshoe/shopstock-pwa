@@ -5,6 +5,7 @@
         justify-content: space-between;
         margin: 1px;
         background-color: #ddd;
+        flex: 0 0 auto;
     }
     .selected {
         background-color: yellowgreen;
@@ -40,11 +41,13 @@
 
     function handleItemClick(e) {
         const target = e.target
-        target.readOnly = true
         if (selected) {
             target.readOnly = false
             target.focus()
-            target.select()
+            // target.select()
+        }
+        else {
+            target.readOnly = true
         }
         dispatch('itemclick', { item, target })
     }
