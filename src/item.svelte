@@ -59,13 +59,7 @@
 </script>
 
 <div id={item.id} data-name={item.name} class="row" class:selected>
-    <input
-        type="text"
-        readonly
-        class="item"
-        value={item.name}
-        on:click={handleItemClick}
-    />
+    <div class="item" on:click={handleItemClick}>{item.name}</div>
     <div class="quantity" on:click={handleQtyClick}>
         <div tabindex="0">{item.qty}</div>
         <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->

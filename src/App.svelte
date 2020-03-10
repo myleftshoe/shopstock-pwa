@@ -24,8 +24,11 @@
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
     import Spinner from './spinner.svelte'
+    import Edit from './edit.svelte'
 
-    let items = getCachedItems();
+    let editItem = false;
+
+    let items = getCachedItems()
     // onMount(async () => {
     //     items = await getItems()
     // })
@@ -45,8 +48,11 @@
     }
 
     function handleItemClick(e) {
-        selectedItem = e.detail.item
         keypadVisible = false
+        if (e.detail.item === selectedItem) {
+            editItem = true
+        }
+        selectedItem = e.detail.item
     }
 
     function updateItems() {
@@ -130,12 +136,24 @@
         keypadType = NUMERIC
         ensureItemIsVisible(selectedItem)
     }
+
+    function handleEditItemDone(e) {
+        console.log(e.detail.item)
+        updateItems();
+        editItem=false;
+    }
 </script>
 
 {#if !items}
     <p>...waiting</p>
     <Spinner />
 {:else}
+    <Edit
+        bind:item={selectedItem}
+        open={editItem}
+        on:done={handleEditItemDone}
+        on:cancel={() => (editItem = false)}
+    />
     <main
         id="container"
         class="container"
