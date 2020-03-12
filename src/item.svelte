@@ -30,6 +30,22 @@
     .unit {
         font-size: 10px;
     }
+
+    details {
+        padding: 0;
+    }
+    summary::-webkit-details-marker {
+        width: 0;
+        margin: 0;
+        border: transparent;
+        padding: 0;
+        background-color: #000;
+    }
+
+    .notes {
+        font-size: 12px;
+        margin-top: 8px;
+    }
 </style>
 
 <script>
@@ -45,8 +61,7 @@
             target.readOnly = false
             target.focus()
             // target.select()
-        }
-        else {
+        } else {
             target.readOnly = true
         }
         dispatch('itemclick', { item, target })
@@ -59,7 +74,12 @@
 </script>
 
 <div id={item.id} data-name={item.name} class="row" class:selected>
-    <div class="item" on:click={handleItemClick}>{item.name}</div>
+    <div class="item" on:click={handleItemClick}>
+        <div>{item.name}</div>
+        {#if item.notes}
+            <div class="notes">{item.notes}</div>
+        {/if}
+    </div>
     <div class="quantity" on:click={handleQtyClick}>
         <div tabindex="0">{item.qty}</div>
         <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->

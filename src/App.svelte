@@ -1,37 +1,50 @@
 <style>
-    .container {
+    main {
         display: flex;
         flex-direction: column;
         width: 100vw;
         height: 100%;
-        position: fixed;
         overflow-y: auto;
     }
     .autoscroll {
         overflow-y: hidden;
     }
-    #spacer {
+    footer {
         flex-basis: 50vh;
         flex-shrink: 0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
         /* background-color: #232323; */
+    }
+    header {
+        height: 60px;
+    }
+    a {
+        color:white;
     }
 </style>
 
 <script async>
     import { onMount } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { getCachedItems, persist } from './store.js'
+    import { getCachedItems, getItems, persist } from './store.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
     import Spinner from './spinner.svelte'
     import Edit from './edit.svelte'
 
-    let editItem = false;
+    let editItem = false
 
-    let items = getCachedItems()
-    // onMount(async () => {
-    //     items = await getItems()
-    // })
+    let items
+
+    const hasQty = item => item.qty
+
+    onMount(async () => {
+        items = getCachedItems()
+        console.log('edited', items.some(hasQty))
+        if (!items.some(hasQty)) items = await getItems()
+    })
 
     let selectedItem = {}
 
@@ -137,23 +150,42 @@
         ensureItemIsVisible(selectedItem)
     }
 
+    function findItemIndex(itemToFind) {
+        return items.findIndex(item => item.id === itemToFind.id)
+    }
+
+    function replaceItem(item) {
+        items[findItemIndex(item)] = { ...item }
+    }
+
     function handleEditItemDone(e) {
-        console.log(e.detail.item)
-        updateItems();
-        editItem=false;
+        selectedItem = { ...e.detail.item }
+        replaceItem(selectedItem)
+        updateItems()
+        editItem = false
+    }
+
+    function handleEditItemCancel(e) {
+        editItem = false
+    }
+
+    function doComplete() {
+        console.log('docomplete')
     }
 </script>
 
+<header />
 {#if !items}
     <p>...waiting</p>
     <Spinner />
 {:else}
-    <Edit
-        bind:item={selectedItem}
-        open={editItem}
-        on:done={handleEditItemDone}
-        on:cancel={() => (editItem = false)}
-    />
+    {#if editItem}
+        <Edit
+            item={{ ...selectedItem }}
+            on:done={handleEditItemDone}
+            on:cancel={handleEditItemCancel}
+        />
+    {/if}
     <main
         id="container"
         class="container"
@@ -168,8 +200,9 @@
             on:itemclick={handleItemClick}
             on:qtyclick={handleQtyClick}
         />
-        <div id="spacer" />
-
+        <footer>
+            <a href="#" on:click={doComplete}>Mark complete and send email</a>
+        </footer>
     </main>
     <Keypad
         bind:type={keypadType}

@@ -11,13 +11,13 @@ export async function getItems() {
 }
 
 export function getCachedItems() {
-    // const localStorageKey = new Date().toDateString();
-    // let items = JSON.parse(localStorage.getItem(localStorageKey));
-    // if (!items) {
-        // localStorage.clear();
-        let items = mockdata.map(name => ({ id: 'A' + shortid.generate(), name, qty: '', unit: '' }));
-        // persist(items);
-    // }
+    const localStorageKey = new Date().toDateString();
+    let items = JSON.parse(localStorage.getItem(localStorageKey));
+    if (!items) {
+        localStorage.clear();
+        let items = mockdata.map(name => ({ id: 'A' + shortid.generate(), name, qty: '', unit: '', notes:'' }));
+        persist(items);
+    }
     console.log(items)
     return items;
 }
