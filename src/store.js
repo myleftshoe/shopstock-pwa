@@ -1,6 +1,6 @@
 import mockdata from './items.js';
 import shortid from 'shortid';
-const url = 'https://script.google.com/macros/s/AKfycbzn7GB0LV-iqSbJsGg1t7x2Lr7LIzVqgIWrAadsgx8wxhyuEyju/dev';
+const url = 'https://script.google.com/macros/s/AKfycbzn7GB0LV-iqSbJsGg1t7x2Lr7LIzVqgIWrAadsgx8wxhyuEyju/exec';
 
 export async function getItems() {
     const response = await fetch(url);
@@ -29,22 +29,28 @@ export function persist(items) {
 
 export async function complete(items) {
     
+    const url = 'https://api.jsonbin.io/b'
+    const API_KEY = process.env.JSONBIN_KEY;
+
+
     const data = items.map(item => {
         const {name, qty, unit, notes} = item;
         return [ name, `${qty} ${unit}`.trim(), notes ]
     });
     const options = {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json',
             'API-Key': 'AIzaSyAJRQTwl8HFeemLV1JfJTUa-ca4Im0LYQw',
+            'secret-key': API_KEY,
+            'private': 'true',
+            'name': 'testname'
         },
         body: JSON.stringify(data) // body data type must match "Content-Type" header
     };
 
-    const response = fetch(url, options)
-    return response;
+    const response = await fetch(url, options)
+    // return response;
     const json = await response.json();
     // , {
     //     method: 'GET',

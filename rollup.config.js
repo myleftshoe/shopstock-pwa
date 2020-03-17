@@ -3,7 +3,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import babel from 'rollup-plugin-babel'; 
+import babel from 'rollup-plugin-babel';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -28,7 +29,16 @@ export default {
         babel({
             extensions: ['.js', '.mjs', '.html', '.svelte'],
             include: ['src/**', 'node_modules/svelte/**'],
-          }),
+        }),
+        replace({
+            FOO: 'bar',
+            // 2 level deep object should be stringify
+            process: JSON.stringify({
+                env: {
+                    isProd: production,
+                }
+            }),
+        }),
 
         // If you have external dependencies installed from
         // npm, you'll most likely need these plugins. In
