@@ -73,6 +73,7 @@
         padding: 16px;
         font-weight: bold;
         user-select: none;
+        border-radius: 7px;
     }
     button:active {
         background-color: grey;

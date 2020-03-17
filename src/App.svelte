@@ -12,27 +12,29 @@
     footer {
         flex-basis: 50vh;
         flex-shrink: 0;
-        display:flex;
-        align-items:center;
-        justify-content:center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         /* background-color: #232323; */
     }
     header {
         height: 60px;
     }
     a {
-        color:white;
+        color: white;
     }
 </style>
 
 <script async>
-    import { onMount } from 'svelte'
+    import { onMount, afterUpdate } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { getCachedItems, getItems, persist } from './store.js'
+    import { getCachedItems, getItems, persist, complete } from './store.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
     import Spinner from './spinner.svelte'
     import Edit from './edit.svelte'
+
+    let completing = false
 
     let editItem = false
 
@@ -41,9 +43,10 @@
     const hasQty = item => item.qty
 
     onMount(async () => {
-        items = getCachedItems()
-        console.log('edited', items.some(hasQty))
-        if (!items.some(hasQty)) items = await getItems()
+        items = await getCachedItems()
+        // console.log('edited', items.some(hasQty))
+        if (!Array.isArray(items) || !items.some(hasQty))
+            items = await getItems()
     })
 
     let selectedItem = {}
@@ -169,8 +172,11 @@
         editItem = false
     }
 
-    function doComplete() {
-        console.log('docomplete')
+    async function doComplete() {
+        completing = true
+        await complete(items)
+        completing = false
+        console.log('Complete!')
     }
 </script>
 
@@ -201,7 +207,9 @@
             on:qtyclick={handleQtyClick}
         />
         <footer>
-            <a href="#" on:click={doComplete}>Mark complete and send email</a>
+            <button disabled={completing} on:click={doComplete}>
+                Mark complete and send email
+            </button>
         </footer>
     </main>
     <Keypad
