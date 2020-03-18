@@ -41,9 +41,9 @@ export async function complete(items) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'API-Key': 'AIzaSyAJRQTwl8HFeemLV1JfJTUa-ca4Im0LYQw',
-            'secret-key': API_KEY,
-            'private': 'true',
+            // 'API-Key': 'AIzaSyAJRQTwl8HFeemLV1JfJTUa-ca4Im0LYQw',
+            'secret-key': '$2a$10$73I.S5dAW2GgM/L2mAckkeY4XoGRFZqof6vAWnGuGBsgqFx.K0opS',
+            // 'private': 'true',
             'name': 'testname'
         },
         body: JSON.stringify(data) // body data type must match "Content-Type" header
