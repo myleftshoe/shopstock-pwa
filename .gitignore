@@ -4,3 +4,5 @@ public/bundle.*
 client_id.json
 tmp
 .env
+secrets.js
+scripts/jsonbin.create

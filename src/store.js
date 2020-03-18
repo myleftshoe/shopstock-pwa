@@ -1,12 +1,27 @@
 import mockdata from './items.js';
 import shortid from 'shortid';
+import { jsonbin } from './secrets.js';
 const url = 'https://script.google.com/macros/s/AKfycbzn7GB0LV-iqSbJsGg1t7x2Lr7LIzVqgIWrAadsgx8wxhyuEyju/exec';
 
 export async function getItems() {
-    const response = await fetch(url);
+
+    const binId = jsonbin.masterBinId;
+    const version = 'latest'
+    const url = `https://api.jsonbin.io/b/${binId}/${version}`
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'secret-key': jsonbin.secretKey,
+        },
+    };
+
+    const response = await fetch(url, options);
     const json = await response.json();
+
     const items = json.map(item => ({ ...item, qty: '' }));
     persist(items);
+
     return items;
 }
 
@@ -28,25 +43,22 @@ export function persist(items) {
 }
 
 export async function complete(items) {
-    
-    const url = 'https://api.jsonbin.io/b'
-    const API_KEY = process.env.JSONBIN_KEY;
 
+    const binId = jsonbin.workingBinId;
+    const url = `https://api.jsonbin.io/b/${binId}`
 
     const data = items.map(item => {
-        const {name, qty, unit, notes} = item;
-        return [ name, `${qty} ${unit}`.trim(), notes ]
+        const { name, qty, unit, notes } = item;
+        return [name, `${qty} ${unit}`.trim(), notes]
     });
+
     const options = {
-        method: 'POST',
+        method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
-            // 'API-Key': 'AIzaSyAJRQTwl8HFeemLV1JfJTUa-ca4Im0LYQw',
-            'secret-key': '$2a$10$73I.S5dAW2GgM/L2mAckkeY4XoGRFZqof6vAWnGuGBsgqFx.K0opS',
-            // 'private': 'true',
-            'name': 'testname'
+            'content-type': 'application/json',
+            'secret-key': jsonbin.secretKey,
         },
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
+        body: JSON.stringify(data)
     };
 
     const response = await fetch(url, options)
