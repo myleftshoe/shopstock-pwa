@@ -55,12 +55,14 @@
             items = await getItems()
         }
         const { addNotification } = getNotificationsContext();
-        addNotification({
-            text: 'Notification',
-            position: 'top-center',
-            removeAfter:4000,
-        })
 
+        if (status === 'completed') {
+            addNotification({
+                text: 'This stocktake has already been completed',
+                position: 'top-center',
+                removeAfter:4000,
+            })
+        }
     })
 
     let selectedItem = {}
@@ -201,7 +203,7 @@
 {#if !items}
     <Spinner />
 {:else}
-    <header>{status}</header>
+    <!-- <header>{status}</header> -->
     {#if editItem}
         <Edit
             item={{ ...selectedItem }}
