@@ -38,8 +38,9 @@
     import Items from './items.svelte'
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
+    import Notifications, { getNotificationsContext } from 'svelte-notifications'
 
-    let status = localStorage.getItem('status') || '';
+    let status = localStorage.getItem('status') || ''
 
     let editItem = false
 
@@ -50,8 +51,16 @@
     onMount(async () => {
         items = await getCachedItems()
         // console.log('edited', items.some(hasQty))
-        if (!Array.isArray(items) || !items.some(hasQty))
+        if (!Array.isArray(items) || !items.some(hasQty)) {
             items = await getItems()
+        }
+        const { addNotification } = getNotificationsContext();
+        addNotification({
+            text: 'Notification',
+            position: 'top-center',
+            removeAfter:4000,
+        })
+
     })
 
     let selectedItem = {}
@@ -186,16 +195,13 @@
         console.log('Complete!')
     }
 
-    $: status = localStorage.getItem('status') || '';    
-
+    $: status = localStorage.getItem('status') || ''
 </script>
-
+<Notifications>
 {#if !items}
-    <Spinner/>
+    <Spinner />
 {:else}
-    <header>
-        {status}
-    </header>
+    <header>{status}</header>
     {#if editItem}
         <Edit
             item={{ ...selectedItem }}
@@ -230,3 +236,4 @@
         on:open={handleKeypadOpen}
     />
 {/if}
+</Notifications>

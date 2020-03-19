@@ -19,7 +19,8 @@
   "dependencies": {
     "shortid": "^2.2.15",
     "sirv-cli": "^0.4.5",
-    "svelte-headroom": "^2.2.1"
+    "svelte-headroom": "^2.2.1",
+    "svelte-notifications": "^0.9.9"
   },
   "scripts": {
     "build": "rollup -c",

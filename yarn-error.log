@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js remove @rollup/plugin-replace
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add svelte-notifications
 
 PATH: 
   /home/paul/.cargo/bin:/home/paul/bin:/home/paul/.cargo/bin:/home/paul/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/gfie-3.6:/snap/bin:/opt/gfie-3.6
