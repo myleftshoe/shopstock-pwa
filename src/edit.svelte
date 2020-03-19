@@ -30,7 +30,7 @@
         border: 2px solid yellowgreen;
         outline: none;
         margin: 0 16px;
-        padding: 8px 4px 8px 16px;
+        padding: 8px 16px;
         border-radius: 7px;
         width: 100%;
     }

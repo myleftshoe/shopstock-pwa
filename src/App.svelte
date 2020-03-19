@@ -18,6 +18,11 @@
         /* background-color: #232323; */
     }
     header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
         height: 60px;
     }
     a {
@@ -31,10 +36,10 @@
     import { getCachedItems, getItems, persist, complete } from './store.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
-    import Spinner from './spinner.svelte'
+    import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
 
-    let completing = false
+    let status = localStorage.getItem('status') || '';
 
     let editItem = false
 
@@ -64,11 +69,11 @@
     }
 
     function handleItemClick(e) {
-        keypadVisible = false
-        if (e.detail.item === selectedItem) {
+        if (e.detail.item === selectedItem && !keypadVisible) {
             editItem = true
         }
         selectedItem = e.detail.item
+        keypadVisible = false
     }
 
     function updateItems() {
@@ -173,18 +178,24 @@
     }
 
     async function doComplete() {
-        completing = true
+        status = 'working...'
+        // localStorage.setItem('status', status)
         await complete(items)
-        completing = false
+        status = 'completed'
+        localStorage.setItem('status', status)
         console.log('Complete!')
     }
+
+    $: status = localStorage.getItem('status') || '';    
+
 </script>
 
-<header />
 {#if !items}
-    <p>...waiting</p>
-    <Spinner />
+    <Spinner/>
 {:else}
+    <header>
+        {status}
+    </header>
     {#if editItem}
         <Edit
             item={{ ...selectedItem }}
@@ -207,7 +218,7 @@
             on:qtyclick={handleQtyClick}
         />
         <footer>
-            <button disabled={completing} on:click={doComplete}>
+            <button disabled={status === 'working...'} on:click={doComplete}>
                 Mark complete and send email
             </button>
         </footer>

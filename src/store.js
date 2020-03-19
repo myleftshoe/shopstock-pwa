@@ -25,8 +25,17 @@ export async function getItems() {
     return items;
 }
 
+function getLocalStorageKey() {
+    // Current stock take is valid until midday the following day after
+    // which it will be cleared the next time the app is started
+    const today = new Date();
+    today.setHours(today.getHours() - 12);
+    return today.toDateString();
+}
+
 export function getCachedItems() {
-    const localStorageKey = new Date().toDateString();
+    // const localStorageKey = new Date().toDateString();
+    const localStorageKey = getLocalStorageKey();
     let items = JSON.parse(localStorage.getItem(localStorageKey));
     if (!items) {
         localStorage.clear();
@@ -38,7 +47,8 @@ export function getCachedItems() {
 }
 
 export function persist(items) {
-    const localStorageKey = new Date().toDateString();
+//    const localStorageKey = new Date().toDateString();
+    const localStorageKey = getLocalStorageKey();
     localStorage.setItem(localStorageKey, JSON.stringify(items));
 }
 
@@ -47,10 +57,14 @@ export async function complete(items) {
     const binId = jsonbin.workingBinId;
     const url = `https://api.jsonbin.io/b/${binId}`
 
-    const data = items.map(item => {
+    const date = new Date().toDateString();
+
+    const _items = items.map(item => {
         const { name, qty, unit, notes } = item;
         return [name, `${qty} ${unit}`.trim(), notes]
     });
+
+    const data = { date , items: _items }
 
     const options = {
         method: 'PUT',
