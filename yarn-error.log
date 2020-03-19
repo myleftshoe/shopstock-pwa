@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js remove svelte-fa
+  /usr/bin/node /usr/share/yarn/bin/yarn.js remove svelte-notifications
 
 PATH: 
   /home/paul/.cargo/bin:/home/paul/bin:/home/paul/.cargo/bin:/home/paul/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/gfie-3.6:/snap/bin:/opt/gfie-3.6
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/home/paul/Development/svelte/shopstock-pwa/node_modules/@babel/traverse/node_modules/debug/LICENSE'
+  Error: EACCES: permission denied, unlink '/home/paul/Development/svelte/shopstock-pwa/node_modules/@babel/traverse/node_modules/debug/CHANGELOG.md'
 
 npm manifest: 
   {
@@ -37,8 +37,7 @@ npm manifest:
     },
     "dependencies": {
       "shortid": "^2.2.15",
-      "sirv-cli": "^0.4.5",
-      "svelte-notifications": "^0.9.9"
+      "sirv-cli": "^0.4.5"
     },
     "scripts": {
       "build": "rollup -c",

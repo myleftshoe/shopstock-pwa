@@ -66,7 +66,6 @@
     import Items from './items.svelte'
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
-    import Notifications, { getNotificationsContext } from 'svelte-notifications'
     
 
     let status = localStorage.getItem('status') || ''
@@ -84,14 +83,6 @@
             items = await getItems()
         }
 
-        const { addNotification } = getNotificationsContext();
-        if (status === 'completed') {
-            addNotification({
-                text: 'This stocktake has already been completed',
-                position: 'top-center',
-                removeAfter:4000,
-            })
-        }
     })
 
     let selectedItem = {}
@@ -227,9 +218,13 @@
         console.log('Complete!')
     }
 
+    function startOver() {
+        items.forEach(item => item.qty = '');
+        updateItems();
+    }
+
     // $: status = localStorage.getItem('status') || ''
 </script>
-<Notifications>
 {#if !items}
     <Spinner />
 {:else}
@@ -257,7 +252,7 @@
         />
         <footer>
             {#if status === 'completed'}
-                <button class="secondary" on:click={null}>
+                <button class="secondary" on:click={startOver}>
                     Start Over
                 </button>
             {:else}
@@ -274,4 +269,3 @@
         on:open={handleKeypadOpen}
     />
 {/if}
-</Notifications>
