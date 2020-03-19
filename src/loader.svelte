@@ -1,4 +1,11 @@
 <style>
+    .container {
+        height:100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .loader,
     .loader:before,
     .loader:after {
@@ -57,4 +64,6 @@
         }
     }
 </style>
-<div class="loader">Loading...</div>
+<div class="container">
+    <div class="loader">Loading...</div>
+</div>

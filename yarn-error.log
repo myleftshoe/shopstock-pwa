@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js add svelte-notifications
+  /usr/bin/node /usr/share/yarn/bin/yarn.js remove svelte-fa
 
 PATH: 
   /home/paul/.cargo/bin:/home/paul/bin:/home/paul/.cargo/bin:/home/paul/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/gfie-3.6:/snap/bin:/opt/gfie-3.6
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/home/paul/Development/svelte/shopstock-pwa/node_modules/@babel/traverse/node_modules/debug/CHANGELOG.md'
+  Error: EACCES: permission denied, unlink '/home/paul/Development/svelte/shopstock-pwa/node_modules/@babel/traverse/node_modules/debug/LICENSE'
 
 npm manifest: 
   {
@@ -38,7 +38,7 @@ npm manifest:
     "dependencies": {
       "shortid": "^2.2.15",
       "sirv-cli": "^0.4.5",
-      "svelte-headroom": "^2.2.1"
+      "svelte-notifications": "^0.9.9"
     },
     "scripts": {
       "build": "rollup -c",
@@ -772,6 +772,18 @@ Lockfile:
       lodash "^4.17.13"
       to-fast-properties "^2.0.0"
   
+  "@fortawesome/fontawesome-common-types@^0.2.27":
+    version "0.2.27"
+    resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.27.tgz#19706345859fc46adf3684ed01d11b40903b87e9"
+    integrity sha512-97GaByGaXDGMkzcJX7VmR/jRJd8h1mfhtA7RsxDBN61GnWE/PPCZhOdwG/8OZYktiRUF0CvFOr+VgRkJrt6TWg==
+  
+  "@fortawesome/free-solid-svg-icons@^5.12.1":
+    version "5.12.1"
+    resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.12.1.tgz#76b6f958a3471821ff146f8f955e6d7cfe87147c"
+    integrity sha512-k3MwRFFUhyL4cuCJSaHDA0YNYMELDXX0h8JKtWYxO5XD3Dn+maXOMrVAAiNGooUyM2v/wz/TOaM0jxYVKeXX7g==
+    dependencies:
+      "@fortawesome/fontawesome-common-types" "^0.2.27"
+  
   "@polka/url@^0.5.0":
     version "0.5.0"
     resolved "https://registry.yarnpkg.com/@polka/url/-/url-0.5.0.tgz#b21510597fd601e5d7c95008b76bf0d254ebfd31"
@@ -799,15 +811,7 @@ Lockfile:
       is-module "^1.0.0"
       resolve "^1.14.2"
   
-  "@rollup/plugin-replace@^2.3.1":
-    version "2.3.1"
-    resolved "https://registry.yarnpkg.com/@rollup/plugin-replace/-/plugin-replace-2.3.1.tgz#16fb0563628f9e6c6ef9e05d48d3608916d466f5"
-    integrity sha512-qDcXj2VOa5+j0iudjb+LiwZHvBRRgWbHPhRmo1qde2KItTjuxDVQO21rp9/jOlzKR5YO0EsgRQoyox7fnL7y/A==
-    dependencies:
-      "@rollup/pluginutils" "^3.0.4"
-      magic-string "^0.25.5"
-  
-  "@rollup/pluginutils@^3.0.0", "@rollup/pluginutils@^3.0.4", "@rollup/pluginutils@^3.0.6":
+  "@rollup/pluginutils@^3.0.0", "@rollup/pluginutils@^3.0.6":
     version "3.0.8"
     resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-3.0.8.tgz#4e94d128d94b90699e517ef045422960d18c8fde"
     integrity sha512-rYGeAc4sxcZ+kPG/Tw4/fwJODC3IXHYDH4qusdN/b6aLw5LPUbzpecYbEJh4sVQGPFJxd2dBU4kc1H3oy9/bnw==
@@ -1686,13 +1690,6 @@ Lockfile:
     dependencies:
       sourcemap-codec "^1.4.4"
   
-  magic-string@^0.25.5:
-    version "0.25.7"
-    resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.7.tgz#3f497d6fd34c669c6798dcb821f2ef31f5445051"
-    integrity sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==
-    dependencies:
-      sourcemap-codec "^1.4.4"
-  
   map-cache@^0.2.2:
     version "0.2.2"
     resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
@@ -2393,10 +2390,20 @@ Lockfile:
     dependencies:
       has-flag "^3.0.0"
   
+  svelte-fa@^2.1.1:
+    version "2.1.1"
+    resolved "https://registry.yarnpkg.com/svelte-fa/-/svelte-fa-2.1.1.tgz#57935335b8966f416b93bfb7794dac52fa0b777e"
+    integrity sha512-Oj563sJH0eLo6Pd1MsALgx5if9qKHtfCrMY5elMzggu00fP9zM47Vcv2b92g5vc+FNodxKPHhkUFTI8KK8CwGA==
+  
   svelte-headroom@^2.2.1:
     version "2.2.1"
     resolved "https://registry.yarnpkg.com/svelte-headroom/-/svelte-headroom-2.2.1.tgz#64e61a30b6c1689a4a74c8c5e4e91a260f48c84b"
     integrity sha512-A9bhw6gIuA0a03LdCmQZsGaXzs+tapL8ugpXFLYFv933C5OJ+bkBiawOG/TJmLIKlQFzQPmmcJtQDzGSrrbVoA==
+  
+  svelte-notifications@^0.9.9:
+    version "0.9.9"
+    resolved "https://registry.yarnpkg.com/svelte-notifications/-/svelte-notifications-0.9.9.tgz#3d19c48ff5f6624c31ebca476309a5516dfc4bb7"
+    integrity sha512-UMcjqzuNeUGHd3ZzSzRFXn22Z06VlPrTS8CJwFkkE+qKWn2tVRgsG4b62zZBcR/7SMcufT/Ouxpv/gbA8LaQcQ==
   
   svelte-scrollto@^0.1.1:
     version "0.1.1"

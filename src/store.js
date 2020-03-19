@@ -47,7 +47,7 @@ export function getCachedItems() {
 }
 
 export function persist(items) {
-//    const localStorageKey = new Date().toDateString();
+    //    const localStorageKey = new Date().toDateString();
     const localStorageKey = getLocalStorageKey();
     localStorage.setItem(localStorageKey, JSON.stringify(items));
 }
@@ -69,11 +69,11 @@ export async function complete(items) {
     const date = new Date().toDateString();
 
     const _items = items.map(item => {
-        const { name, qty, unit, notes } = item;
-        return [name, `${qty} ${unit}`.trim(), notes]
+        const { name, qty, unit, notes } = item
+        return [name, qty, unit, notes]
     });
 
-    const data = { date , items: _items }
+    const data = { date, items: _items }
 
     const options = {
         method: 'PUT',

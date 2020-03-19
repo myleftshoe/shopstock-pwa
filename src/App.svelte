@@ -28,9 +28,37 @@
     a {
         color: white;
     }
+    .primary {
+        background-color: yellowgreen;
+    }
+    .secondary {
+        background-color: rosybrown;
+    }
+    button {
+        background-color: yellowgreen;
+        color: #ddd;
+        min-width: 128px;
+        margin: 16px;
+        border: none;
+        outline: none;
+        text-transform: uppercase;
+        font-size: 18px;
+        padding: 16px;
+        font-weight: bold;
+        user-select: none;
+        border-radius: 7px;
+    }
+    button:active {
+        background-color: grey;
+        color:#111
+    }
+    button:disabled {
+        background-color: grey;
+        color:#111
+    }
 </style>
 
-<script async>
+<script >
     import { onMount, afterUpdate } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import { getCachedItems, getItems, persist, complete } from './store.js'
@@ -39,6 +67,7 @@
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
     import Notifications, { getNotificationsContext } from 'svelte-notifications'
+    
 
     let status = localStorage.getItem('status') || ''
 
@@ -54,8 +83,8 @@
         if (!Array.isArray(items) || !items.some(hasQty)) {
             items = await getItems()
         }
-        const { addNotification } = getNotificationsContext();
 
+        const { addNotification } = getNotificationsContext();
         if (status === 'completed') {
             addNotification({
                 text: 'This stocktake has already been completed',
@@ -88,6 +117,7 @@
     }
 
     function updateItems() {
+        status = '';
         items = [...items]
         persist(items)
     }
@@ -197,7 +227,7 @@
         console.log('Complete!')
     }
 
-    $: status = localStorage.getItem('status') || ''
+    // $: status = localStorage.getItem('status') || ''
 </script>
 <Notifications>
 {#if !items}
@@ -226,9 +256,15 @@
             on:qtyclick={handleQtyClick}
         />
         <footer>
-            <button disabled={status === 'working...'} on:click={doComplete}>
-                Mark complete and send email
-            </button>
+            {#if status === 'completed'}
+                <button class="secondary" on:click={null}>
+                    Start Over
+                </button>
+            {:else}
+                <button class="primary" disabled={status === 'working...'} on:click={doComplete}>
+                    Done
+                </button>
+            {/if}
         </footer>
     </main>
     <Keypad
