@@ -52,6 +52,15 @@ export function persist(items) {
     localStorage.setItem(localStorageKey, JSON.stringify(items));
 }
 
+
+export async function notifyBackend() {
+
+    const url = 'https://script.google.com/macros/s/AKfycbzn7GB0LV-iqSbJsGg1t7x2Lr7LIzVqgIWrAadsgx8wxhyuEyju/exec?complete=true';
+    const response = await fetch(url)
+    const text = await response.text();
+    console.log(text)
+}
+
 export async function complete(items) {
 
     const binId = jsonbin.workingBinId;
@@ -83,5 +92,6 @@ export async function complete(items) {
     //     mode: 'no-cors'
     // });
     console.log(json)
+    notifyBackend();
     return json
 }
