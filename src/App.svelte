@@ -4,7 +4,8 @@
         flex-direction: column;
         width: 100vw;
         height: 100%;
-        overflow-y: auto;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
     }
     .autoscroll {
         overflow-y: hidden;
