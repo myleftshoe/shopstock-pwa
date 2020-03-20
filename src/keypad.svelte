@@ -23,6 +23,9 @@
         height: 7vh;
         width: 100vw;
         color: white;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 </style>
 
