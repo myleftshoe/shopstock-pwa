@@ -15,13 +15,11 @@
         border: none;
         background-color: transparent;
         flex-basis: 100%;
-        /* pointer-events: none; */
     }
     .quantity {
         display: flex;
         flex-direction: column;
         width: 30vw;
-        /* height:100%; */
         padding: 5px;
         background-color: yellowgreen;
         justify-content: center;
@@ -30,18 +28,6 @@
     .unit {
         font-size: 10px;
     }
-
-    details {
-        padding: 0;
-    }
-    summary::-webkit-details-marker {
-        width: 0;
-        margin: 0;
-        border: transparent;
-        padding: 0;
-        background-color: #000;
-    }
-
     .notes {
         font-size: 12px;
         margin-top: 8px;
@@ -60,7 +46,6 @@
         if (selected) {
             target.readOnly = false
             target.focus()
-            // target.select()
         } else {
             target.readOnly = true
         }

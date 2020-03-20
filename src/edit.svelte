@@ -82,7 +82,6 @@
 
 <script>
     export let item = {}
-    // let _item = {...item};
 
     import { scale } from 'svelte/transition'
     import { createEventDispatcher } from 'svelte'
@@ -91,17 +90,7 @@
     // introduced cancelling to stop ms edge submitting after cancel
     let cancelling = false
     function handleSubmit(e) {
-        if (cancelling) return
-        console.log(e)
-        console.log(e.target)
-        console.log(e.target.itemname.value)
-        console.log(e.target.notes.value)
-        //    const isValid = input.checkValidity();
-        //    const isValid = input.checkValidity();
-        //     console.log('isValid', input, isValid)
-        //     if (!isValid) return false;
-        dispatch('done', { item })
-        // }
+        if (!cancelling) dispatch('done', { item })
     }
 
     function handleCancel() {
@@ -121,7 +110,6 @@
             placeholder="Enter item name"
         />
     </div>
-    <!-- <label for="notes">Notes</label> -->
     <textarea
         id="notes"
         placeholder="Notes"

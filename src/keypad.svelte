@@ -18,8 +18,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        /* background: red; */
-        /* flex-shrink:1; */
         height: 7vh;
         width: 100vw;
         color: white;

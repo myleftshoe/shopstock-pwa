@@ -16,15 +16,6 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-        /* background-color: #232323; */
-    }
-    header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 16px;
-        height: 60px;
     }
     a {
         color: white;
@@ -79,7 +70,6 @@
 
     onMount(async () => {
         items = await getCachedItems()
-        // console.log('edited', items.some(hasQty))
         if (!Array.isArray(items) || !items.some(hasQty)) {
             items = await getItems()
         }
@@ -201,7 +191,6 @@
 
     async function doComplete() {
         status = 'working...'
-        // localStorage.setItem('status', status)
         await complete(items)
         status = 'completed'
         localStorage.setItem('status', status)
@@ -213,13 +202,11 @@
         updateItems()
     }
 
-    // $: status = localStorage.getItem('status') || ''
 </script>
 
 {#if !items}
     <Spinner />
 {:else}
-    <!-- <header>{status}</header> -->
     {#if editItem}
         <Edit
             item={{ ...selectedItem }}

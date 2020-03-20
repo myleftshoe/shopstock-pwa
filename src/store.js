@@ -1,4 +1,4 @@
-import mockdata from './items.js';
+import mockdata from './mockdata.js';
 import HashID from './hashid.js';
 import { jsonbin } from './secrets.js';
 const url = 'https://script.google.com/macros/s/AKfycbzn7GB0LV-iqSbJsGg1t7x2Lr7LIzVqgIWrAadsgx8wxhyuEyju/exec';
