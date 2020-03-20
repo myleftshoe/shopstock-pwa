@@ -14,8 +14,9 @@
         flex-basis: 50vh;
         flex-shrink: 0;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: space-around;
         /* background-color: #232323; */
     }
     header {
@@ -51,15 +52,15 @@
     }
     button:active {
         background-color: grey;
-        color:#111
+        color: #111;
     }
     button:disabled {
         background-color: grey;
-        color:#111
+        color: #111;
     }
 </style>
 
-<script >
+<script>
     import { onMount, afterUpdate } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import { getCachedItems, getItems, persist, complete } from './store.js'
@@ -67,7 +68,7 @@
     import Items from './items.svelte'
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
-    
+    import mailTo from './mailto.js'
 
     let status = localStorage.getItem('status') || ''
 
@@ -83,7 +84,6 @@
         if (!Array.isArray(items) || !items.some(hasQty)) {
             items = await getItems()
         }
-
     })
 
     let selectedItem = {}
@@ -109,7 +109,7 @@
     }
 
     function updateItems() {
-        status = '';
+        status = ''
         items = [...items]
         persist(items)
     }
@@ -220,12 +220,13 @@
     }
 
     function startOver() {
-        items.forEach(item => item.qty = '');
-        updateItems();
+        items.forEach(item => (item.qty = ''))
+        updateItems()
     }
 
     // $: status = localStorage.getItem('status') || ''
 </script>
+
 {#if !items}
     <Spinner />
 {:else}
@@ -257,9 +258,18 @@
                     Start Over
                 </button>
             {:else}
-                <button class="primary" disabled={status === 'working...'} on:click={doComplete}>
+                <button
+                    class="primary"
+                    disabled={status === 'working...'}
+                    on:click={doComplete}
+                >
                     Done
                 </button>
+                <div>
+                    <a href={mailTo()}>
+                        Send email
+                    </a>
+                </div>
             {/if}
         </footer>
     </main>
