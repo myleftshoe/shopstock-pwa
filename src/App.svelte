@@ -1,14 +1,13 @@
 <style>
     main {
+        position: fixed;
+        top:0;
         display: flex;
         flex-direction: column;
         width: 100vw;
-        height: 100%;
+        height: 100vh;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
-    }
-    .autoscroll {
-        overflow-y: hidden;
     }
     footer {
         flex-basis: 50vh;
@@ -88,7 +87,6 @@
 
     let selectedItem = {}
 
-    let autoscroll = false
     let pointerDown = false
 
     let keypadType = NUMERIC
@@ -159,20 +157,11 @@
         updateItems()
     }
 
-    function handleScroll() {
-        if (!autoscroll && pointerDown) keypadVisible = false
-    }
-
     function scrollIntoView(item) {
-        autoscroll = true
         scrollTo({
             container: '#container',
             element: `#${item.id}`,
             offset: -200,
-            onDone: () =>
-                setTimeout(() => {
-                    autoscroll = false
-                }, 1000),
         })
     }
 
@@ -241,8 +230,6 @@
     <main
         id="container"
         class="container"
-        class:autoscroll
-        on:scroll={handleScroll}
         on:pointerdown={() => (pointerDown = true)}
         on:pointerup={() => (pointerDown = false)}
     >
