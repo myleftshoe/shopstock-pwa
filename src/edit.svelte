@@ -57,32 +57,12 @@
         flex-basis: 100px;
         display: flex;
     }
-    .primary {
-        font-weight: bold;
-    }
-    .secondary {
-        opacity: 50%;
-    }
-    button {
-        min-width: 128px;
-        margin: 16px;
-        border: none;
-        outline: none;
-        text-transform: uppercase;
-        font-size: 18px;
-        padding: 16px;
-        font-weight: bold;
-        user-select: none;
-        border-radius: 7px;
-    }
-    button:active {
-        background-color: grey;
-    }
 </style>
 
 <script>
     export let item = {}
 
+    import Button from './button.svelte'
     import { scale } from 'svelte/transition'
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
@@ -102,7 +82,6 @@
 <form transition:scale on:submit|preventDefault|stopPropagation={handleSubmit}>
     <div class="itemname">
         <input
-            autofocus
             id="itemname"
             required
             type="text"
@@ -121,9 +100,9 @@
             For some reason pressing enter in the itemname input would fire the cancel button.
             Set form=donothing (a non-existing form) fixes it. Moving the cancel button after submit works also.
         -->
-        <button class="secondary" form="donothing" on:click={handleCancel}>
-            cancel
-        </button>
-        <button class="primary" type="submit">done</button>
+        <Button secondary form="donothing" on:click={handleCancel}>
+            Cancel
+        </Button>
+        <Button primary type="submit">Done</Button>
     </div>
 </form>

@@ -20,34 +20,6 @@
     a {
         color: white;
     }
-    .primary {
-        background-color: yellowgreen;
-    }
-    .secondary {
-        background-color: rosybrown;
-    }
-    button {
-        background-color: yellowgreen;
-        color: #ddd;
-        min-width: 128px;
-        margin: 16px;
-        border: none;
-        outline: none;
-        text-transform: uppercase;
-        font-size: 18px;
-        padding: 16px;
-        font-weight: bold;
-        user-select: none;
-        border-radius: 7px;
-    }
-    button:active {
-        background-color: grey;
-        color: #111;
-    }
-    button:disabled {
-        background-color: grey;
-        color: #111;
-    }
 </style>
 
 <script>
@@ -59,6 +31,7 @@
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
     import mailTo from './mailto.js'
+    import Button from './button.svelte'
 
     let status = localStorage.getItem('status') || ''
 
@@ -228,23 +201,20 @@
         />
         <footer>
             {#if status === 'completed'}
-                <button class="secondary" on:click={startOver}>
+                <Button secondary on:click={startOver}>
                     Start Over
-                </button>
+                </Button>
             {:else}
-                <button
-                    class="primary"
-                    disabled={status === 'working...'}
-                    on:click={doComplete}
-                >
+                <Button primary disabled={status === 'working...'} on:click={doComplete}>
                     Done
-                </button>
-                <div>
-                    <a href={mailTo()}>
-                        Send email
-                    </a>
-                </div>
+                </Button>
             {/if}
+            <div>
+                <a href={mailTo()}>
+                    Send email
+                </a>
+            </div>
+
         </footer>
     </main>
     <Keypad
