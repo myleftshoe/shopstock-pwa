@@ -166,7 +166,7 @@
     }
 
     function handleKeypadOpen() {
-        keypadType = NUMERIC
+        // keypadType = NUMERIC
         ensureItemIsVisible(selectedItem)
     }
 
