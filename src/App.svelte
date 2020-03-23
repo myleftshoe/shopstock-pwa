@@ -23,9 +23,9 @@
 </style>
 
 <script>
-    import { onMount, afterUpdate } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { getCachedItems, getItems, persist, complete } from './store.js'
+    import { masterItems } from './stores/masteritems.js'
+    import { workingItems} from './stores/items.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
     import Spinner from './loader.svelte'
@@ -37,16 +37,8 @@
 
     let editItem = false
 
-    let items
 
     const hasQty = item => item.qty
-
-    onMount(async () => {
-        items = await getCachedItems()
-        if (!Array.isArray(items) || !items.some(hasQty)) {
-            items = await getItems()
-        }
-    })
 
     let selectedItem = {}
 
@@ -70,9 +62,11 @@
     }
 
     function updateItems() {
+        console.log('dfssf')
         status = ''
-        items = [...items]
-        persist(items)
+        items.update().persist()
+        // items = [...items]
+        // persist(items)
     }
 
     function handleKeypadClick(e) {
@@ -171,9 +165,13 @@
     }
 
     function startOver() {
-        items.forEach(item => (item.qty = ''))
-        updateItems()
+        // if (Array.isArray(masterItems))
+        //     items = [...masterItems]
+        // items.forEach(item => (item.qty = ''))
+        // updateItems()
     }
+
+    $: items = $workingItems;
 
 </script>
 
