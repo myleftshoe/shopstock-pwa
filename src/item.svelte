@@ -3,12 +3,12 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin: 1px;
-        background-color: #ddd;
+        margin-top: 1px;
+        background-color: #f9f6ef;
         flex: 0 0 auto;
     }
     .selected {
-        background-color: yellowgreen;
+        background-color: #aee1cd;
     }
     .item {
         padding: 16px 12px;
@@ -21,7 +21,7 @@
         flex-direction: column;
         width: 30vw;
         padding: 5px;
-        background-color: yellowgreen;
+        background-color: #aee1cd;
         justify-content: center;
         align-items: center;
     }

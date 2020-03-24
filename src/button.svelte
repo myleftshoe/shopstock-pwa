@@ -1,12 +1,12 @@
 <style>
     .primary {
-        background-color: yellowgreen;
+        background-color: #aee1cd;
     }
     .secondary {
         background-color: rosybrown;
     }
     button {
-        background-color: yellowgreen;
+        background-color: #aee1cd;
         color: #ddd;
         min-width: 128px;
         margin: 16px;

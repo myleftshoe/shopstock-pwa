@@ -27,7 +27,7 @@
         text-align: center;
         align-self: center;
         background-color: transparent;
-        border: 2px solid yellowgreen;
+        border: 2px solid #aee1cd;
         outline: none;
         margin: 0 16px;
         padding: 8px 16px;
@@ -43,7 +43,7 @@
     textarea {
         font-size: 20px;
         background-color: transparent;
-        border: 2px solid yellowgreen;
+        border: 2px solid #aee1cd;
         outline: none;
         padding: 8px 16px;
         border-radius: 7px;
