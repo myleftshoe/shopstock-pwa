@@ -1,9 +1,6 @@
-import HashID from '../hashid.js';
+import PersistentStore from './persistentstore.js'
 import { jsonbin } from '../secrets'
 
-import { createStore } from './storage';
+const masterItems = new PersistentStore( 'Master Items', jsonbin.masterBinId )
 
-const localStorageKey = 'Master Items'
-const binId = jsonbin.masterBinId
-
-export const masterItems = createStore(localStorageKey, binId);
+export { masterItems };

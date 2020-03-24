@@ -23,9 +23,10 @@
 </style>
 
 <script>
+    import { onMount } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import { masterItems } from './stores/masteritems.js'
-    import { workingItems} from './stores/items.js'
+    import { workingItems} from './stores/workingitems.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
     import Spinner from './loader.svelte'
@@ -47,6 +48,11 @@
     let keypadType = NUMERIC
     let keypadVisible = false
 
+
+    onMount(() => {
+        masterItems.get().fetch();
+    });
+
     function handleQtyClick(e) {
         selectedItem = e.detail.item
         keypadType = NUMERIC
@@ -64,7 +70,9 @@
     function updateItems() {
         console.log('dfssf')
         status = ''
-        items.update().persist()
+        masterItems.update(items).cache()
+        // masterItems.cache(items)
+        // masterItems.persist(items)
         // items = [...items]
         // persist(items)
     }
@@ -171,7 +179,8 @@
         // updateItems()
     }
 
-    $: items = $workingItems;
+    $: items = $masterItems;
+    $: console.log(items)
 
 </script>
 
