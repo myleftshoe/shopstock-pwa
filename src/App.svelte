@@ -23,6 +23,7 @@
 </style>
 
 <script>
+    import dialogPolyfill from 'dialog-polyfill'
     import { onMount } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import { masterItems } from './stores/masteritems.js'
@@ -33,6 +34,8 @@
     import Edit from './edit.svelte'
     import mailTo from './mailto.js'
     import Button from './button.svelte'
+    import IconButton from './iconbutton.svelte'
+    import Dialog from './dialog.svelte'
 
     let status = localStorage.getItem('status') || ''
 
@@ -51,8 +54,8 @@
 
     onMount(async () => {
         masterItems.get()
-        // await masterItems.fetch();
-        // masterItems.cache();
+        await masterItems.fetch();
+        masterItems.cache();
     });
 
     function handleQtyClick(e) {
@@ -181,22 +184,32 @@
         // updateItems()
     }
 
-  function copyToClipboard(text) {
-    window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
-  }
+    function copyToClipboard(text) {
+        window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+    }
 
-function sendSMS(e) {
-        const body = items.reduce( (text, { name, qty, unit }) => 
-            text + `${qty} x ${unit} ${name}` + "\r\n"
-        , "")
+    function sendSMS(e) {
+        // const body = items.reduce( (text, { name, qty, unit }) => 
+        //     text + `${qty} x ${unit} ${name}` + "\r\n"
+        // , "")
+        const body = 'test'
         console.log(JSON.stringify(body))
         window.open(`sms:?&body=${body}`, '_self');
         return false;
     }
 
+    function sendEmail(e) {
+        const body = items.reduce( (text, { name, qty, unit }) => 
+            text + `${qty} x ${unit} ${name}` + "\r\n"
+        , "")
+        console.log(JSON.stringify(body))
+        window.open(mailTo(), '_self');
+        return false;
+    }
+
     $: items = $masterItems;
     $: console.log(items)
-    let open = true;
+    let dialog = null;
 </script>
 
 {#if !items}
@@ -236,13 +249,20 @@ function sendSMS(e) {
                 <a href={mailTo()}>Send email</a>
                 <!-- <a href="#" onClick="prompt('What is your name?')">Click me</a> -->
                 <!-- <button id="demo" on:click={() => copyToClipboard(JSON.stringify(items))}>This is what I want to copy</button> -->
-                <button id="openDialog" on:click={openDialog}>open dialog</button>
+                <button id="openDialog" on:click={() => {
+                    dialog.showModal()
+                }}>open dialog</button>
             </div>
         </footer>
-        <dialog {open}>
-            This is the dialog content
-            </dialog>
     </main>
+        <Dialog bind:dialog={dialog}
+            on:cancel={() => console.log('dialog cancel')} 
+            on:close={() => console.log('dialog closed')}
+        >
+            <IconButton icon="fas fa-sms" on:click={sendSMS}>Send SMS</IconButton>
+            <IconButton icon="fas fa-envelope" on:click={sendEmail}>Send email</IconButton>
+            <IconButton icon="fas fa-clipboard">Copy to clipboard</IconButton>
+        </Dialog>
     <Keypad
         bind:type={keypadType}
         bind:visible={keypadVisible}
