@@ -77,6 +77,11 @@
         cancelling = true
         dispatch('cancel')
     }
+
+    function handleCopy(e) {
+         e.clipboardData.setData('text/plain', 'Test');
+         console.log(e.clipboardData.getData('text/plain'));
+    }
 </script>
 
 <form transition:scale on:submit|preventDefault|stopPropagation={handleSubmit}>
@@ -94,6 +99,7 @@
         placeholder="Notes"
         rows="10"
         bind:value={item.notes}
+        on:copy = {handleCopy}
     />
     <div class="actions">
         <!-- 

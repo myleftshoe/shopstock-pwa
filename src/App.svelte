@@ -15,7 +15,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-around;
+        justify-content: flex-start;
     }
     a {
         color: white;
@@ -49,8 +49,10 @@
     let keypadVisible = false
 
 
-    onMount(() => {
-        masterItems.get().fetch();
+    onMount(async () => {
+        masterItems.get()
+        // await masterItems.fetch();
+        // masterItems.cache();
     });
 
     function handleQtyClick(e) {
@@ -179,9 +181,22 @@
         // updateItems()
     }
 
+  function copyToClipboard(text) {
+    window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+  }
+
+function sendSMS(e) {
+        const body = items.reduce( (text, { name, qty, unit }) => 
+            text + `${qty} x ${unit} ${name}` + "\r\n"
+        , "")
+        console.log(JSON.stringify(body))
+        window.open(`sms:?&body=${body}`, '_self');
+        return false;
+    }
+
     $: items = $masterItems;
     $: console.log(items)
-
+    let open = true;
 </script>
 
 {#if !items}
@@ -216,13 +231,17 @@
                     Done
                 </Button>
             {/if}
-            <div>
-                <a href={mailTo()}>
-                    Send email
-                </a>
+            <div class='send'>
+                <a href="#" on:click={() => sendSMS()}>Send SMS</a>
+                <a href={mailTo()}>Send email</a>
+                <!-- <a href="#" onClick="prompt('What is your name?')">Click me</a> -->
+                <!-- <button id="demo" on:click={() => copyToClipboard(JSON.stringify(items))}>This is what I want to copy</button> -->
+                <button id="openDialog" on:click={openDialog}>open dialog</button>
             </div>
-
         </footer>
+        <dialog {open}>
+            This is the dialog content
+            </dialog>
     </main>
     <Keypad
         bind:type={keypadType}
