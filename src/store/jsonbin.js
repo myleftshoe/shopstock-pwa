@@ -1,4 +1,4 @@
-import { jsonbin } from '../../secrets'
+import { jsonbin } from '../secrets'
 
 const endpoint = 'https://api.jsonbin.io/b'
 const secretKey = jsonbin.secretKey;

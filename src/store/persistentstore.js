@@ -1,7 +1,7 @@
 import UID, { alpha } from '../uid.js';
 import { writable, get } from 'svelte/store';
-import Jsonbin from './storage/jsonbin.js'
-import Cache from './storage/cache.js'
+import Jsonbin from './jsonbin.js'
+import Cache from './cache.js'
 
 export function PersistentStore( cacheKey, binId ) {
 

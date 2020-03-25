@@ -26,13 +26,12 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems } from './stores/masteritems.js'
-    import { workingItems} from './stores/workingitems.js'
+    import { masterItems, workingItems, textify } from './store'
+    import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
-    import mailTo from './mailto.js'
     import Button from './button.svelte'
     import IconButton from './iconbutton.svelte'
     import Dialog from './dialog.svelte'
@@ -188,23 +187,31 @@
         window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
     }
 
-    function sendSMS(e) {
+    function handleSendSMSClick(e) {
         // const body = items.reduce( (text, { name, qty, unit }) => 
         //     text + `${qty} x ${unit} ${name}` + "\r\n"
         // , "")
         const body = 'test'
-        console.log(JSON.stringify(body))
-        window.open(`sms:?&body=${body}`, '_self');
-        return false;
+        console.log(body)
+        sendSMS({
+            subject: "Shop stock completed",
+            body
+        })
+        window.open(`sms:?&body=${encodeURIComponent(body)}`, '_self');
     }
 
-    function sendEmail(e) {
-        const body = items.reduce( (text, { name, qty, unit }) => 
-            text + `${qty} x ${unit} ${name}` + "\r\n"
-        , "")
-        console.log(JSON.stringify(body))
-        window.open(mailTo(), '_self');
-        return false;
+    function handleSendEmailClick(e) {
+        // const body = items.reduce( (text, { name, qty, unit }) => 
+        //     text + `${qty} x ${unit} ${name}` + "\r\n"
+        // , "")
+        const body = textify(items).substr(1,1499);
+        // const body = 'test'
+        console.log(body)
+        sendEmail({
+            subject: "Shop stock completed",
+            body,
+            footer: ""
+        })
     }
 
     $: items = $masterItems;
@@ -244,23 +251,15 @@
                     Done
                 </Button>
             {/if}
-            <div class='send'>
-                <a href="#" on:click={() => sendSMS()}>Send SMS</a>
-                <a href={mailTo()}>Send email</a>
-                <!-- <a href="#" onClick="prompt('What is your name?')">Click me</a> -->
-                <!-- <button id="demo" on:click={() => copyToClipboard(JSON.stringify(items))}>This is what I want to copy</button> -->
-                <button id="openDialog" on:click={() => {
-                    dialog.showModal()
-                }}>open dialog</button>
-            </div>
+            <Button id="openDialog" on:click={() => {dialog.showModal()}}>open dialog</Button>
         </footer>
     </main>
         <Dialog bind:dialog={dialog}
             on:cancel={() => console.log('dialog cancel')} 
             on:close={() => console.log('dialog closed')}
         >
-            <IconButton icon="fas fa-sms" on:click={sendSMS}>Send SMS</IconButton>
-            <IconButton icon="fas fa-envelope" on:click={sendEmail}>Send email</IconButton>
+            <IconButton icon="fas fa-sms" on:click={handleSendSMSClick}>Send SMS</IconButton>
+            <IconButton icon="fas fa-envelope" on:click={handleSendEmailClick}>Send email</IconButton>
             <IconButton icon="fas fa-clipboard">Copy to clipboard</IconButton>
         </Dialog>
     <Keypad

@@ -27,6 +27,9 @@
     dialog::backdrop {
 
     }
+    textarea {
+        
+    }
 
 </style>
 
