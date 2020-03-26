@@ -197,36 +197,6 @@
         // updateItems()
     }
 
-    function copyToClipboard(text) {
-        window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
-    }
-
-    function handleSendSMSClick(e) {
-        // const body = items.reduce( (text, { name, qty, unit }) => 
-        //     text + `${qty} x ${unit} ${name}` + "\r\n"
-        // , "")
-        const body = 'test'
-        console.log(body)
-        sendSMS({
-            subject: "Shop stock completed",
-            body
-        })
-        window.open(`sms:?&body=${encodeURIComponent(body)}`, '_self');
-    }
-
-    function handleSendEmailClick(e) {
-        // const body = items.reduce( (text, { name, qty, unit }) => 
-        //     text + `${qty} x ${unit} ${name}` + "\r\n"
-        // , "")
-        const body = textify(items).substr(1,1499);
-        // const body = 'test'
-        console.log(body)
-        sendEmail({
-            subject: "Shop stock completed",
-            body,
-            footer: ""
-        })
-    }
 
     $: items = $masterItems;
     $: console.log(items)
@@ -266,15 +236,15 @@
                 </Button>
             {/if} -->
             <!-- <Fab id="openDialog" on:click={() => {dialog.showModal()}}>Preview</Fab> -->
-            <Fab id="openDialog" on:click={execCopy}>Copy all</Fab>
+            <Fab on:click={execCopy}>Copy all</Fab>
         </footer>
     </main>
-        <Dialog bind:dialog={dialog}
+        <!-- <Dialog bind:dialog={dialog}
             on:cancel={() => console.log('dialog cancel')} 
             on:close={() => console.log('dialog closed')}
         >
             {@html htmlify(items)}
-        </Dialog>
+        </Dialog> -->
     <Keypad
         bind:type={keypadType}
         bind:visible={keypadVisible}
