@@ -1,37 +1,31 @@
 <style>
-    .primary {
-        background-color: #aee1cd;
-    }
-    .secondary {
-        background-color: rosybrown;
-    }
     button {
-        background-color: #aee1cd;
-        color: #000;
-        min-width: 128px;
-        margin: 16px;
+        background-color: #232323;
         border: none;
-        outline: none;
-        text-transform: uppercase;
-        /* font-size: 18px; */
-        padding: 8px 16px;
-        font-weight: bold;
-        user-select: none;
         border-radius: 7px;
+        color:white;
+        padding: 12px 16px;
+        font-weight: 600;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+    .floating {
+        position:fixed;
+        bottom: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0 auto;        
     }
     button:active {
         background-color: grey;
-        color: #111;
     }
     button:disabled {
         background-color: grey;
-        color: #111;
     }
 </style>
 <script>
-    export let primary = false;
-    export let secondary = false;
+    export let floating = false;
 </script>
-<button  class:primary class:secondary on:click {...$$restProps}>
+<button class:floating on:click {...$$restProps}>
     <slot/>
 </button>

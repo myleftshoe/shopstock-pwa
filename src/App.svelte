@@ -32,7 +32,7 @@
     import Items from './items.svelte'
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
-    import Fab from './fab.svelte'
+    import Button from './button.svelte'
     import IconButton from './iconbutton.svelte'
     import Dialog from './dialog.svelte'
 
@@ -235,8 +235,7 @@
                     Done
                 </Button>
             {/if} -->
-            <!-- <Fab id="openDialog" on:click={() => {dialog.showModal()}}>Preview</Fab> -->
-            <Fab on:click={execCopy}>Copy all</Fab>
+            <Button on:click={execCopy}>Copy all</Button>
         </footer>
     </main>
         <!-- <Dialog bind:dialog={dialog}

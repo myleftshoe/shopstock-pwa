@@ -20,7 +20,6 @@
 
     export let dialog = {};
     import dialogPolyfill from 'dialog-polyfill'
-    import Fab from './fab.svelte'
     import { onMount } from 'svelte'
 
     let textarea;
@@ -55,5 +54,4 @@
         <slot />
     </div>
     <footer/>
-    <!-- <Fab floating on:click={selectAll}>Copy All</Fab> -->
 </dialog>
