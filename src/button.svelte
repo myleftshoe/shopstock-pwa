@@ -7,14 +7,14 @@
     }
     button {
         background-color: #aee1cd;
-        color: #ddd;
+        color: #000;
         min-width: 128px;
         margin: 16px;
         border: none;
         outline: none;
         text-transform: uppercase;
-        font-size: 18px;
-        padding: 16px;
+        /* font-size: 18px; */
+        padding: 8px 16px;
         font-weight: bold;
         user-select: none;
         border-radius: 7px;

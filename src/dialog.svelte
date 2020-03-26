@@ -1,55 +1,59 @@
 <style>
     dialog {
-        background-color: f9f6ef;
+        background-color: #f9f6ef;
         /* border: 1px solid #000;
         border-radius: 7px; */
+        border:none;
+        outline:none;
         margin:0;
-        padding:0;
-    }
-    .content{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
+        height: 100vh;
         width:100vw;
-        height:100vh;
-    }
-    section {
-        display:flex;
-        flex-direction: column;
-        justify-items: space-between;
-        align-items: flex-start;
-    }
-    footer {
-        display:flex;
-        justify-content: flex-end;
-    }
-    dialog::backdrop {
-
-    }
-    textarea {
+        overflow:scroll
         
     }
-
+    footer {
+        height:50vh;
+    }
 </style>
 
 <script>
+
     export let dialog = {};
     import dialogPolyfill from 'dialog-polyfill'
-    import Button from './button.svelte'
+    import Fab from './fab.svelte'
     import { onMount } from 'svelte'
 
-    onMount(() => dialogPolyfill.registerDialog(dialog))
+    let textarea;
+    onMount(() => {
+        dialogPolyfill.registerDialog(dialog)
+        // selectAll()
+        window.history.pushState({page: 1}, "", "");
+        window.addEventListener('popstate', function(e) {
+            e.preventDefault(); 
+            clearSelection();
+            dialog.close()
+        }, false)
+    })
+    function selectAll() {
+        const range = document.createRange();
+        range.selectNodeContents(textarea);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);  
+        // document.execCommand("copy");
+    }
+    function clearSelection() {
+        console.log('on copy')
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+    }
+
 </script>
 
 <dialog id="dialog" bind:this={dialog} on:close on:cancel>
-    <div class=content>
-        <h3>SHARE</h3>
-        <section>
-            <slot />
-        </section>
-        <footer>
-            <Button on:click={() => dialog.close()}>Done</Button>
-        </footer>
+    <div class=content bind:this={textarea} contenteditable="false"  on:copy={clearSelection}>
+        <slot />
     </div>
+    <footer/>
+    <!-- <Fab floating on:click={selectAll}>Copy All</Fab> -->
 </dialog>

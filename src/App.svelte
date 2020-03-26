@@ -15,7 +15,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
     }
     a {
         color: white;
@@ -24,7 +24,7 @@
 
 <script>
     import dialogPolyfill from 'dialog-polyfill'
-    import { onMount } from 'svelte'
+    import { onMount, onDestroy } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import { masterItems, workingItems, textify, htmlify } from './store'
     import { sendEmail, sendSMS } from './share.js'
@@ -32,7 +32,7 @@
     import Items from './items.svelte'
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
-    import Button from './button.svelte'
+    import Fab from './fab.svelte'
     import IconButton from './iconbutton.svelte'
     import Dialog from './dialog.svelte'
 
@@ -52,10 +52,24 @@
 
 
     onMount(async () => {
+        document.addEventListener('copy', copyAsText);
         masterItems.get()
         await masterItems.fetch();
         masterItems.cache();
     });
+    
+    onDestroy(() => {
+        document.removeEventListener('copy', copyAsText);        
+    })
+
+    function copyAsText(e) {
+        e.preventDefault();
+        e.clipboardData.setData('text', textify(items))
+    }
+
+    function execCopy(e) {
+        document.execCommand('copy')
+    } 
 
     function handleQtyClick(e) {
         selectedItem = e.detail.item
@@ -242,7 +256,7 @@
             on:qtyclick={handleQtyClick}
         />
         <footer>
-            {#if status === 'completed'}
+            <!-- {#if status === 'completed'}
                 <Button secondary on:click={startOver}>
                     Start Over
                 </Button>
@@ -250,8 +264,9 @@
                 <Button primary disabled={status === 'working...'} on:click={doComplete}>
                     Done
                 </Button>
-            {/if}
-            <Button id="openDialog" on:click={() => {dialog.showModal()}}>open dialog</Button>
+            {/if} -->
+            <!-- <Fab id="openDialog" on:click={() => {dialog.showModal()}}>Preview</Fab> -->
+            <Fab id="openDialog" on:click={execCopy}>Copy all</Fab>
         </footer>
     </main>
         <Dialog bind:dialog={dialog}
