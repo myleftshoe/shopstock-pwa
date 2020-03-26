@@ -9,6 +9,48 @@
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
     }
+    header {
+        position: fixed;
+        top:0;
+        width:100vw;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        /* flex-basis: 24px; */
+        min-height:24px;
+        font-size:12px;
+        font-weight: bolder;
+        text-transform: uppercase;
+        z-index:100;
+        background-color:#000;
+        color:#fff;
+    }
+    header button {
+        width:100%;
+        padding: 2px 8px;
+        border:none;
+        outline:none;
+        font-size:inherit;
+        font-weight: inherit;
+        text-transform: inherit;
+        background-color:transparent;
+        color: #ddd;
+        user-select: none;
+    }
+    header button:active {
+        background-color:gray;
+        color: #ddd;
+    }
+    .left {
+        flex: 100%;
+        display:flex;
+        justify-content: center;
+    }
+    .right {
+        width:30vw;
+        display:flex;
+        justify-content: center;
+    }
     footer {
         flex-basis: 50vh;
         flex-shrink: 0;
@@ -26,7 +68,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems, workingItems, textify, htmlify, byName } from './store'
+    import { masterItems, workingItems, textify, htmlify, byName, notHidden } from './store'
     import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
@@ -38,7 +80,7 @@
 
 
     let editItem = false
-
+    let editMode = false;
 
     let selectedItem = {}
 
@@ -76,9 +118,23 @@
         keypadVisible = true
     }
 
+    function handleHideClick(e) {
+        selectedItem = e.detail.item
+        selectedItem.hidden = !selectedItem.hidden;
+        updateItems();
+        console.log(selectedItem)
+    }
+
+    function handleDoneClick(e) {
+        editMode = false;
+        updateItems();
+    }
+
+
+
     function handleItemClick(e) {
         if (e.detail.item === selectedItem && !keypadVisible) {
-            editItem = true
+            // editItem = true
         }
         selectedItem = e.detail.item
         keypadVisible = false
@@ -183,7 +239,7 @@
     }
 
 
-    $: items = $masterItems && $masterItems.sort(byName);
+    $: items = $masterItems && $masterItems.sort(byName).filter(notHidden);
     $: console.log(items)
     let dialog = null;
 </script>
@@ -198,6 +254,18 @@
             on:cancel={handleEditItemCancel}
         />
     {/if}
+    <header>
+        <div class="left">
+            <button>Active Items</button>
+        </div>        
+        <div class="right">
+        {#if editMode}
+            <button on:click={handleDoneClick}>done</button>
+        {:else}
+            <button on:click={() => editMode = true}>edit</button>
+        {/if}
+        </div>
+    </header>
     <main
         id="container"
         class="container"
@@ -208,6 +276,8 @@
             {selectedItem}
             on:itemclick={handleItemClick}
             on:qtyclick={handleQtyClick}
+            on:hideclick={handleHideClick}
+            {editMode}
         />
         <footer>
             <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
