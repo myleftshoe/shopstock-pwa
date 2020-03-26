@@ -210,7 +210,7 @@
             on:qtyclick={handleQtyClick}
         />
         <footer>
-            <Button on:click={execCopy} disabled={copied}>{copied ? 'Copied!' : 'Copy all'}</Button>
+            <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
         </footer>
     </main>
         <!-- <Dialog bind:dialog={dialog}
