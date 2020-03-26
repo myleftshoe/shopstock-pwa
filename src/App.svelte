@@ -26,7 +26,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems, workingItems, textify, htmlify } from './store'
+    import { masterItems, workingItems, textify, htmlify, byName } from './store'
     import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
@@ -41,8 +41,6 @@
 
 
     let selectedItem = {}
-
-    let pointerDown = false
 
     let keypadType = NUMERIC
     let keypadVisible = false
@@ -185,7 +183,7 @@
     }
 
 
-    $: items = $masterItems;
+    $: items = $masterItems && $masterItems.sort(byName);
     $: console.log(items)
     let dialog = null;
 </script>
@@ -203,8 +201,6 @@
     <main
         id="container"
         class="container"
-        on:pointerdown={() => (pointerDown = true)}
-        on:pointerup={() => (pointerDown = false)}
         on:contextmenu|preventDefault|stopPropagation
     >
         <Items

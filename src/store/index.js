@@ -10,18 +10,18 @@ function getLocalStorageKey() {
 const masterItems = new PersistentStore( 'Master Items', jsonbin.masterBinId )
 const workingItems = new PersistentStore( getLocalStorageKey(), jsonbin.workingBinId )
 
+// filter functions
+const hasQty = item => item.qty.length > 0
+
+// sort functions
+const byName = (a, b) => a.name.localeCompare(b.name)
+
+// conversion functions
 const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /,'');
+const textify = items => items.filter(hasQty).map(textifyItem).join('\r\n')
+const htmlify = items => items.filter(hasQty).map(textifyItem).join('<br>')
 
-const hasQty = (item) => trim(item.qty).length > 0
 
-function textify(items) {
-    return items.filter(hasQty).map(textifyItem).join('\r\n');
-}
-
-function htmlify(items) {
-    return items.filter(hasQty).map(textifyItem).join('<br>');
-}
-
-export { masterItems, workingItems, textify, htmlify };
+export { masterItems, workingItems, textify, htmlify, byName };
 
 
