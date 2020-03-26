@@ -10,12 +10,16 @@ function getLocalStorageKey() {
 const masterItems = new PersistentStore( 'Master Items', jsonbin.masterBinId )
 const workingItems = new PersistentStore( getLocalStorageKey(), jsonbin.workingBinId )
 
-const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`
+const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /,'');
 
 function textify(items) {
-    return items.reduce( (text, item) => `${text}${textifyItem(item)}\r\n`, "")
+    return items.map(textifyItem).join('\r\n');
 }
 
-export { masterItems, workingItems, textify };
+function htmlify(items) {
+    return items.map(textifyItem).join('<br>');
+}
+
+export { masterItems, workingItems, textify, htmlify };
 
 

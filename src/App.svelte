@@ -26,7 +26,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems, workingItems, textify } from './store'
+    import { masterItems, workingItems, textify, htmlify } from './store'
     import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
@@ -258,9 +258,7 @@
             on:cancel={() => console.log('dialog cancel')} 
             on:close={() => console.log('dialog closed')}
         >
-            <IconButton icon="fas fa-sms" on:click={handleSendSMSClick}>Send SMS</IconButton>
-            <IconButton icon="fas fa-envelope" on:click={handleSendEmailClick}>Send email</IconButton>
-            <IconButton icon="fas fa-clipboard">Copy to clipboard</IconButton>
+            {@html htmlify(items)}
         </Dialog>
     <Keypad
         bind:type={keypadType}
