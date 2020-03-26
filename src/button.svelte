@@ -2,12 +2,14 @@
     button {
         background-color: #232323;
         border: none;
+        outline: none;
         border-radius: 7px;
         color:white;
         padding: 12px 16px;
         font-weight: 600;
         font-size: 16px;
         text-transform: uppercase;
+        user-select: none;
     }
     .floating {
         position:fixed;
@@ -17,10 +19,10 @@
         margin: 0 auto;        
     }
     button:active {
-        background-color: grey;
+        color: grey;
     }
     button:disabled {
-        background-color: grey;
+        color: grey;
     }
 </style>
 <script>

@@ -50,6 +50,8 @@
     let keypadType = NUMERIC
     let keypadVisible = false
 
+    let copied = false;
+
 
     onMount(async () => {
         document.addEventListener('copy', copyAsText);
@@ -69,6 +71,8 @@
 
     function execCopy(e) {
         document.execCommand('copy')
+        copied = true;
+        setTimeout(() => copied = false, 2000)
     } 
 
     function handleQtyClick(e) {
@@ -235,7 +239,7 @@
                     Done
                 </Button>
             {/if} -->
-            <Button on:click={execCopy}>Copy all</Button>
+            <Button on:click={execCopy} disabled={copied}>{copied ? 'Copied!' : 'Copy all'}</Button>
         </footer>
     </main>
         <!-- <Dialog bind:dialog={dialog}
