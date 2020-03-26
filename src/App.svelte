@@ -36,12 +36,9 @@
     import IconButton from './iconbutton.svelte'
     import Dialog from './dialog.svelte'
 
-    let status = localStorage.getItem('status') || ''
 
     let editItem = false
 
-
-    const hasQty = item => item.qty
 
     let selectedItem = {}
 
@@ -90,13 +87,7 @@
     }
 
     function updateItems() {
-        console.log('dfssf')
-        status = ''
         masterItems.update(items).cache()
-        // masterItems.cache(items)
-        // masterItems.persist(items)
-        // items = [...items]
-        // persist(items)
     }
 
     function handleKeypadClick(e) {
@@ -186,14 +177,6 @@
         editItem = false
     }
 
-    async function doComplete() {
-        status = 'working...'
-        await complete(items)
-        status = 'completed'
-        localStorage.setItem('status', status)
-        console.log('Complete!')
-    }
-
     function startOver() {
         // if (Array.isArray(masterItems))
         //     items = [...masterItems]
@@ -222,6 +205,7 @@
         class="container"
         on:pointerdown={() => (pointerDown = true)}
         on:pointerup={() => (pointerDown = false)}
+        on:contextmenu|preventDefault|stopPropagation
     >
         <Items
             {items}
@@ -230,15 +214,6 @@
             on:qtyclick={handleQtyClick}
         />
         <footer>
-            <!-- {#if status === 'completed'}
-                <Button secondary on:click={startOver}>
-                    Start Over
-                </Button>
-            {:else}
-                <Button primary disabled={status === 'working...'} on:click={doComplete}>
-                    Done
-                </Button>
-            {/if} -->
             <Button on:click={execCopy} disabled={copied}>{copied ? 'Copied!' : 'Copy all'}</Button>
         </footer>
     </main>

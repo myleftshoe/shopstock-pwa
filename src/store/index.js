@@ -12,12 +12,14 @@ const workingItems = new PersistentStore( getLocalStorageKey(), jsonbin.workingB
 
 const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /,'');
 
+const hasQty = (item) => trim(item.qty).length > 0
+
 function textify(items) {
-    return items.map(textifyItem).join('\r\n');
+    return items.filter(hasQty).map(textifyItem).join('\r\n');
 }
 
 function htmlify(items) {
-    return items.map(textifyItem).join('<br>');
+    return items.filter(hasQty).map(textifyItem).join('<br>');
 }
 
 export { masterItems, workingItems, textify, htmlify };
