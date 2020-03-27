@@ -90,6 +90,8 @@
 
     let copied = false;
 
+    let dialog = null;
+
 
     onMount(async () => {
         document.addEventListener('copy', copyAsText);
@@ -131,14 +133,11 @@
         updateItems();
     }
 
-
-
     function handleItemClick(e) {
-        if (e.detail.item === selectedItem && !keypadVisible) {
-            // editItem = true
-        }
+        // if (e.detail.item === selectedItem && !keypadVisible) {
+        //     editItem = true
+        // }
         selectedItem = e.detail.item
-        keypadVisible = false
     }
 
     function updateItems() {
@@ -239,11 +238,19 @@
         // updateItems()
     }
 
+    function handleTouchStart(e) { 
+        const isQuantityElement =
+            e.target.className.startsWith('quantity') ||
+            e.target.parentElement.className.startsWith('quantity')
+        
+        if (keypadVisible && !isQuantityElement)
+            keypadVisible = false
+    }
+
 
     $: items = $masterItems && $masterItems.sort(byName).filter(notHidden);
     $: console.log(items)
-    $: console.log(keypadVisible)
-    let dialog = null;
+
 </script>
 
 {#if !items}
@@ -272,14 +279,7 @@
         id="container"
         class="container"
         on:contextmenu|preventDefault|stopPropagation
-        on:touchstart={(e) => { 
-            if (
-                keypadVisible &&
-                !e.target.className.startsWith('quantity') &&
-                !e.target.parentElement.className.startsWith('quantity')
-            )
-            keypadVisible = false
-        }}
+        on:touchstart={handleTouchStart}
     >
         <Items
             {items}
