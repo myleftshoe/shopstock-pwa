@@ -104,7 +104,7 @@
         {/if}
     </div>
     {#if !editMode}
-        <div class="quantity" on:click={handleQtyClick}>
+        <div class="quantity" on:click|stopPropagation={handleQtyClick}>
             <div tabindex="0">{item.qty}</div>
             <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
             <div class="unit">{item.unit}</div>

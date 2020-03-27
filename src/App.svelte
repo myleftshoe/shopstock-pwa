@@ -242,6 +242,7 @@
 
     $: items = $masterItems && $masterItems.sort(byName).filter(notHidden);
     $: console.log(items)
+    $: console.log(keypadVisible)
     let dialog = null;
 </script>
 
@@ -271,6 +272,14 @@
         id="container"
         class="container"
         on:contextmenu|preventDefault|stopPropagation
+        on:touchstart={(e) => { 
+            if (
+                keypadVisible &&
+                !e.target.className.startsWith('quantity') &&
+                !e.target.parentElement.className.startsWith('quantity')
+            )
+            keypadVisible = false
+        }}
     >
         <Items
             {items}

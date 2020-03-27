@@ -20,7 +20,5 @@
 </script>
 
 {#each items as item (item.id)}
-    <div animate:flip>
-        <Item {item} selected={selectedItem === item} on:itemclick on:qtyclick {editMode} on:hideclick/>
-    </div>
+    <Item {item} selected={selectedItem === item} on:itemclick on:qtyclick {editMode} on:hideclick/>
 {/each}
