@@ -279,7 +279,6 @@
         id="container"
         class="container"
         on:contextmenu|preventDefault|stopPropagation
-        on:touchstart={handleTouchStart}
     >
         <Items
             {items}
@@ -305,4 +304,7 @@
         on:click={handleKeypadClick}
         on:open={handleKeypadOpen}
     />
+
 {/if}
+
+<svelte:body on:touchstart={handleTouchStart}/>
