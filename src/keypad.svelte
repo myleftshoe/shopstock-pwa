@@ -48,6 +48,7 @@
 </script>
 
 <div
+    id="keypad"
     bind:this={container}
     class="container"
     class:hidden={!visible}

@@ -19,9 +19,10 @@ const nameStartsWith = string => ({name}) => name.toLowerCase().startsWith(strin
 function smartFilter(items, searchValue) {
     if (!items || !items.length) return;
     let _items = [...items];
-    if (searchValue.length < 3) {
-        _items = _items.filter(notHidden).filter(nameStartsWith(searchValue))
-    }
+    if (!searchValue) 
+        _items = _items.filter(notHidden)
+    else if (searchValue.length < 3) 
+        _items = _items.filter(nameStartsWith(searchValue))
     else
         _items = _items.filter(nameContains(searchValue))
     return _items.sort(byName)

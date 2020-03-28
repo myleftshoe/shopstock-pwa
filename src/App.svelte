@@ -1,72 +1,3 @@
-<style>
-    main {
-        position: fixed;
-        top:32px;
-        display: flex;
-        flex-direction: column;
-        width: 100vw;
-        height: calc( 100vh - 32px );
-        overflow-y: scroll;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-    }
-    header {
-        position: fixed;
-        top:0;
-        width:100vw;
-        display:flex;
-        justify-content: space-between;
-        align-items: center;
-        /* flex-basis: 24px; */
-        height:32px;
-        font-size:12px;
-        font-weight: bolder;
-        text-transform: uppercase;
-        z-index:100;
-        background-color:#000;
-        color:#fff;
-    }
-    header button {
-        width:100%;
-        padding: 2px 8px;
-        border:none;
-        outline:none;
-        font-size:inherit;
-        font-weight: inherit;
-        text-transform: inherit;
-        background-color:transparent;
-        color: #ddd;
-        user-select: none;
-    }
-    header button:active {
-        background-color:gray;
-        color: #ddd;
-    }
-    .left {
-        flex: 100%;
-        display:flex;
-        /* justify-content: center; */
-        align-items: center;
-        margin-left: 8px;
-    }
-    .right {
-        width:30vw;
-        display:flex;
-        justify-content: center;
-    }
-    footer {
-        flex-basis: 50vh;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    a {
-        color: white;
-    }
-</style>
-
 <script>
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy } from 'svelte'
@@ -144,7 +75,7 @@
     }
 
     function updateItems() {
-        masterItems.update(items).cache()
+        masterItems.update($masterItems).cache()
     }
 
     function handleKeypadClick(e) {
@@ -189,6 +120,10 @@
                 break
         }
         selectedItem.qty = qty
+
+        if (selectedItem.qty)
+            delete selectedItem.hidden
+
         updateItems()
     }
 
@@ -251,7 +186,7 @@
     }
 
     $: items = smartFilter($masterItems, searchValue)
-    $: console.log(searchValue)
+    $: console.log(items, $masterItems)
 
 </script>
 
@@ -265,42 +200,44 @@
             on:cancel={handleEditItemCancel}
         />
     {/if}
-    <header>
-        <div class="left">
-            <Search bind:value={searchValue}/>
-            <!-- <button>Active Items</button> -->
-        </div>        
-        <div class="right">
-        {#if editMode}
-            <button on:click={handleDoneClick}>done</button>
-        {:else}
-            <button on:click={() => editMode = true}>edit</button>
-        {/if}
-        </div>
-    </header>
-    <main
-        id="container"
-        class="container"
-        on:contextmenu|preventDefault|stopPropagation
-    >
-        <Items
-            {items}
-            {selectedItem}
-            on:itemclick={handleItemClick}
-            on:qtyclick={handleQtyClick}
-            on:hideclick={handleHideClick}
-            {editMode}
-        />
-        <footer>
-            <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
-        </footer>
-    </main>
-        <!-- <Dialog bind:dialog={dialog}
-            on:cancel={() => console.log('dialog cancel')} 
-            on:close={() => console.log('dialog closed')}
+    <div on:touchstart|stopPropagation|capture={handleTouchStart}>
+        <header>
+            <div class="left">
+                <Search bind:value={searchValue}/>
+                <!-- <button>Active Items</button> -->
+            </div>        
+            <div class="right">
+            {#if editMode}
+                <button on:click={handleDoneClick}>done</button>
+            {:else}
+                <button on:click={() => editMode = true}>edit</button>
+            {/if}
+            </div>
+        </header>
+        <main
+            id="container"
+            class="container"
+            on:contextmenu|preventDefault|stopPropagation
         >
-            {@html htmlify(items)}
-        </Dialog> -->
+            <Items
+                {items}
+                {selectedItem}
+                on:itemclick={handleItemClick}
+                on:qtyclick={handleQtyClick}
+                on:hideclick={handleHideClick}
+                {editMode}
+            />
+            <footer>
+                <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
+            </footer>
+        </main>
+            <!-- <Dialog bind:dialog={dialog}
+                on:cancel={() => console.log('dialog cancel')} 
+                on:close={() => console.log('dialog closed')}
+            >
+                {@html htmlify(items)}
+            </Dialog> -->
+    </div>
     <Keypad
         bind:type={keypadType}
         bind:visible={keypadVisible}
@@ -310,4 +247,76 @@
 
 {/if}
 
-<svelte:body on:touchstart={handleTouchStart}/>
+<!-- <svelte:body on:touchstart|stopPropagation|capture={handleTouchStart}/> -->
+
+
+<style>
+    main {
+        position: fixed;
+        top:32px;
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: calc( 100vh - 32px );
+        overflow-y: scroll;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+    header {
+        position: fixed;
+        top:0;
+        width:100vw;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        /* flex-basis: 24px; */
+        height:32px;
+        font-size:12px;
+        font-weight: bolder;
+        text-transform: uppercase;
+        z-index:100;
+        background-color:#000;
+        color:#fff;
+    }
+    header button {
+        width:100%;
+        padding: 2px 8px;
+        border:none;
+        outline:none;
+        font-size:inherit;
+        font-weight: inherit;
+        text-transform: inherit;
+        background-color:transparent;
+        color: #ddd;
+        user-select: none;
+    }
+    header button:active {
+        background-color:gray;
+        color: #ddd;
+    }
+    .left {
+        flex: 100%;
+        display:flex;
+        /* justify-content: center; */
+        align-items: center;
+        margin-left: 8px;
+    }
+    .right {
+        width:30vw;
+        display:flex;
+        justify-content: center;
+    }
+    footer {
+        flex-basis: 50vh;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    a {
+        color: white;
+    }
+</style>
+
+

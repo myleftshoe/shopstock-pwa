@@ -82,6 +82,8 @@
     function handleHideClick(e) {
         const target = e.target
         item.hidden = !item.hidden;
+        if (item.hidden) 
+            item.qty = '';
         // dispatch('hideclick', { item, target })
     }
 
