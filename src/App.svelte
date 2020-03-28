@@ -69,7 +69,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems, workingItems, textify, htmlify, byName, notHidden } from './store'
+    import { masterItems, workingItems, textify, htmlify, byName, notHidden, nameContains } from './store'
     import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
@@ -78,7 +78,7 @@
     import Button from './button.svelte'
     import IconButton from './iconbutton.svelte'
     import Dialog from './dialog.svelte'
-
+    import Search from './search.svelte'
 
     let editItem = false
     let editMode = false;
@@ -248,8 +248,12 @@
     }
 
 
-    $: items = $masterItems && $masterItems.sort(byName).filter(notHidden);
+    $: items = $masterItems && $masterItems.sort(byName).filter(notHidden).filter(nameContains(searchValue));
     $: console.log(items)
+    $: console.log(searchValue)
+
+
+    let searchValue = "";
 
 </script>
 
@@ -265,7 +269,8 @@
     {/if}
     <header>
         <div class="left">
-            <button>Active Items</button>
+            <Search bind:value={searchValue}/>
+            <!-- <button>Active Items</button> -->
         </div>        
         <div class="right">
         {#if editMode}

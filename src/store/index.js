@@ -13,6 +13,7 @@ const workingItems = new PersistentStore( getLocalStorageKey(), jsonbin.workingB
 // filter functions
 const hasQty = item => item.qty.length > 0
 const notHidden = item => !item.hidden
+const nameContains = string => ({name}) => name.toLowerCase().includes(string.toLowerCase())
 
 // sort functions
 const byName = (a, b) => a.name.localeCompare(b.name)
@@ -23,6 +24,6 @@ const textify = items => items.filter(hasQty).map(textifyItem).join('\r\n')
 const htmlify = items => items.filter(hasQty).map(textifyItem).join('<br>')
 
 
-export { masterItems, workingItems, textify, htmlify, byName, notHidden };
+export { masterItems, workingItems, textify, htmlify, byName, notHidden, nameContains };
 
 
