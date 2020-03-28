@@ -11,4 +11,20 @@
     onDestroy(() => input.removeEventListener('input', debounced))
 </script>
 
-<input placeholder='Search' bind:this={input}>
+<i class="fas fa-search"></i>
+<input placeholder='' bind:this={input}>
+
+<style>
+    input {
+        background: none;
+        border:none;
+        outline: none;
+        padding: 4px;
+        margin: 4px;
+        color: #ddd;
+        font-weight:600;
+    }
+    input:focus {
+        border-bottom: 1px solid #ddd;
+    }
+</style>

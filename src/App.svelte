@@ -1,11 +1,11 @@
 <style>
     main {
         position: fixed;
-        top:0;
+        top:32px;
         display: flex;
         flex-direction: column;
         width: 100vw;
-        height: 100vh;
+        height: calc( 100vh - 32px );
         overflow-y: scroll;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
@@ -18,7 +18,7 @@
         justify-content: space-between;
         align-items: center;
         /* flex-basis: 24px; */
-        min-height:24px;
+        height:32px;
         font-size:12px;
         font-weight: bolder;
         text-transform: uppercase;
@@ -45,7 +45,9 @@
     .left {
         flex: 100%;
         display:flex;
-        justify-content: center;
+        /* justify-content: center; */
+        align-items: center;
+        margin-left: 8px;
     }
     .right {
         width:30vw;
