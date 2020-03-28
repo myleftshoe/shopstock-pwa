@@ -30,8 +30,8 @@
     onMount(async () => {
         document.addEventListener('copy', copyAsText);
         masterItems.get()
-        await masterItems.fetch();
-        masterItems.cache();
+        // await masterItems.fetch();
+        // masterItems.cache();
     });
     
     onDestroy(() => {
@@ -228,7 +228,11 @@
                 {editMode}
             />
             <footer>
-                <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
+                {#if searchValue}
+                    <Button on:click={null}>Add item</Button>
+                {:else}
+                    <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
+                {/if}
             </footer>
         </main>
             <!-- <Dialog bind:dialog={dialog}
