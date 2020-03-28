@@ -69,7 +69,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems, workingItems, textify, htmlify, byName, notHidden, nameContains } from './store'
+    import { masterItems, workingItems, textify, htmlify, smartFilter } from './store'
     import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
@@ -92,6 +92,7 @@
 
     let dialog = null;
 
+    let searchValue = "";
 
     onMount(async () => {
         document.addEventListener('copy', copyAsText);
@@ -247,13 +248,8 @@
             keypadVisible = false
     }
 
-
-    $: items = $masterItems && $masterItems.sort(byName).filter(notHidden).filter(nameContains(searchValue));
-    $: console.log(items)
+    $: items = smartFilter($masterItems, searchValue)
     $: console.log(searchValue)
-
-
-    let searchValue = "";
 
 </script>
 
