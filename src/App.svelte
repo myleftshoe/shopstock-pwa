@@ -6,12 +6,25 @@
     import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
+    import Item from './item.svelte'
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
     import Button from './button.svelte'
     import IconButton from './iconbutton.svelte'
     import Dialog from './dialog.svelte'
     import Search from './search.svelte'
+    import UID, { alpha } from './uid.js';
+
+
+    const newItem = (name) => {
+        const id = new UID({charset: alpha}).value
+        return {
+            id,
+            name,
+            qty: "",
+            unit: ""
+        }
+    }
 
     let editItem = false
     let editMode = false;
@@ -185,6 +198,10 @@
             keypadVisible = false
     }
 
+    function handleAddClick() {
+        masterItems.update([...$masterItems, newItem(searchValue)])
+    }
+
     $: items = smartFilter($masterItems, searchValue)
     $: console.log(items, $masterItems)
 
@@ -204,14 +221,21 @@
         <header>
             <div class="left">
                 <Search bind:value={searchValue}/>
-                <!-- <button>Active Items</button> -->
+                <!-- {#if searchValue.length}
+                    <button on:click={() => searchValue=""}>clear</button>
+                {/if} -->
             </div>        
             <div class="right">
-            {#if editMode}
-                <button on:click={handleDoneClick}>done</button>
-            {:else}
-                <button on:click={() => editMode = true}>edit</button>
-            {/if}
+                {#if items.length}
+                    {#if editMode}
+                        <button on:click={handleDoneClick}>done</button>
+                    {:else}
+                        <button on:click={() => editMode = true}>edit</button>
+                    {/if}
+                {:else}
+                    <button on:click={handleAddClick}>add</button>
+                {/if}
+
             </div>
         </header>
         <main
@@ -228,19 +252,19 @@
                 {editMode}
             />
             <footer>
-                {#if searchValue}
-                    <Button on:click={null}>Add item</Button>
-                {:else}
+                <!-- {#if searchValue}
+                    <Button on:click={() => dialog.showModal()}>Add item</Button>
+                {:else} -->
                     <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
-                {/if}
+                <!-- {/if} -->
             </footer>
         </main>
-            <!-- <Dialog bind:dialog={dialog}
-                on:cancel={() => console.log('dialog cancel')} 
-                on:close={() => console.log('dialog closed')}
-            >
-                {@html htmlify(items)}
-            </Dialog> -->
+        <!-- <Dialog bind:dialog={dialog}
+            on:cancel={() => console.log('dialog cancel')} 
+            on:close={() => console.log('dialog closed')}
+        >
+            {@html htmlify(items)}
+        </Dialog> -->
     </div>
     <Keypad
         bind:type={keypadType}
@@ -274,7 +298,7 @@
         justify-content: space-between;
         align-items: center;
         /* flex-basis: 24px; */
-        height:32px;
+        height:48px;
         font-size:12px;
         font-weight: bolder;
         text-transform: uppercase;
