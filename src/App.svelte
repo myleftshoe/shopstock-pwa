@@ -299,7 +299,7 @@
         align-items: center;
         /* flex-basis: 24px; */
         height:48px;
-        font-size:12px;
+        /* font-size:12px; */
         font-weight: bolder;
         text-transform: uppercase;
         z-index:100;
@@ -311,7 +311,7 @@
         padding: 2px 8px;
         border:none;
         outline:none;
-        font-size:inherit;
+        /* font-size:inherit; */
         font-weight: inherit;
         text-transform: inherit;
         background-color:transparent;
@@ -321,6 +321,7 @@
     header button:active {
         background-color:gray;
         color: #ddd;
+        padding: 16px;
     }
     .left {
         flex: 100%;
