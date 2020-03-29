@@ -281,11 +281,11 @@
 <style>
     main {
         position: fixed;
-        top:32px;
+        top:48px;
         display: flex;
         flex-direction: column;
         width: 100vw;
-        height: calc( 100vh - 32px );
+        height: calc( 100vh - 48px );
         overflow-y: scroll;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
