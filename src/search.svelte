@@ -11,7 +11,7 @@
     onDestroy(() => input.removeEventListener('input', debounced))
 </script>
 
-<i class="fas fa-search"></i>
+<i class="fas fa-search" on:click={() => input.focus()}/>
 <input placeholder='' bind:this={input}>
 
 <style>
