@@ -22,10 +22,13 @@
         background-color: #aee1cd;
     }
     .item {
-        padding: 16px 12px;
+        padding: 16px;
         border: none;
         background-color: transparent;
         flex-basis: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     .quantity {
         display: flex;
@@ -100,9 +103,14 @@
     style={item.hidden && 'opacity: .7'}
 >
     <div class="item">
-        <div>{item.name}</div>
-        {#if item.notes}
-            <div class="notes">{item.notes}</div>
+        <div>
+            <div>{item.name}</div>
+            {#if item.notes}
+                <div class="notes">{item.notes}</div>
+            {/if}
+        </div>
+        {#if selected}
+            <i class='far fa-edit'/>
         {/if}
     </div>
     {#if !editMode}
