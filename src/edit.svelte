@@ -76,18 +76,21 @@
     // introduced cancelling to stop ms edge submitting after cancel
     let cancelling = false
     function handleSubmit(e) {
-        if (!cancelling) dispatch('done', { item })
+        if (!cancelling) {
+            dispatch('done', { item })
+        }
+        dispatch('close')
+
     }
 
-    function handleCancel() {
-        console.log('handleclick')
+    function handleClose() {
         cancelling = true
-        dispatch('cancel')
+        dispatch('close')
     }
 
     function handleDelete() {
         dispatch('delete');
-        dispatch('cancel')
+        dispatch('close')
     }
 
 </script>
@@ -113,7 +116,7 @@
             For some reason pressing enter in the itemname input would fire the cancel button.
             Set form=donothing (a non-existing form) fixes it. Moving the cancel button after submit works also.
         -->
-        <button on:click={handleCancel} form="noform">
+        <button on:click={handleClose} form="noform">
             <i class="fas fa-times" />
         </button>
         <button type="submit">

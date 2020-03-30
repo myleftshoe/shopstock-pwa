@@ -1,6 +1,6 @@
 <style>
     button {
-        background-color: transparent;
+        background-color: #aee1cd;
         margin:16px;
         border: none;
         outline: none;

@@ -43,7 +43,7 @@
     onMount(async () => {
         document.addEventListener('copy', copyAsText);
         masterItems.get()
-        // await masterItems.fetch();
+        // await masterItems.fetch()
         // masterItems.cache();
     });
     
@@ -60,6 +60,7 @@
         document.execCommand('copy')
         copied = true;
         setTimeout(() => copied = false, 2000)
+        masterItems.cache().persist()
     } 
 
     function handleQtyClick(e) {
@@ -178,15 +179,14 @@
         editItem = false
     }
 
-    function handleEditItemCancel(e) {
+    function handleEditItemClose(e) {
         editItem = false
     }
 
     function startOver() {
-        // if (Array.isArray(masterItems))
-        //     items = [...masterItems]
-        // items.forEach(item => (item.qty = ''))
-        // updateItems()
+        const clearedItems = $masterItems.map(item => ({...item, qty: ''}))
+        masterItems.update(clearedItems)
+        masterItems.cache()
     }
 
     function handleTouchStart(e) { 
@@ -219,7 +219,7 @@
         <Edit
             item={selectedItem}
             on:done={handleEditItemDone}
-            on:cancel={handleEditItemCancel}
+            on:close={handleEditItemClose}
             on:delete={handleDelete}
         />
     {/if}
@@ -261,8 +261,9 @@
                 <!-- {#if searchValue}
                     <Button on:click={() => dialog.showModal()}>Add item</Button>
                 {:else} -->
-                {#if !  searchValue}
+                {#if !searchValue}
                     <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
+                    <a href="" on:click|preventDefault={startOver} style="margin-top:24px">Start over</a>
                 {/if}
             </footer>
         </main>
