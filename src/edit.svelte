@@ -8,10 +8,10 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        background-color: #ddd;
+        background-color: #f9f6ef;
         position: fixed;
         top: 0;
-        z-index: 1;
+        z-index: 101;
         overflow: hidden;
     }
     .itemname {
@@ -27,15 +27,14 @@
         text-align: center;
         align-self: center;
         background-color: transparent;
-        border: 2px solid #aee1cd;
+        border: none;
         outline: none;
         margin: 0 16px;
         padding: 8px 16px;
-        border-radius: 7px;
         width: 100%;
     }
     input[type='text']:focus {
-        background-color: white;
+        border-bottom: 1px solid #000;
     }
     input[type='text']::-ms-clear {
         display: none;
@@ -43,19 +42,26 @@
     textarea {
         font-size: 20px;
         background-color: transparent;
-        border: 2px solid #aee1cd;
+        border: 1px solid #777;
         outline: none;
         padding: 8px 16px;
-        border-radius: 7px;
         resize: none;
         width: calc(100vw - 64px);
     }
     textarea:focus {
-        background-color: white;
+        border: 1px solid #000;
     }
     .actions {
-        flex-basis: 100px;
         display: flex;
+    }
+    button {
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 32px;
+        padding: 16px;
+        margin: 16px;
+        color: #333;
     }
 </style>
 
@@ -74,17 +80,14 @@
     }
 
     function handleCancel() {
+        console.log('handleclick')
         cancelling = true
         dispatch('cancel')
     }
 
-    function handleCopy(e) {
-         e.clipboardData.setData('text/plain', 'Test');
-         console.log(e.clipboardData.getData('text/plain'));
-    }
 </script>
 
-<form transition:scale on:submit|preventDefault|stopPropagation={handleSubmit}>
+<form on:submit|preventDefault|stopPropagation={handleSubmit}>
     <div class="itemname">
         <input
             id="itemname"
@@ -96,19 +99,21 @@
     </div>
     <textarea
         id="notes"
+        rows="4"
         placeholder="Notes"
-        rows="10"
         bind:value={item.notes}
-        on:copy = {handleCopy}
     />
     <div class="actions">
         <!-- 
             For some reason pressing enter in the itemname input would fire the cancel button.
             Set form=donothing (a non-existing form) fixes it. Moving the cancel button after submit works also.
         -->
-        <Button secondary form="donothing" on:click={handleCancel}>
-            Cancel
-        </Button>
-        <Button primary type="submit">Done</Button>
+        <button on:click={handleCancel} form="noform">
+            <i class="fas fa-times" />
+        </button>
+        <button type="submit">
+            <i class="fas fa-check" />
+        </button>
     </div>
+    <a href="_">Delete this item permanently</a>
 </form>

@@ -81,9 +81,9 @@
     }
 
     function handleItemClick(e) {
-        // if (e.detail.item === selectedItem && !keypadVisible) {
-        //     editItem = true
-        // }
+        if (e.detail.item === selectedItem && !keypadVisible) {
+            editItem = true
+        }
         selectedItem = e.detail.item
     }
 
@@ -212,7 +212,7 @@
 {:else}
     {#if editItem}
         <Edit
-            item={{ ...selectedItem }}
+            item={selectedItem}
             on:done={handleEditItemDone}
             on:cancel={handleEditItemCancel}
         />
