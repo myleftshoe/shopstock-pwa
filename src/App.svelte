@@ -261,8 +261,9 @@
                 <!-- {#if searchValue}
                     <Button on:click={() => dialog.showModal()}>Add item</Button>
                 {:else} -->
+                {#if !  searchValue}
                     <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
-                <!-- {/if} -->
+                {/if}
             </footer>
         </main>
         <!-- <Dialog bind:dialog={dialog}

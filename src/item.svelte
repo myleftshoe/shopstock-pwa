@@ -112,6 +112,6 @@
             <div class="unit">{item.unit}</div>
         </div>
     {:else}
-        <div class="quantity unit" style="background-color: transparent" on:click={handleHideClick}>{item.hidden ? 'SHOW' : 'HIDE'}</div>
+        <div class="quantity unit" style="background-color: transparent" on:click|stopPropagation={handleHideClick}>{item.hidden ? 'SHOW' : 'HIDE'}</div>
     {/if}
 </div>
