@@ -123,5 +123,5 @@
             <i class="fas fa-check" />
         </button>
     </div>
-    <a href="" on:click|preventDefault on:click={handleDelete}>Delete this item permanently</a>
+    <Button on:click={handleDelete} style="color: #333;">Delete this item permanently</Button>
 </form>

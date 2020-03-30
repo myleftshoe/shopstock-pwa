@@ -1,6 +1,6 @@
 <style>
     button {
-        background-color: #aee1cd;
+        background-color: transparent;
         margin:16px;
         border: none;
         outline: none;
@@ -11,6 +11,9 @@
         font-size: 16px;
         text-transform: uppercase;
         user-select: none;
+    }
+    .primary {
+        background-color: #aee1cd;
     }
     .floating {
         position:fixed;
@@ -28,7 +31,8 @@
 </style>
 <script>
     export let floating = false;
+    export let primary = false;
 </script>
-<button class:floating on:click {...$$restProps}>
+<button class:floating class:primary on:click {...$$restProps}>
     <slot/>
 </button>

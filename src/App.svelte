@@ -262,8 +262,8 @@
                     <Button on:click={() => dialog.showModal()}>Add item</Button>
                 {:else} -->
                 {#if !searchValue}
-                    <Button on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
-                    <a href="" on:click|preventDefault={startOver} style="margin-top:24px">Start over</a>
+                    <Button primary on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
+                    <Button on:click={startOver} style="margin-top:24px">Start over</Button>
                 {/if}
             </footer>
         </main>
