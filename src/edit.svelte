@@ -85,6 +85,11 @@
         dispatch('cancel')
     }
 
+    function handleDelete() {
+        dispatch('delete');
+        dispatch('cancel')
+    }
+
 </script>
 
 <form on:submit|preventDefault|stopPropagation={handleSubmit}>
@@ -115,5 +120,5 @@
             <i class="fas fa-check" />
         </button>
     </div>
-    <a href="_">Delete this item permanently</a>
+    <a href="" on:click|preventDefault on:click={handleDelete}>Delete this item permanently</a>
 </form>

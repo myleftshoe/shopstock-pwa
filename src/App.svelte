@@ -202,6 +202,11 @@
         masterItems.update([...$masterItems, newItem(searchValue)])
     }
 
+    function handleDelete() {
+        const newItems = $masterItems.filter(item => item.id !== selectedItem.id)
+        masterItems.update(newItems)
+    }
+
     $: items = smartFilter($masterItems, searchValue)
     $: console.log(items, $masterItems)
 
@@ -215,6 +220,7 @@
             item={selectedItem}
             on:done={handleEditItemDone}
             on:cancel={handleEditItemCancel}
+            on:delete={handleDelete}
         />
     {/if}
     <div on:touchstart|stopPropagation|capture={handleTouchStart}>
