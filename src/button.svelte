@@ -10,7 +10,9 @@
         font-weight: 600;
         font-size: 16px;
         text-transform: uppercase;
-        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
     }
     .primary {
         background-color: #aee1cd;

@@ -326,6 +326,9 @@
         z-index:100;
         background-color:#000;
         color:#fff;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
     }
     header button {
         width:100%;
@@ -337,7 +340,6 @@
         text-transform: inherit;
         background-color:transparent;
         color: #ddd;
-        user-select: none;
     }
     header button:active {
         background-color:gray;

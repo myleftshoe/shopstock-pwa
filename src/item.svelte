@@ -8,6 +8,10 @@
         flex: 0 0 auto;
         transition: transform .3s ease, max-height .3s ease;;
         max-height: 100px;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
     }
     .deleting {
         /* transform: scaleY(0) */
