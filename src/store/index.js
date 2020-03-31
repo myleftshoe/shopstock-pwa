@@ -21,11 +21,11 @@ async function notifyBackend() {
     const url = 'https://script.google.com/macros/s/AKfycbzn7GB0LV-iqSbJsGg1t7x2Lr7LIzVqgIWrAadsgx8wxhyuEyju/exec?complete=true';
     const response = await fetch(url)
     const text = await response.text();
-    console.log(text)
+    console.log('notifyBackend', text)
 }
 
 
-async function complete(items) {
+async function putItems(items) {
 
     const binId = jsonbin.workingBinId;
     const url = `https://api.jsonbin.io/b/${binId}`
@@ -34,6 +34,8 @@ async function complete(items) {
         const { name, qty, unit, notes } = item
         return [name, qty, unit, notes]
     });
+
+    if (!data.length) return
 
     const options = {
         method: 'PUT',
@@ -51,12 +53,50 @@ async function complete(items) {
     //     method: 'GET',
     //     mode: 'no-cors'
     // });
-    console.log(json)
-    notifyBackend()
+    console.log('items -> jsonbin', json)
     return json
 }
 
 
+async function putMasterItems(items) {
+
+    const binId = jsonbin.masterBinId;
+    const url = `https://api.jsonbin.io/b/${binId}`
+
+    const data = items.map(({ name, unit }) => ({ name, unit }))
+
+    if (!data.length) return
+
+    const options = {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+            'secret-key': jsonbin.secretKey,
+        },
+        body: JSON.stringify(data)
+    };
+
+    const response = await fetch(url, options)
+    // return response;
+    const json = await response.json();
+    // , {
+    //     method: 'GET',
+    //     mode: 'no-cors'
+    // });
+    console.log('masterItems -> jsonbin', json)
+    return json
+}
+
+
+
+
+async function complete(items) {
+
+    putItems(items);
+    putMasterItems(items);
+    notifyBackend();
+
+}
 
 
 // filter functions
