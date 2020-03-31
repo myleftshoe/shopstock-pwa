@@ -3,7 +3,7 @@
     import { onMount, onDestroy } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete } from './store'
-    import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
+    import Keypad, { NUMERIC, UNIT } from './keypad'
     import Items from './items.svelte'
     import Item from './item.svelte'
     import Loader from './loader.svelte'
