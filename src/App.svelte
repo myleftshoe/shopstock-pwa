@@ -46,7 +46,7 @@
     onMount(async () => {
         document.addEventListener('copy', copyAsText);
         // masterItems.get()
-        await masterItems.fetchCacheFirst()
+        masterItems.getOrFetch($isComplete)
         console.log($masterItems)
         // masterItems.cache();
     });

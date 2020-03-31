@@ -3,16 +3,24 @@ import masterItems from './masterItems.js'
 import { jsonbin } from '../secrets'
 
 
-function createIsComplete() {
-	const { subscribe, set, update } = writable(localStorage.getItem('isComplete'));
+function toBoolean(value) {
+    var result = false;
+    try {
+        result = !!JSON.parse(String(value).toLowerCase());
+    } catch (e) { }
+    return result;
+}
 
-	return {
-		subscribe,
-		set: boolean => {
+function createIsComplete() {
+    const { subscribe, set, update } = writable(toBoolean(localStorage.getItem('isComplete')));
+
+    return {
+        subscribe,
+        set: boolean => {
             set(boolean)
             localStorage.setItem('isComplete', boolean)
         }
-	};
+    };
 }
 const isComplete = createIsComplete()
 
@@ -102,15 +110,15 @@ async function complete(items) {
 // filter functions
 const hasQty = item => item.qty.length > 0
 const notHidden = item => !item.hidden
-const nameContains = string => ({name}) => name.toLowerCase().includes(string.toLowerCase())
-const nameStartsWith = string => ({name}) => name.toLowerCase().startsWith(string.toLowerCase())
+const nameContains = string => ({ name }) => name.toLowerCase().includes(string.toLowerCase())
+const nameStartsWith = string => ({ name }) => name.toLowerCase().startsWith(string.toLowerCase())
 
 function smartFilter(items, searchValue) {
     if (!items || !items.length) return;
     let _items = [...items];
-    if (!searchValue) 
+    if (!searchValue)
         _items = _items.filter(notHidden)
-    else if (searchValue.length < 3) 
+    else if (searchValue.length < 3)
         _items = _items.filter(nameStartsWith(searchValue))
     else
         _items = _items.filter(nameContains(searchValue))
@@ -121,11 +129,11 @@ function smartFilter(items, searchValue) {
 const byName = (a, b) => a.name.localeCompare(b.name)
 
 // conversion functions
-const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /,'');
+const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /, '');
 const textify = items => items.filter(hasQty).map(textifyItem).join('\r\n')
 const htmlify = items => items.filter(hasQty).map(textifyItem).join('<br>')
 
 
-export { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete};
+export { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete };
 
 

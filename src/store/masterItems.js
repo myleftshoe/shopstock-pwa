@@ -6,9 +6,14 @@ const store = new PersistentStore( 'Master Items', jsonbin.masterBinId )
 
 const map = item => ({id: new UID({charset: alpha}).value, ...item, qty:''  })
 
-store.fetchCacheFirst = async () => {
-    const cachedItems = store.get();
-    store.update(cachedItems.map(map))
+store.getOrFetch = async (isComplete) => {
+    if (!isComplete) {
+        const cachedItems = store.get();
+        if (Array.isArray(cachedItems)) {
+            store.update(cachedItems)
+            return store;        
+        }
+    }
     const fetchedItems = await store.fetch();
     store.update(fetchedItems.map(map));
     return store;
