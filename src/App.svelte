@@ -41,10 +41,7 @@
 
     onMount(async () => {
         document.addEventListener('copy', copyAsText);
-        // masterItems.get()
         masterItems.getOrFetch($isComplete)
-        console.log($masterItems)
-        // masterItems.cache();
     });
     
     onDestroy(() => {
@@ -53,7 +50,6 @@
 
     function copyAsText(e) {
         e.preventDefault();
-        console.log(textify(items))
         e.clipboardData.setData('text', textify(items))
     }
 
@@ -64,7 +60,6 @@
         masterItems.cache().persist()
         complete(items)
         isComplete.set(true)
-        console.log($isComplete)
     } 
 
     function handleQtyClick(e) {
@@ -77,7 +72,6 @@
         selectedItem = e.detail.item
         selectedItem.hidden = !selectedItem.hidden;
         updateItems();
-        console.log(selectedItem)
     }
 
     function handleDoneClick(e) {
@@ -219,7 +213,6 @@
     }
 
     $: items = smartFilter($masterItems, searchValue)
-    $: console.log(items, $masterItems)
 
 </script>
 
@@ -269,9 +262,6 @@
                 {editMode}
             />
             <footer>
-                <!-- {#if searchValue}
-                    <Button on:click={() => dialog.showModal()}>Add item</Button>
-                {:else} -->
                 {#if !searchValue}
                     <Button primary on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.filter(hasQty).length} items!` : 'Complete'}</Button>
                     <Button on:click={startOver} style="margin-top:24px">Start over</Button>
@@ -316,9 +306,7 @@
         display:flex;
         justify-content: space-between;
         align-items: center;
-        /* flex-basis: 24px; */
         height:48px;
-        /* font-size:12px; */
         font-weight: bolder;
         text-transform: uppercase;
         z-index:100;
@@ -333,7 +321,6 @@
         padding: 2px 8px;
         border:none;
         outline:none;
-        /* font-size:inherit; */
         font-weight: inherit;
         text-transform: inherit;
         background-color:transparent;
@@ -347,7 +334,6 @@
     .left {
         flex: 100%;
         display:flex;
-        /* justify-content: center; */
         align-items: center;
         margin-left: 8px;
     }
