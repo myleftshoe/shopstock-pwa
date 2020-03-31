@@ -63,7 +63,7 @@ async function putMasterItems(items) {
     const binId = jsonbin.masterBinId;
     const url = `https://api.jsonbin.io/b/${binId}`
 
-    const data = items.map(({ name, unit }) => ({ name, unit }))
+    const data = items.map(({ name, unit, hidden }) => ({ name, unit, hidden }))
 
     if (!data.length) return
 

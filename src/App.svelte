@@ -274,7 +274,7 @@
                     <Button on:click={() => dialog.showModal()}>Add item</Button>
                 {:else} -->
                 {#if !searchValue}
-                    <Button primary on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.filter(hasQty).length} items!` : 'Copy all'}</Button>
+                    <Button primary on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.filter(hasQty).length} items!` : 'Complete'}</Button>
                     <Button on:click={startOver} style="margin-top:24px">Start over</Button>
                 {/if}
             </footer>
