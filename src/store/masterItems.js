@@ -1,6 +1,6 @@
 import PersistentStore from './persistentstore.js'
 import { jsonbin } from '../secrets'
-import UID, { alpha } from '../uid.js';
+import UID, { alpha } from '../utils/uid.js';
 
 const store = new PersistentStore( 'Master Items', jsonbin.masterBinId )
 

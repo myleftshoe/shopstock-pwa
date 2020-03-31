@@ -11,7 +11,7 @@
     import Button from './button.svelte'
     import Dialog from './dialog.svelte'
     import Search from './search.svelte'
-    import UID, { alpha } from './uid.js';
+    import UID, { alpha } from './utils/uid.js';
 
 
     const newItem = (name) => {
