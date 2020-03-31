@@ -1,14 +1,48 @@
-import PersistentStore from './persistentstore.js'
+import masterItems from './masterItems.js'
 import { jsonbin } from '../secrets'
 
-function getLocalStorageKey() {
-    const today = new Date();
-    today.setHours(today.getHours() - 0);
-    return today.toDateString();
+
+async function notifyBackend() {
+    const url = 'https://script.google.com/macros/s/AKfycbzn7GB0LV-iqSbJsGg1t7x2Lr7LIzVqgIWrAadsgx8wxhyuEyju/exec?complete=true';
+    const response = await fetch(url)
+    const text = await response.text();
+    console.log(text)
 }
 
-const masterItems = new PersistentStore( 'Master Items', jsonbin.masterBinId )
-const workingItems = new PersistentStore( getLocalStorageKey(), jsonbin.workingBinId )
+
+async function complete(items) {
+
+    const binId = jsonbin.workingBinId;
+    const url = `https://api.jsonbin.io/b/${binId}`
+
+    const data = items.filter(hasQty).map(item => {
+        const { name, qty, unit, notes } = item
+        return [name, qty, unit, notes]
+    });
+
+    const options = {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+            'secret-key': jsonbin.secretKey,
+        },
+        body: JSON.stringify(data)
+    };
+
+    const response = await fetch(url, options)
+    // return response;
+    const json = await response.json();
+    // , {
+    //     method: 'GET',
+    //     mode: 'no-cors'
+    // });
+    console.log(json)
+    notifyBackend()
+    return json
+}
+
+
+
 
 // filter functions
 const hasQty = item => item.qty.length > 0
@@ -31,15 +65,12 @@ function smartFilter(items, searchValue) {
 // sort functions
 const byName = (a, b) => a.name.localeCompare(b.name)
 
-
-
-
 // conversion functions
 const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /,'');
 const textify = items => items.filter(hasQty).map(textifyItem).join('\r\n')
 const htmlify = items => items.filter(hasQty).map(textifyItem).join('<br>')
 
 
-export { masterItems, workingItems, textify, htmlify, smartFilter};
+export { masterItems, textify, htmlify, smartFilter, hasQty, complete};
 
 

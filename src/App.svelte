@@ -2,7 +2,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems, workingItems, textify, htmlify, smartFilter } from './store'
+    import { masterItems, textify, htmlify, smartFilter, hasQty, complete } from './store'
     import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
@@ -42,8 +42,9 @@
 
     onMount(async () => {
         document.addEventListener('copy', copyAsText);
-        masterItems.get()
-        // await masterItems.fetch()
+        // masterItems.get()
+        await masterItems.fetchCacheFirst()
+        console.log($masterItems)
         // masterItems.cache();
     });
     
@@ -53,6 +54,7 @@
 
     function copyAsText(e) {
         e.preventDefault();
+        console.log(textify(items))
         e.clipboardData.setData('text', textify(items))
     }
 
@@ -61,6 +63,7 @@
         copied = true;
         setTimeout(() => copied = false, 2000)
         masterItems.cache().persist()
+        complete(items)
     } 
 
     function handleQtyClick(e) {
@@ -133,7 +136,7 @@
                 qty = Number(`${qty}${key}`)
                 break
         }
-        selectedItem.qty = qty
+        selectedItem.qty = String(qty)
 
         if (selectedItem.qty)
             delete selectedItem.hidden
@@ -262,7 +265,7 @@
                     <Button on:click={() => dialog.showModal()}>Add item</Button>
                 {:else} -->
                 {#if !searchValue}
-                    <Button primary on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.length} items!` : 'Copy all'}</Button>
+                    <Button primary on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.filter(hasQty).length} items!` : 'Copy all'}</Button>
                     <Button on:click={startOver} style="margin-top:24px">Start over</Button>
                 {/if}
             </footer>

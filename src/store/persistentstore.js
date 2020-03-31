@@ -15,16 +15,10 @@ export function PersistentStore( cacheKey, binId ) {
             return get(store)
         },
         get() {
-            set(cache.get())
-            return store
+            return cache.get()
         },
-        async fetch() {
-            const data = await bin.read();
-            set([...data]);
-            // bin.read().then(items => {
-            //     items.length && set(items.map(item => ({ ...item, id: new UID({charset: alpha}).value })))
-            // })
-            return store;
+        fetch() {
+            return bin.read();
         },
         update(data) {
             set([...data])
