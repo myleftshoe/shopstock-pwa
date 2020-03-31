@@ -1,4 +1,3 @@
-import UID, { alpha } from '../uid.js';
 import { writable, get } from 'svelte/store';
 import Jsonbin from './jsonbin.js'
 import Cache from './cache.js'
