@@ -6,7 +6,7 @@
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
     import Item from './item.svelte'
-    import Spinner from './loader.svelte'
+    import Loader from './loader.svelte'
     import Edit from './edit.svelte'
     import Button from './button.svelte'
     import Dialog from './dialog.svelte'
@@ -224,7 +224,7 @@
 </script>
 
 {#if !items}
-    <Spinner />
+    <Loader />
 {:else}
     {#if editItem}
         <Edit
