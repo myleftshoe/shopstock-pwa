@@ -16,10 +16,20 @@
     const hidePlaceholder = () => (placeholder = '')
 </script>
 
-<i class="fas fa-search" on:click={() => input.focus()} />
+<div style="width:50px">
+{#if value}
+    <i class="fas fa-times" on:click={() => { 
+        value = "";
+        input.value = "";
+    }} />
+{:else}
+    <i class="fas fa-search" on:click={() => input.focus()} />
+{/if}
+</div>
+
 <input
     bind:this={input}
-    type="search"
+    type="text"
     {placeholder}
     on:focus={showPlaceholder}
     on:blur={hidePlaceholder}
