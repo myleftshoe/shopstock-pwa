@@ -16,8 +16,6 @@
     import UID, { alpha } from './uid.js';
 
 
-    console.log('isComplete', $isComplete)
-
     const newItem = (name) => {
         const id = new UID({charset: alpha}).value
         return {
@@ -195,9 +193,12 @@
     }
 
     function startOver() {
-        isComplete.set(false)
-        const clearedItems = $masterItems.map(item => ({...item, qty: ''}))
-        masterItems.update(clearedItems)
+        // don't set isComplete to false until item is edited
+        // isComplete.set(false)
+        // Clear quantities first in case offline, then force
+        // fetch latest masterItems by passing isComplete true
+        masterItems.clearQuantities()
+        masterItems.getOrFetch(true)
         masterItems.cache()
     }
 
