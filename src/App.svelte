@@ -10,7 +10,6 @@
     import Spinner from './loader.svelte'
     import Edit from './edit.svelte'
     import Button from './button.svelte'
-    import IconButton from './iconbutton.svelte'
     import Dialog from './dialog.svelte'
     import Search from './search.svelte'
     import UID, { alpha } from './uid.js';
