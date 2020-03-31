@@ -14,17 +14,20 @@
 
     const showPlaceholder = () => (placeholder = 'SEARCH')
     const hidePlaceholder = () => (placeholder = '')
+
+    function handleClick() {
+        if (value) {
+            value = "";
+            input.value = ""
+        }
+        else {
+            input.focus()
+        }
+    }
 </script>
 
 <div style="width:50px">
-{#if value}
-    <i class="fas fa-times" on:click={() => { 
-        value = "";
-        input.value = "";
-    }} />
-{:else}
-    <i class="fas fa-search" on:click={() => input.focus()} />
-{/if}
+    <i class={value ? "fas fa-times" : "fas fa-search"} on:click={handleClick} />
 </div>
 
 <input
