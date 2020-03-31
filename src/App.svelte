@@ -3,7 +3,6 @@
     import { onMount, onDestroy } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete } from './store'
-    import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
     import Item from './item.svelte'
