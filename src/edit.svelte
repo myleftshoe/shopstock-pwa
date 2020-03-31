@@ -116,7 +116,7 @@
             For some reason pressing enter in the itemname input would fire the cancel button.
             Set form=donothing (a non-existing form) fixes it. Moving the cancel button after submit works also.
         -->
-        <button on:click={handleClose} form="noform">
+        <button on:click|preventDefault|stopPropagation={handleClose} form="noform">
             <i class="fas fa-times" />
         </button>
         <button type="submit">
