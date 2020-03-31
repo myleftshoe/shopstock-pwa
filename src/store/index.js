@@ -1,5 +1,20 @@
+import { writable } from 'svelte/store';
 import masterItems from './masterItems.js'
 import { jsonbin } from '../secrets'
+
+
+function createIsComplete() {
+	const { subscribe, set, update } = writable(localStorage.getItem('isComplete'));
+
+	return {
+		subscribe,
+		set: boolean => {
+            set(boolean)
+            localStorage.setItem('isComplete', boolean)
+        }
+	};
+}
+const isComplete = createIsComplete()
 
 
 async function notifyBackend() {
@@ -71,6 +86,6 @@ const textify = items => items.filter(hasQty).map(textifyItem).join('\r\n')
 const htmlify = items => items.filter(hasQty).map(textifyItem).join('<br>')
 
 
-export { masterItems, textify, htmlify, smartFilter, hasQty, complete};
+export { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete};
 
 

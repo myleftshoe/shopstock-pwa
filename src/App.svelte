@@ -2,7 +2,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems, textify, htmlify, smartFilter, hasQty, complete } from './store'
+    import { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete } from './store'
     import { sendEmail, sendSMS } from './share.js'
     import Keypad, { NUMERIC, UNIT } from './keypad.svelte'
     import Items from './items.svelte'
@@ -15,6 +15,8 @@
     import Search from './search.svelte'
     import UID, { alpha } from './uid.js';
 
+
+    console.log('isComplete', $isComplete)
 
     const newItem = (name) => {
         const id = new UID({charset: alpha}).value
@@ -40,6 +42,7 @@
 
     let searchValue = "";
 
+
     onMount(async () => {
         document.addEventListener('copy', copyAsText);
         // masterItems.get()
@@ -64,6 +67,8 @@
         setTimeout(() => copied = false, 2000)
         masterItems.cache().persist()
         complete(items)
+        isComplete.set(true)
+        console.log($isComplete)
     } 
 
     function handleQtyClick(e) {
@@ -92,6 +97,9 @@
     }
 
     function updateItems() {
+        if ($isComplete) {
+            isComplete.set(false)
+        }
         masterItems.update($masterItems).cache()
     }
 
@@ -187,6 +195,7 @@
     }
 
     function startOver() {
+        isComplete.set(false)
         const clearedItems = $masterItems.map(item => ({...item, qty: ''}))
         masterItems.update(clearedItems)
         masterItems.cache()
