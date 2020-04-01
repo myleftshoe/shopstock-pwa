@@ -1,6 +1,6 @@
 <script>
     import dialogPolyfill from 'dialog-polyfill'
-    import { onMount, onDestroy } from 'svelte'
+    import { onMount, onDestroy, tick } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete } from './store'
     import Keypad, { NUMERIC, UNIT } from './keypad'
@@ -212,6 +212,18 @@
         masterItems.update(newItems)
     }
 
+    let main
+    let savedScrollPos;
+    function handleSearchFocus() {
+        if (!searchValue)
+            savedScrollPos = main.scrollTop;
+    }
+
+    async function handleSearchClear() {
+        await tick()
+        main.scrollTop = savedScrollPos
+    }
+
     $: items = smartFilter($masterItems, searchValue)
 
 </script>
@@ -230,7 +242,7 @@
     <div on:touchstart|stopPropagation|capture={handleTouchStart}>
         <header>
             <div class="left">
-                <Search bind:value={searchValue}/>
+                <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear}/>
                 <!-- {#if searchValue.length}
                     <button on:click={() => searchValue=""}>clear</button>
                 {/if} -->
@@ -249,6 +261,7 @@
             </div>
         </header>
         <main
+            bind:this={main}
             id="container"
             class="container"
             on:contextmenu|preventDefault|stopPropagation

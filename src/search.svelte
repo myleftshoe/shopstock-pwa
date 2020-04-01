@@ -1,6 +1,9 @@
 <script>
     import { onMount, onDestroy } from 'svelte'
     import debounce from 'lodash-es/debounce'
+    import { createEventDispatcher } from 'svelte'
+    
+    const dispatch = createEventDispatcher()
 
     export let value = ''
 
@@ -15,6 +18,11 @@
     const showPlaceholder = () => (placeholder = 'SEARCH')
     const hidePlaceholder = () => (placeholder = '')
 
+    function handleFocus() {
+        showPlaceholder()
+        dispatch('focus')
+    }
+
     function handleClick() {
         if (value) {
             value = "";
@@ -24,6 +32,9 @@
             input.focus()
         }
     }
+
+    $: if (!value) dispatch('clear')
+    
 </script>
 
 <div style="width:50px">
@@ -34,7 +45,7 @@
     bind:this={input}
     type="text"
     {placeholder}
-    on:focus={showPlaceholder}
+    on:focus={handleFocus}
     on:blur={hidePlaceholder}
 />
 
