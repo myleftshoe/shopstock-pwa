@@ -109,19 +109,28 @@ async function complete(items) {
 
 // filter functions
 const hasQty = item => item.qty.length > 0
+const hidden = item => item.hidden
 const notHidden = item => !item.hidden
 const nameContains = string => ({ name }) => name.toLowerCase().includes(string.toLowerCase())
 const nameStartsWith = string => ({ name }) => name.toLowerCase().startsWith(string.toLowerCase())
 
 function smartFilter(items, searchValue) {
     if (!items || !items.length) return;
+
     let _items = [...items];
     if (!searchValue)
-        _items = _items.filter(notHidden)
-    else if (searchValue.length < 3)
-        _items = _items.filter(nameStartsWith(searchValue))
-    else
-        _items = _items.filter(nameContains(searchValue))
+        _items = items.filter(notHidden)
+    if (searchValue.startsWith('-')) {
+        _items = items.filter(hidden)
+        searchValue = searchValue.substr(1)
+    }
+    if (searchValue) {
+        if (searchValue.length < 3)
+            _items = _items.filter(nameStartsWith(searchValue))
+        else
+            _items = _items.filter(nameContains(searchValue))
+    }
+
     return _items.sort(byName)
 }
 
