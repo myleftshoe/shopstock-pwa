@@ -1,6 +1,10 @@
+<div class="container">
+    <div class="loader">Loading...</div>
+</div>
+
 <style>
     .container {
-        height:100%;
+        height: 100%;
         width: 100%;
         display: flex;
         align-items: center;
@@ -64,6 +68,3 @@
         }
     }
 </style>
-<div class="container">
-    <div class="loader">Loading...</div>
-</div>

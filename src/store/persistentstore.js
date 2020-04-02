@@ -2,7 +2,7 @@ import { writable, get } from 'svelte/store';
 import Jsonbin from './jsonbin.js'
 import Cache from './cache.js'
 
-export function PersistentStore( cacheKey, binId ) {
+export function PersistentStore(cacheKey, binId) {
 
     const bin = new Jsonbin(binId)
     const cache = new Cache(cacheKey)
@@ -10,7 +10,7 @@ export function PersistentStore( cacheKey, binId ) {
     const { subscribe, set, update } = writable();
     const store = {
         subscribe,
-        get values() { 
+        get values() {
             return get(store)
         },
         get() {

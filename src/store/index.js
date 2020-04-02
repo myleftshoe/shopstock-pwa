@@ -4,7 +4,7 @@ import { jsonbin } from '../secrets'
 import UID, { alpha } from '../utils/uid.js';
 
 const newItem = (name) => {
-    const id = new UID({charset: alpha}).value
+    const id = new UID({ charset: alpha }).value
     return {
         id,
         name,

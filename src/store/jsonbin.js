@@ -9,10 +9,10 @@ class Jsonbin {
         this.binId = binId;
     }
 
-    static async create({name = '', isPrivate = false, data}) {
+    static async create({ name = '', isPrivate = false, data }) {
 
         const url = `${endpoint}/${this.binId}`
-    
+
         const options = {
             method: 'POST',
             headers: {
@@ -23,7 +23,7 @@ class Jsonbin {
             },
             body: JSON.stringify(data)
         };
-    
+
         const response = await fetch(url, options)
         const json = await response.json()
 
@@ -43,10 +43,10 @@ class Jsonbin {
                 'secret-key': secretKey,
             },
         };
-    
+
         const response = await fetch(url, options);
         const json = await response.json();
-    
+
         console.log('fetched items from jsonbin', json)
         return json;
     }
@@ -54,7 +54,7 @@ class Jsonbin {
     async update(data) {
 
         const url = `${endpoint}/${this.binId}`
-    
+
         const options = {
             method: 'PUT',
             headers: {
@@ -63,7 +63,7 @@ class Jsonbin {
             },
             body: JSON.stringify(data)
         };
-    
+
         const response = await fetch(url, options)
         const json = await response.json();
 
@@ -71,7 +71,7 @@ class Jsonbin {
 
         const result = json.success ? json.version : null
         return result;
-    
+
     }
 
     async delete(version) {

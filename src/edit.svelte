@@ -1,3 +1,62 @@
+<script>
+    export let item = {}
+
+    import Button from './button.svelte'
+    import { scale } from 'svelte/transition'
+    import { createEventDispatcher } from 'svelte'
+    const dispatch = createEventDispatcher()
+
+    // introduced cancelling to stop ms edge submitting after cancel
+    let cancelling = false
+    function handleSubmit(e) {
+        if (!cancelling) {
+            dispatch('done', { item })
+        }
+        dispatch('close')
+    }
+
+    function handleClose() {
+        cancelling = true
+        dispatch('close')
+    }
+
+    function handleDelete() {
+        dispatch('delete')
+        dispatch('close')
+    }
+</script>
+
+<form on:submit|preventDefault|stopPropagation={handleSubmit}>
+    <div class="itemname">
+        <input
+            id="itemname"
+            required
+            type="text"
+            bind:value={item.name}
+            placeholder="Enter item name"
+        />
+    </div>
+    <textarea id="notes" rows="4" placeholder="Notes" bind:value={item.notes} />
+    <div class="actions">
+        <!-- 
+            For some reason pressing enter in the itemname input would fire the cancel button.
+            Set form=donothing (a non-existing form) fixes it. Moving the cancel button after submit works also.
+        -->
+        <button
+            on:click|preventDefault|stopPropagation={handleClose}
+            form="noform"
+        >
+            <i class="fas fa-times" />
+        </button>
+        <button type="submit">
+            <i class="fas fa-check" />
+        </button>
+    </div>
+    <Button on:click={handleDelete} style="color: #333;">
+        Delete this item permanently
+    </Button>
+</form>
+
 <style>
     form {
         height: 100vh;
@@ -64,64 +123,3 @@
         color: #333;
     }
 </style>
-
-<script>
-    export let item = {}
-
-    import Button from './button.svelte'
-    import { scale } from 'svelte/transition'
-    import { createEventDispatcher } from 'svelte'
-    const dispatch = createEventDispatcher()
-
-    // introduced cancelling to stop ms edge submitting after cancel
-    let cancelling = false
-    function handleSubmit(e) {
-        if (!cancelling) {
-            dispatch('done', { item })
-        }
-        dispatch('close')
-
-    }
-
-    function handleClose() {
-        cancelling = true
-        dispatch('close')
-    }
-
-    function handleDelete() {
-        dispatch('delete');
-        dispatch('close')
-    }
-
-</script>
-
-<form on:submit|preventDefault|stopPropagation={handleSubmit}>
-    <div class="itemname">
-        <input
-            id="itemname"
-            required
-            type="text"
-            bind:value={item.name}
-            placeholder="Enter item name"
-        />
-    </div>
-    <textarea
-        id="notes"
-        rows="4"
-        placeholder="Notes"
-        bind:value={item.notes}
-    />
-    <div class="actions">
-        <!-- 
-            For some reason pressing enter in the itemname input would fire the cancel button.
-            Set form=donothing (a non-existing form) fixes it. Moving the cancel button after submit works also.
-        -->
-        <button on:click|preventDefault|stopPropagation={handleClose} form="noform">
-            <i class="fas fa-times" />
-        </button>
-        <button type="submit">
-            <i class="fas fa-check" />
-        </button>
-    </div>
-    <Button on:click={handleDelete} style="color: #333;">Delete this item permanently</Button>
-</form>

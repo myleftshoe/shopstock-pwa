@@ -2,7 +2,16 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy, tick } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete, newItem } from './store'
+    import {
+        masterItems,
+        textify,
+        htmlify,
+        smartFilter,
+        hasQty,
+        complete,
+        isComplete,
+        newItem,
+    } from './store'
     import Keypad, { NUMERIC, UNIT } from './keypad'
     import Items from './items.svelte'
     import Item from './item.svelte'
@@ -12,7 +21,6 @@
     import Dialog from './dialog.svelte'
     import Search from './search.svelte'
 
-
     let editItem = false
 
     let selectedItem = {}
@@ -20,35 +28,34 @@
     let keypadType = NUMERIC
     let keypadVisible = false
 
-    let copied = false;
+    let copied = false
 
-    let dialog = null;
+    let dialog = null
 
-    let searchValue = "";
-
+    let searchValue = ''
 
     onMount(async () => {
-        document.addEventListener('copy', copyAsText);
+        document.addEventListener('copy', copyAsText)
         masterItems.getOrFetch($isComplete)
-    });
-    
+    })
+
     onDestroy(() => {
-        document.removeEventListener('copy', copyAsText);        
+        document.removeEventListener('copy', copyAsText)
     })
 
     function copyAsText(e) {
-        e.preventDefault();
+        e.preventDefault()
         e.clipboardData.setData('text', textify(items))
     }
 
     function execCopy(e) {
         document.execCommand('copy')
-        copied = true;
-        setTimeout(() => copied = false, 2000)
+        copied = true
+        setTimeout(() => (copied = false), 2000)
         masterItems.cache().persist()
         complete(items)
         isComplete.set(true)
-    } 
+    }
 
     function handleQtyClick(e) {
         selectItem(e.detail.item)
@@ -61,10 +68,10 @@
         if (item.hidden === true) {
             const newItems = $masterItems.filter(_item => _item !== item)
             masterItems.update(newItems)
-            return;
+            return
         }
         item.hidden = true
-        updateItems();
+        updateItems()
     }
 
     function handleItemClick(e) {
@@ -72,11 +79,11 @@
     }
 
     function handleContextMenu(e) {
-        editItem = true;
+        editItem = true
     }
 
     function selectItem(item) {
-        selectedItem = item;
+        selectedItem = item
         ensureItemIsVisible(selectedItem)
     }
 
@@ -130,8 +137,7 @@
         }
         selectedItem.qty = String(qty)
 
-        if (selectedItem.qty)
-            delete selectedItem.hidden
+        if (selectedItem.qty) delete selectedItem.hidden
 
         updateItems()
     }
@@ -145,7 +151,7 @@
     }
 
     function ensureItemIsVisible(item) {
-        if (!keypadVisible) return;
+        if (!keypadVisible) return
         const elementBottom = document
             .getElementById(item.id)
             .getBoundingClientRect().bottom
@@ -167,7 +173,6 @@
     function findItemById(id) {
         return items.find(item => item.id === id)
     }
-
 
     function replaceItem(item) {
         items[findItemIndex(item)] = { ...item }
@@ -194,13 +199,12 @@
         masterItems.cache()
     }
 
-    function handleTouchStart(e) { 
+    function handleTouchStart(e) {
         const isQuantityElement =
             e.target.className.startsWith('quantity') ||
             e.target.parentElement.className.startsWith('quantity')
-        
-        if (keypadVisible && !isQuantityElement)
-            keypadVisible = false
+
+        if (keypadVisible && !isQuantityElement) keypadVisible = false
     }
 
     function handleAddClick() {
@@ -208,15 +212,16 @@
     }
 
     function handleDelete() {
-        const newItems = $masterItems.filter(item => item.id !== selectedItem.id)
+        const newItems = $masterItems.filter(
+            item => item.id !== selectedItem.id
+        )
         masterItems.update(newItems)
     }
 
     let main
-    let savedScrollPos;
+    let savedScrollPos
     function handleSearchFocus() {
-        if (!searchValue)
-            savedScrollPos = main.scrollTop;
+        if (!searchValue) savedScrollPos = main.scrollTop
     }
 
     async function handleSearchClear() {
@@ -225,7 +230,6 @@
     }
 
     $: items = smartFilter($masterItems, searchValue)
-
 </script>
 
 {#if !items}
@@ -242,11 +246,15 @@
     <div on:touchstart|stopPropagation={handleTouchStart}>
         <header>
             <div class="left">
-                <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear}/>
+                <Search
+                    bind:value={searchValue}
+                    on:focus={handleSearchFocus}
+                    on:clear={handleSearchClear}
+                />
                 <!-- {#if searchValue.length}
                     <button on:click={() => searchValue=""}>clear</button>
                 {/if} -->
-            </div>        
+            </div>
             <div class="right">
                 {#if !items.length && searchValue.length > 3}
                     <button on:click={handleAddClick}>add</button>
@@ -270,8 +278,12 @@
             />
             <footer>
                 {#if !searchValue}
-                    <Button primary on:click={execCopy} disabled={copied}>{copied ? `Copied ${items.filter(hasQty).length} items!` : 'Complete'}</Button>
-                    <Button on:click={startOver} style="margin-top:24px">Start over</Button>
+                    <Button primary on:click={execCopy} disabled={copied}>
+                        {copied ? `Copied ${items.filter(hasQty).length} items!` : 'Complete'}
+                    </Button>
+                    <Button on:click={startOver} style="margin-top:24px">
+                        Start over
+                    </Button>
                 {/if}
             </footer>
         </main>
@@ -288,65 +300,63 @@
         on:click={handleKeypadClick}
         on:open={handleKeypadOpen}
     />
-
 {/if}
 
 <!-- <svelte:body on:touchstart|stopPropagation|capture={handleTouchStart}/> -->
 
-
 <style>
     main {
         position: fixed;
-        top:48px;
+        top: 48px;
         display: flex;
         flex-direction: column;
         width: 100vw;
-        height: calc( 100vh - 48px );
+        height: calc(100vh - 48px);
         overflow-y: scroll;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
     }
     header {
         position: fixed;
-        top:0;
-        width:100vw;
-        display:flex;
+        top: 0;
+        width: 100vw;
+        display: flex;
         justify-content: space-between;
         align-items: center;
-        height:48px;
+        height: 48px;
         font-weight: bolder;
         text-transform: uppercase;
-        z-index:100;
-        background-color:#000;
-        color:#fff;
+        z-index: 100;
+        background-color: #000;
+        color: #fff;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
     }
     header button {
-        width:100%;
+        width: 100%;
         padding: 2px 8px;
-        border:none;
-        outline:none;
+        border: none;
+        outline: none;
         font-weight: inherit;
         text-transform: inherit;
-        background-color:transparent;
+        background-color: transparent;
         color: #ddd;
     }
     header button:active {
-        background-color:gray;
+        background-color: gray;
         color: #ddd;
         padding: 16px;
     }
     .left {
         flex: 100%;
-        display:flex;
+        display: flex;
         align-items: center;
         margin-left: 8px;
     }
     .right {
-        width:30vw;
-        display:flex;
+        width: 30vw;
+        display: flex;
         justify-content: center;
     }
     footer {
@@ -357,9 +367,4 @@
         align-items: center;
         justify-content: center;
     }
-    a {
-        color: white;
-    }
 </style>
-
-

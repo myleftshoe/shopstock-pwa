@@ -8,7 +8,7 @@ class Cache {
         return data
     }
     set(data) {
-        localStorage.setItem(this.key, JSON.stringify(data))      
+        localStorage.setItem(this.key, JSON.stringify(data))
     }
 }
 

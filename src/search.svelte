@@ -2,7 +2,7 @@
     import { onMount, onDestroy } from 'svelte'
     import debounce from 'lodash-es/debounce'
     import { createEventDispatcher } from 'svelte'
-    
+
     const dispatch = createEventDispatcher()
 
     export let value = ''
@@ -25,20 +25,21 @@
 
     function handleClick() {
         if (value) {
-            value = "";
-            input.value = ""
-        }
-        else {
+            value = ''
+            input.value = ''
+        } else {
             input.focus()
         }
     }
 
     $: if (!value) dispatch('clear')
-    
 </script>
 
 <div style="width:50px">
-    <i class={value ? "fas fa-arrow-left" : "fas fa-search"} on:click={handleClick} />
+    <i
+        class={value ? 'fas fa-arrow-left' : 'fas fa-search'}
+        on:click={handleClick}
+    />
 </div>
 
 <input
