@@ -79,10 +79,11 @@
     }
 
     function handleItemClick(e) {
-        if (e.detail.item === selectedItem && !keypadVisible) {
-            editItem = true
-        }
         selectItem(e.detail.item)
+    }
+
+    function handleContextMenu(e) {
+        editItem = true;
     }
 
     function selectItem(item) {
@@ -276,6 +277,7 @@
                 on:itemclick={handleItemClick}
                 on:qtyclick={handleQtyClick}
                 on:hide={handleHideClick}
+                on:contextmenu={handleContextMenu}
             />
             <footer>
                 {#if !searchValue}

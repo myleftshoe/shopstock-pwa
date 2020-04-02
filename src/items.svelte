@@ -15,6 +15,6 @@
 </script>
 <div  use:swipeToDelete={".row"} on:swipecomplete={handleSwipeToDelete}>
     {#each items as item (item.id)}
-        <Item {item} selected={selectedItem === item} on:itemclick on:qtyclick on:hideclick/>
+        <Item {item} selected={selectedItem === item} on:itemclick on:qtyclick on:hideclick on:contextmenu/>
     {/each}
 </div>

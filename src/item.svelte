@@ -64,6 +64,7 @@
     class:selected 
     on:click={handleItemClick}
     style={item.hidden && 'opacity: .7'}
+    on:contextmenu|preventDefault
 >
     <div class="item">
         <div>{item.name}</div>
