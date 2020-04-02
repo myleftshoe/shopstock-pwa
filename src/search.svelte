@@ -38,12 +38,13 @@
 </script>
 
 <div style="width:50px">
-    <i class={value ? "fas fa-times" : "fas fa-search"} on:click={handleClick} />
+    <i class={value ? "fas fa-arrow-left" : "fas fa-search"} on:click={handleClick} />
 </div>
 
 <input
     bind:this={input}
     type="text"
+    autocapitalize="none"
     {placeholder}
     on:focus={handleFocus}
     on:blur={hidePlaceholder}

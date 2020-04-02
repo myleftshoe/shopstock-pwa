@@ -1,24 +1,20 @@
 <script>
-	import { quintOut } from 'eases-jsnext';
-	// import { flip } from 'svelte/animate';
+    import { createEventDispatcher } from 'svelte'
+    import {swipeToDelete} from './swipe-to-delete.js'
     import Item from './item.svelte'
+
     export let items = []
     export let selectedItem
-    export let editMode = false;
 
-    function flip(node, animation, params) {
-        const dy = animation.from.top - animation.to.top;
-        const d = Math.sqrt(dy * dy);
+    const dispatch = createEventDispatcher();
 
-        return {
-            duration: Math.sqrt(d) * 80,
-            easing: quintOut,
-            css: (t, u) => `transform: translateY(${u * dy}px)`
-        };
+    function handleSwipeToDelete(e) {
+        dispatch('hide', { id: e.detail.element.id })
     }
 
 </script>
-
-{#each items as item (item.id)}
-    <Item {item} selected={selectedItem === item} on:itemclick on:qtyclick {editMode} on:hideclick/>
-{/each}
+<div  use:swipeToDelete={".row"} on:swipecomplete={handleSwipeToDelete}>
+    {#each items as item (item.id)}
+        <Item {item} selected={selectedItem === item} on:itemclick on:qtyclick on:hideclick/>
+    {/each}
+</div>

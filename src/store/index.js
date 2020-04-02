@@ -120,9 +120,9 @@ function smartFilter(items, searchValue) {
     let _items = [...items];
     if (!searchValue)
         _items = items.filter(notHidden)
-    if (searchValue.startsWith('-')) {
+    if (searchValue.startsWith('...')) {
         _items = items.filter(hidden)
-        searchValue = searchValue.substr(1)
+        searchValue = searchValue.substr(3)
     }
     if (searchValue) {
         if (searchValue.length < 3)

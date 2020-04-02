@@ -25,7 +25,6 @@
     }
 
     let editItem = false
-    let editMode = false;
 
     let selectedItem = {}
 
@@ -63,19 +62,19 @@
     } 
 
     function handleQtyClick(e) {
-        selectedItem = e.detail.item
+        selectItem(e.detail.item)
         keypadType = NUMERIC
         keypadVisible = true
     }
 
     function handleHideClick(e) {
-        selectedItem = e.detail.item
-        selectedItem.hidden = !selectedItem.hidden;
-        updateItems();
-    }
-
-    function handleDoneClick(e) {
-        editMode = false;
+        const item = findItemById(e.detail.id)
+        if (item.hidden === true) {
+            const newItems = $masterItems.filter(_item => _item !== item)
+            masterItems.update(newItems)
+            return;
+        }
+        item.hidden = true
         updateItems();
     }
 
@@ -83,7 +82,12 @@
         if (e.detail.item === selectedItem && !keypadVisible) {
             editItem = true
         }
-        selectedItem = e.detail.item
+        selectItem(e.detail.item)
+    }
+
+    function selectItem(item) {
+        selectedItem = item;
+        ensureItemIsVisible(selectedItem)
     }
 
     function updateItems() {
@@ -146,11 +150,12 @@
         scrollTo({
             container: '#container',
             element: `#${item.id}`,
-            offset: -200,
+            offset: -100,
         })
     }
 
     function ensureItemIsVisible(item) {
+        if (!keypadVisible) return;
         const elementBottom = document
             .getElementById(item.id)
             .getBoundingClientRect().bottom
@@ -168,6 +173,11 @@
     function findItemIndex(itemToFind) {
         return items.findIndex(item => item.id === itemToFind.id)
     }
+
+    function findItemById(id) {
+        return items.find(item => item.id === id)
+    }
+
 
     function replaceItem(item) {
         items[findItemIndex(item)] = { ...item }
@@ -239,7 +249,7 @@
             on:delete={handleDelete}
         />
     {/if}
-    <div on:touchstart|stopPropagation|capture={handleTouchStart}>
+    <div on:touchstart|stopPropagation={handleTouchStart}>
         <header>
             <div class="left">
                 <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear}/>
@@ -248,13 +258,7 @@
                 {/if} -->
             </div>        
             <div class="right">
-                {#if items.length}
-                    {#if editMode}
-                        <button on:click={handleDoneClick}>done</button>
-                    {:else}
-                        <button on:click={() => editMode = true}>edit</button>
-                    {/if}
-                {:else}
+                {#if !items.length && searchValue.length > 3}
                     <button on:click={handleAddClick}>add</button>
                 {/if}
 
@@ -271,8 +275,7 @@
                 {selectedItem}
                 on:itemclick={handleItemClick}
                 on:qtyclick={handleQtyClick}
-                on:hideclick={handleHideClick}
-                {editMode}
+                on:hide={handleHideClick}
             />
             <footer>
                 {#if !searchValue}
