@@ -2,7 +2,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy, tick } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete } from './store'
+    import { masterItems, textify, htmlify, smartFilter, hasQty, complete, isComplete, newItem } from './store'
     import Keypad, { NUMERIC, UNIT } from './keypad'
     import Items from './items.svelte'
     import Item from './item.svelte'
@@ -11,18 +11,7 @@
     import Button from './button.svelte'
     import Dialog from './dialog.svelte'
     import Search from './search.svelte'
-    import UID, { alpha } from './utils/uid.js';
 
-
-    const newItem = (name) => {
-        const id = new UID({charset: alpha}).value
-        return {
-            id,
-            name,
-            qty: "",
-            unit: ""
-        }
-    }
 
     let editItem = false
 
