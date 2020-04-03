@@ -2,16 +2,12 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy, tick } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import {
-        masterItems,
-        textify,
-        htmlify,
-        smartFilter,
-        hasQty,
-        complete,
-        isComplete,
-        newItem,
-    } from './store'
+    import masterItems, { filter, keep, discard, textify } from './store'
+    import { isComplete } from './store'
+
+    // import {
+    //     // textify,
+    // } from './store'
     import Keypad, { NUMERIC, UNIT } from './keypad'
     import Items from './items.svelte'
     import Item from './item.svelte'
@@ -34,9 +30,10 @@
 
     let searchValue = ''
 
-    onMount(async () => {
+    onMount(() => {
         document.addEventListener('copy', copyAsText)
-        masterItems.getOrFetch($isComplete)
+        masterItems.load()
+        console.log($isComplete)
     })
 
     onDestroy(() => {
@@ -91,6 +88,7 @@
         if ($isComplete) {
             isComplete.set(false)
         }
+        console.log('1111')
         masterItems.update($masterItems).cache()
     }
 
@@ -208,14 +206,11 @@
     }
 
     function handleAddClick() {
-        masterItems.update([...$masterItems, newItem(searchValue)])
+        masterItems.add({name: searchValue})
     }
 
     function handleDelete() {
-        const newItems = $masterItems.filter(
-            item => item.id !== selectedItem.id
-        )
-        masterItems.update(newItems)
+        masterItems.remove(selectedItem)
     }
 
     let main
@@ -229,7 +224,7 @@
         main.scrollTop = savedScrollPos
     }
 
-    $: items = smartFilter($masterItems, searchValue)
+    $: items = filter($masterItems, searchValue)
 </script>
 
 {#if !items}
@@ -279,7 +274,7 @@
             <footer>
                 {#if !searchValue}
                     <Button primary on:click={execCopy} disabled={copied}>
-                        {copied ? `Copied ${items.filter(hasQty).length} items!` : 'Complete'}
+                        {copied ? `Copied ${items.filter(keep.validQuantities).length} items!` : 'Complete'}
                     </Button>
                     <Button on:click={startOver} style="margin-top:24px">
                         Start over
