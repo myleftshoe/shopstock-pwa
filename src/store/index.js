@@ -1,4 +1,4 @@
-export { filter, keep, discard } from './items.js'
+export { filter, keep, discard, textify, htmlify } from './items.js'
 import items from './items.js'
 export default items;
 
