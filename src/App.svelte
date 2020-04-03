@@ -4,10 +4,6 @@
     import { scrollTo } from 'svelte-scrollto'
     import masterItems, { filter, keep, discard, textify } from './store'
     import { isComplete } from './store'
-
-    // import {
-    //     // textify,
-    // } from './store'
     import Keypad, { NUMERIC, UNIT } from './keypad'
     import Items from './items.svelte'
     import Item from './item.svelte'

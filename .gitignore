@@ -6,3 +6,4 @@ tmp
 .env
 secrets.js
 scripts/jsonbin.create
+utils
