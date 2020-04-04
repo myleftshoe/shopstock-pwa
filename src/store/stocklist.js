@@ -2,6 +2,7 @@ import { writable, get } from 'svelte/store';
 import UID, { alpha } from '../utils/uid.js';
 import Cache from './cache.js'
 import Jsonbin from './jsonbin.js'
+import { isComplete } from './complete.js'
 
 const LOCAL_STORAGE_KEY = 'items'
 const JSONBIN_ID = '5e729cb6d3ffb01648aa44c6'
@@ -34,6 +35,15 @@ store.add = (itemToAdd = {}) => store.set([...store.get(), {
 }])
 
 store.remove = (itemToRemove = {}) => store.set(store.get().filter(item => item !== itemToRemove))
+
+store.isComplete = get(isComplete);
+
+Object.defineProperty(store, 'isComplete', {
+    get() { return get(isComplete) },
+    set(boolean) { isComplete.set(boolean) },
+  });
+
+
 
 const reset = item => ({ id: new UID({ charset: alpha }).value, ...item, qty: '' })
 

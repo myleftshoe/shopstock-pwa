@@ -1,5 +1,4 @@
-export { filter, keep, discard, textify, htmlify } from './items.js'
-import items from './items.js'
+export { filter, keep, discard, textify, htmlify } from './stocklist.js'
+import items from './stocklist.js'
 export default items;
 
-export { isComplete } from './complete.js'

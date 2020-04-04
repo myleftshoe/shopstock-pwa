@@ -2,8 +2,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy, tick } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import masterItems, { filter, keep, discard, textify } from './store'
-    import { isComplete } from './store'
+    import stocklist, { filter, keep, discard, textify } from './store'
     import Keypad, { NUMERIC, UNIT } from './keypad'
     import Items from './items.svelte'
     import Item from './item.svelte'
@@ -28,8 +27,9 @@
 
     onMount(() => {
         document.addEventListener('copy', copyAsText)
-        masterItems.load()
-        console.log($isComplete)
+        stocklist.load()
+        stocklist.isComplete = true
+        console.log(stocklist.isComplete)
     })
 
     onDestroy(() => {
@@ -45,9 +45,9 @@
         document.execCommand('copy')
         copied = true
         setTimeout(() => (copied = false), 2000)
-        masterItems.cache().persist()
+        stocklist.cache().persist()
         complete(items)
-        isComplete.set(true)
+        stocklist.isComplete.set(true)
     }
 
     function handleQtyClick(e) {
@@ -59,8 +59,8 @@
     function handleHideClick(e) {
         const item = findItemById(e.detail.id)
         if (item.hidden === true) {
-            const newItems = $masterItems.filter(_item => _item !== item)
-            masterItems.update(newItems)
+            const newItems = $stocklist.filter(_item => _item !== item)
+            stocklist.update(newItems)
             return
         }
         item.hidden = true
@@ -81,11 +81,11 @@
     }
 
     function updateItems() {
-        if ($isComplete) {
-            isComplete.set(false)
+        if (stocklist.isComplete) {
+            stocklist.isComplete.set(false)
         }
         console.log('1111')
-        masterItems.update($masterItems).cache()
+        stocklist.update($stocklist).cache()
     }
 
     function handleKeypadClick(e) {
@@ -184,13 +184,13 @@
     }
 
     function startOver() {
-        // don't set isComplete to false until item is edited
-        // isComplete.set(false)
+        // don't set stocklist.isComplete to false until item is edited
+        // stocklist.isComplete.set(false)
         // Clear quantities first in case offline, then force
-        // fetch latest masterItems by passing isComplete true
-        masterItems.clearQuantities()
-        masterItems.getOrFetch(true)
-        masterItems.cache()
+        // fetch latest stocklist by passing stocklist.isComplete true
+        stocklist.clearQuantities()
+        stocklist.getOrFetch(true)
+        stocklist.cache()
     }
 
     function handleTouchStart(e) {
@@ -202,11 +202,11 @@
     }
 
     function handleAddClick() {
-        masterItems.add({name: searchValue})
+        stocklist.add({name: searchValue})
     }
 
     function handleDelete() {
-        masterItems.remove(selectedItem)
+        stocklist.remove(selectedItem)
     }
 
     let main
@@ -220,7 +220,7 @@
         main.scrollTop = savedScrollPos
     }
 
-    $: items = filter($masterItems, searchValue)
+    $: items = filter($stocklist, searchValue)
 </script>
 
 {#if !items}
