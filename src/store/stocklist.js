@@ -46,7 +46,7 @@ Object.defineProperty(store, 'isComplete', {
 store.filter = function(searchValue) {
     let items = store.get()
     if (!items || !items.length) 
-        return;
+        return items;
     if (!searchValue)
         items = items.filter(discard.hidden)
     if (searchValue.startsWith('...')) {
