@@ -3,7 +3,6 @@ import UID, { alpha } from '../utils/uid.js';
 import Cache from './cache.js'
 import Jsonbin from './jsonbin.js'
 import { isComplete } from './complete.js'
-import { toArray } from 'lodash-es';
 
 const LOCAL_STORAGE_KEY = 'items'
 const JSONBIN_ID = '5e729cb6d3ffb01648aa44c6'
@@ -37,9 +36,17 @@ store.add = (itemToAdd = {}) => store.set([...store.get(), {
 
 store.remove = (itemToRemove = {}) => store.set(store.get().filter(item => item !== itemToRemove))
 
-store.refresh = () => store.set([...store.get()])
+store.update = (items = [...store.get()]) => {
+    store.isComplete = false;
+    store.set(items)
+    cache.set(items);
+}
 
-store.isComplete = get(isComplete);
+store.reset = () => store.set(store.get().map(reset))
+
+store.complete = () => {
+    store.isComplete = true;
+}
 
 Object.defineProperty(store, 'isComplete', {
     get() { return get(isComplete) },
@@ -102,8 +109,8 @@ const by = {
 
 // conversion functions
 const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /, '');
-const textify = items => items.filter(hasQty).map(textifyItem).join('\r\n')
-const htmlify = items => items.filter(hasQty).map(textifyItem).join('<br>')
+const textify = items => items.filter(keep.validQuantities).map(textifyItem).join('\r\n')
+const htmlify = items => items.filter(keep.validQuantities).map(textifyItem).join('<br>')
 
 
 export default store

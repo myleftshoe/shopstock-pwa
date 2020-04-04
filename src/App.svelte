@@ -43,9 +43,7 @@
         document.execCommand('copy')
         copied = true
         setTimeout(() => (copied = false), 2000)
-        stocklist.cache().persist()
-        complete(items)
-        stocklist.isComplete = true
+        stocklist.complete()
     }
 
     function handleQtyClick(e) {
@@ -79,9 +77,7 @@
     }
 
     function updateItems() {
-        stocklist.isComplete = false
-        stocklist.refresh()
-        // stocklist.update($stocklist).cache()
+        stocklist.update()
     }
 
     function handleKeypadClick(e) {
@@ -169,12 +165,11 @@
 
     function startOver() {
         // don't set stocklist.isComplete to false until item is edited
-        // stocklist.isComplete.set(false)
+        // stocklist.isComplete = false
         // Clear quantities first in case offline, then force
         // fetch latest stocklist by passing stocklist.isComplete true
-        stocklist.clearQuantities()
-        stocklist.getOrFetch(true)
-        stocklist.cache()
+        stocklist.reset()
+        stocklist.load(false)
     }
 
     function handleTouchStart(e) {
