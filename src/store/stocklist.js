@@ -37,6 +37,8 @@ store.add = (itemToAdd = {}) => store.set([...store.get(), {
 
 store.remove = (itemToRemove = {}) => store.set(store.get().filter(item => item !== itemToRemove))
 
+store.refresh = () => store.set([...store.get()])
+
 store.isComplete = get(isComplete);
 
 Object.defineProperty(store, 'isComplete', {

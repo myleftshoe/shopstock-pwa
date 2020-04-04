@@ -45,7 +45,7 @@
         setTimeout(() => (copied = false), 2000)
         stocklist.cache().persist()
         complete(items)
-        stocklist.isComplete.set(true)
+        stocklist.isComplete = true
     }
 
     function handleQtyClick(e) {
@@ -79,10 +79,8 @@
     }
 
     function updateItems() {
-        if (stocklist.isComplete) {
-            stocklist.isComplete = false
-        }
-        stocklist.set($stocklist)
+        stocklist.isComplete = false
+        stocklist.refresh()
         // stocklist.update($stocklist).cache()
     }
 
