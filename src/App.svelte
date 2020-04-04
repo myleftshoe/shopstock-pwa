@@ -2,7 +2,7 @@
     import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy, tick } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
-    import stocklist, { filter, keep, discard, textify } from './store'
+    import stocklist, { keep, discard, textify } from './store'
     import Keypad, { NUMERIC, UNIT } from './keypad'
     import Items from './items.svelte'
     import Item from './item.svelte'
@@ -220,7 +220,7 @@
         main.scrollTop = savedScrollPos
     }
 
-    $: items = filter($stocklist, searchValue)
+    $: items = stocklist.filter(searchValue)
 </script>
 
 {#if !items}

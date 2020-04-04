@@ -1,4 +1,4 @@
-export { filter, keep, discard, textify, htmlify } from './stocklist.js'
+export { keep, discard, textify, htmlify } from './stocklist.js'
 import items from './stocklist.js'
 export default items;
 

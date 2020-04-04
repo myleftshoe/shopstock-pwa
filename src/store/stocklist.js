@@ -41,7 +41,26 @@ store.isComplete = get(isComplete);
 Object.defineProperty(store, 'isComplete', {
     get() { return get(isComplete) },
     set(boolean) { isComplete.set(boolean) },
-  });
+});
+
+store.filter = function(searchValue) {
+    let items = store.get()
+    if (!items || !items.length) 
+        return;
+    if (!searchValue)
+        items = items.filter(discard.hidden)
+    if (searchValue.startsWith('...')) {
+        items = items.filter(keep.hidden)
+        searchValue = searchValue.substr(3)
+    }
+    if (searchValue) {
+        if (searchValue.length < 3)
+            items = items.filter(keep.namesStartingWith(searchValue))
+        else
+            items = items.filter(keep.namesWith(searchValue))
+    }
+    return items.sort(by.name)
+}
 
 
 
@@ -65,32 +84,12 @@ const by = {
 }
 
 // conversion functions
-const filter = function(items, searchValue) {
-    if (!items || !items.length) 
-        return items;
-    let _items = [...items];
-    if (!searchValue)
-        _items = items.filter(discard.hidden)
-    if (searchValue.startsWith('...')) {
-        _items = items.filter(keep.hidden)
-        searchValue = searchValue.substr(3)
-    }
-    if (searchValue) {
-        if (searchValue.length < 3)
-            _items = _items.filter(keep.namesStartingWith(searchValue))
-        else
-            _items = _items.filter(keep.namesWith(searchValue))
-    }
-    return _items.sort(by.name)
-}
-
-// conversion functions
 const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /, '');
 const textify = items => items.filter(hasQty).map(textifyItem).join('\r\n')
 const htmlify = items => items.filter(hasQty).map(textifyItem).join('<br>')
 
 
 export default store
-export { filter, keep, discard, textify, htmlify }
+export { keep, discard, textify, htmlify }
 
 
