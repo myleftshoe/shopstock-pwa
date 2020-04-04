@@ -43,8 +43,16 @@ Object.defineProperty(store, 'isComplete', {
     set(boolean) { isComplete.set(boolean) },
 });
 
+Object.defineProperty(store, 'completedItems', {
+    get() { 
+        return [...store.get()].filter(keep.validQuantities)
+    },
+    set() { throw 'Cannot assign to property completedItems'},
+});
+
 store.filter = function(searchValue) {
-    let items = store.get()
+    let items = [...store.get()]
+    console.log(items)
     if (!items || !items.length) 
         return items;
     if (!searchValue)

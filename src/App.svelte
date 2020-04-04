@@ -28,8 +28,6 @@
     onMount(() => {
         document.addEventListener('copy', copyAsText)
         stocklist.load()
-        stocklist.isComplete = true
-        console.log(stocklist.isComplete)
     })
 
     onDestroy(() => {
@@ -38,7 +36,7 @@
 
     function copyAsText(e) {
         e.preventDefault()
-        e.clipboardData.setData('text', textify(items))
+        e.clipboardData.setData('text', textify(stocklist.completedItems))
     }
 
     function execCopy(e) {
@@ -85,7 +83,8 @@
             stocklist.isComplete.set(false)
         }
         console.log('1111')
-        stocklist.update($stocklist).cache()
+        stocklist.set($stocklist)
+        // stocklist.update($stocklist).cache()
     }
 
     function handleKeypadClick(e) {
@@ -220,7 +219,7 @@
         main.scrollTop = savedScrollPos
     }
 
-    $: items = stocklist.filter(searchValue)
+    $: items = $stocklist.length && stocklist.filter(searchValue)
 </script>
 
 {#if !items}
@@ -270,7 +269,7 @@
             <footer>
                 {#if !searchValue}
                     <Button primary on:click={execCopy} disabled={copied}>
-                        {copied ? `Copied ${items.filter(keep.validQuantities).length} items!` : 'Complete'}
+                        {copied ? `Copied ${stocklist.completedItems.length} items!` : 'Complete'}
                     </Button>
                     <Button on:click={startOver} style="margin-top:24px">
                         Start over
