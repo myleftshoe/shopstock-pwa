@@ -3,6 +3,7 @@ import UID, { alpha } from '../utils/uid.js';
 import Cache from './cache.js'
 import Jsonbin from './jsonbin.js'
 import { isComplete } from './complete.js'
+import { toArray } from 'lodash-es';
 
 const LOCAL_STORAGE_KEY = 'items'
 const JSONBIN_ID = '5e729cb6d3ffb01648aa44c6'
@@ -70,6 +71,12 @@ store.filter = function(searchValue) {
     return items.sort(by.name)
 }
 
+
+store.findItemIndex = itemToFind => store.get().findIndex(item => item.id === itemToFind.id)
+
+store.findItemById = id => store.get().find(item => item.id === id)
+
+store.replaceItem = item => store.get()[store.findItemIndex(item)] = { ...item }
 
 
 const reset = item => ({ id: new UID({ charset: alpha }).value, ...item, qty: '' })

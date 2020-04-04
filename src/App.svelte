@@ -55,7 +55,7 @@
     }
 
     function handleHideClick(e) {
-        const item = findItemById(e.detail.id)
+        const item = stocklist.findItemById(e.detail.id)
         if (item.hidden === true) {
             const newItems = $stocklist.filter(_item => _item !== item)
             stocklist.update(newItems)
@@ -80,9 +80,8 @@
 
     function updateItems() {
         if (stocklist.isComplete) {
-            stocklist.isComplete.set(false)
+            stocklist.isComplete = false
         }
-        console.log('1111')
         stocklist.set($stocklist)
         // stocklist.update($stocklist).cache()
     }
@@ -159,21 +158,9 @@
         ensureItemIsVisible(selectedItem)
     }
 
-    function findItemIndex(itemToFind) {
-        return items.findIndex(item => item.id === itemToFind.id)
-    }
-
-    function findItemById(id) {
-        return items.find(item => item.id === id)
-    }
-
-    function replaceItem(item) {
-        items[findItemIndex(item)] = { ...item }
-    }
-
     function handleEditItemDone(e) {
         selectedItem = { ...e.detail.item }
-        replaceItem(selectedItem)
+        stocklist.replaceItem(selectedItem)
         updateItems()
         editItem = false
     }
