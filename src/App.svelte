@@ -56,10 +56,10 @@
     function handleHideClick(e) {
         const item = stocklist.findItemById(e.detail.id)
         if (item.hidden === true) {
-            const newItems = $stocklist.filter(_item => _item !== item)
-            stocklist.update(newItems)
-            return
+            stocklist.remove(item)
+            return;
         }
+        
         item.hidden = true
         updateItems()
     }
@@ -116,8 +116,8 @@
     }
 
     function handleEditItemDone(e) {
-        selectedItem = { ...e.detail.item }
-        stocklist.replaceItem(selectedItem)
+        // selectedItem = { ...e.detail.item }
+        // stocklist.replaceItem(selectedItem)
         updateItems()
         editItem = false
     }
