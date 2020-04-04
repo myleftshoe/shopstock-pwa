@@ -11,6 +11,7 @@
     import Button from './button.svelte'
     import Dialog from './dialog.svelte'
     import Search from './search.svelte'
+    import handleKeypress from './handleKeypress'
 
     let editItem = false
 
@@ -82,49 +83,11 @@
 
     function handleKeypadClick(e) {
         const { type, key } = e.target.dataset
-
-        let stop = true
-        switch (type) {
-            case 'header':
-                keypadType = keypadType === NUMERIC ? UNIT : NUMERIC
-                return
-            case 'unit':
-                selectedItem.unit = key
-                break
-            case 'fraction':
-                selectedItem.qty = key
-                break
-            case 'clear':
-                selectedItem.qty = ''
-                selectedItem.unit = ''
-                break
-            default:
-                stop = false
-        }
-
-        if (stop) {
-            updateItems()
+        if (type === 'header') {
+            keypadType = keypadType === NUMERIC ? UNIT : NUMERIC
             return
         }
-
-        let qty = Number(selectedItem.qty)
-        if (isNaN(qty)) return
-
-        switch (type) {
-            case 'increment':
-                qty++
-                break
-            case 'decrement':
-                qty = qty < 2 ? 0 : qty - 1
-                break
-            case 'number':
-                qty = Number(`${qty}${key}`)
-                break
-        }
-        selectedItem.qty = String(qty)
-
-        if (selectedItem.qty) delete selectedItem.hidden
-
+        handleKeypress({ type, key }, selectedItem)
         updateItems()
     }
 
@@ -181,7 +144,7 @@
     }
 
     function handleAddClick() {
-        stocklist.add({name: searchValue})
+        stocklist.add({ name: searchValue })
     }
 
     function handleDelete() {
