@@ -12,19 +12,13 @@
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
 
+    let copied = false
     let editItem = false
-
+    let keypadType = NUMERIC
+    let searchValue = ''
     let selectedItem = {}
 
-    let keypadType = NUMERIC
-
-    let copied = false
-
-    let searchValue = ''
-
-    onMount(() => {
-        stocklist.load()
-    })
+    onMount(stocklist.load)
 
     function copyToClipboard() {
         clipboard.copy(textify(stocklist.completedItems))
