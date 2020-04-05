@@ -50,7 +50,7 @@
 
     function selectItem(item) {
         selectedItem = item
-        ensureItemIsVisible(selectedItem)
+        autoscroll(selectedItem)
     }
 
     function updateItems() {
@@ -67,15 +67,9 @@
         updateItems()
     }
 
-    function itemIsUnderKeypad(item) {
-        const itemBottom = document.getElementById(item.id).getBoundingClientRect().bottom
-        const keypadTop = document.getElementById('keypad').getBoundingClientRect().top
-        return itemBottom > keypadTop
-    }
-
-    function ensureItemIsVisible(item) {
+    function autoscroll(item) {
         if (!keypad.isVisible) return
-        if (itemIsUnderKeypad(item)) {
+        if (keypad.isOverElement(item.id)) {
             scrollTo({
                 container: '#container',
                 element: `#${item.id}`,
@@ -85,7 +79,7 @@
     }
 
     function handleKeypadOpen() {
-        ensureItemIsVisible(selectedItem)
+        autoscroll(selectedItem)
     }
 
     function handleEditItemDone(e) {
@@ -104,8 +98,7 @@
 
     function handleTouchStart(e) {
         const isQuantityElement = e.target.closest(".quantity")
-        if (keypad.isVisible && !isQuantityElement) 
-            keypad.close()
+        if (!isQuantityElement) keypad.close()
     }
 
     function handleAddClick() {

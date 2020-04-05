@@ -21,6 +21,11 @@
         set type(type) {
             _type.set(type)
         },
+        isOverElement(elementId) {
+            const elementBottom = document.getElementById(elementId).getBoundingClientRect().bottom
+            const keypadTop = document.getElementById('keypad').getBoundingClientRect().top
+            return elementBottom > keypadTop
+        }
     }
     const visible = writable(false)
     const _type = writable(NUMERIC)
