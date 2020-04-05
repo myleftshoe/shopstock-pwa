@@ -37,7 +37,6 @@
             stocklist.remove(item)
             return;
         }
-        
         item.hidden = true
         updateItems()
     }
