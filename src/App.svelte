@@ -1,5 +1,4 @@
 <script>
-    import dialogPolyfill from 'dialog-polyfill'
     import { onMount, onDestroy, tick } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import stocklist, { keep, discard, textify } from './store'
@@ -9,7 +8,6 @@
     import Loader from './loader.svelte'
     import Edit from './edit.svelte'
     import Button from './button.svelte'
-    import Dialog from './dialog.svelte'
     import Search from './search.svelte'
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
@@ -21,8 +19,6 @@
     let keypadType = NUMERIC
 
     let copied = false
-
-    let dialog = null
 
     let searchValue = ''
 
@@ -209,12 +205,6 @@
                 {/if}
             </footer>
         </main>
-        <!-- <Dialog bind:dialog={dialog}
-            on:cancel={() => console.log('dialog cancel')} 
-            on:close={() => console.log('dialog closed')}
-        >
-            {@html htmlify(items)}
-        </Dialog> -->
     </div>
     <Keypad
         bind:type={keypadType}

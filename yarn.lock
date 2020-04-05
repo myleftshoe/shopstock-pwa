@@ -1131,11 +1131,6 @@ define-property@^2.0.2:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
 
-dialog-polyfill@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/dialog-polyfill/-/dialog-polyfill-0.5.0.tgz#bf67bc67abaf538e44fff80f2f71ff132befadd7"
-  integrity sha512-fOj68T8KB6UIsDFmK7zYbmORJMLYkRmtsLM1W6wbCVUWu4Hdcud5bqbvuueTxO84JXtK9HcpCHV9vNwlWUdCIw==
-
 eases-jsnext@^1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/eases-jsnext/-/eases-jsnext-1.0.10.tgz#384fcf75058093dc65d6a52afada56b9e1fd5c7d"
