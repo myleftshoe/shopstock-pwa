@@ -3,17 +3,16 @@
     import { scrollTo } from 'svelte-scrollto'
     import stocklist, { keep, discard, textify } from './store'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
+    import EditDialog, { editDialog } from './editDialog.svelte'
     import Items from './items.svelte'
     import Item from './item.svelte'
     import Loader from './loader.svelte'
-    import Edit from './edit.svelte'
     import Button from './button.svelte'
     import Search from './search.svelte'
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
 
     let copied = false
-    let editItem = false
     let searchValue = ''
     let selectedItem = {}
 
@@ -46,7 +45,7 @@
     }
 
     function handleContextMenu(e) {
-        editItem = true
+        editDialog.open()
     }
 
     function selectItem(item) {
@@ -98,11 +97,7 @@
         // selectedItem = { ...e.detail.item }
         // stocklist.replaceItem(selectedItem)
         updateItems()
-        editItem = false
-    }
-
-    function handleEditItemClose(e) {
-        editItem = false
+        editDialog.close()
     }
 
     function startOver() {
@@ -147,14 +142,11 @@
 {#if !items}
     <Loader />
 {:else}
-    {#if editItem}
-        <Edit
-            item={selectedItem}
-            on:done={handleEditItemDone}
-            on:close={handleEditItemClose}
-            on:delete={handleDelete}
-        />
-    {/if}
+    <EditDialog
+        item={selectedItem}
+        on:done={handleEditItemDone}
+        on:delete={handleDelete}
+    />
     <div on:touchstart|stopPropagation={handleTouchStart}>
         <header>
             <div class="left">
