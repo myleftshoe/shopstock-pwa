@@ -175,15 +175,11 @@
                     on:focus={handleSearchFocus}
                     on:clear={handleSearchClear}
                 />
-                <!-- {#if searchValue.length}
-                    <button on:click={() => searchValue=""}>clear</button>
-                {/if} -->
             </div>
             <div class="right">
                 {#if !items.length && searchValue.length > 3}
                     <button on:click={handleAddClick}>add</button>
                 {/if}
-
             </div>
         </header>
         <main
@@ -225,8 +221,6 @@
         on:open={handleKeypadOpen}
     />
 {/if}
-
-<!-- <svelte:body on:touchstart|stopPropagation|capture={handleTouchStart}/> -->
 
 <style>
     main {
