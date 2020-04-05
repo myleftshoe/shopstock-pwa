@@ -1,2 +1,2 @@
-export { default, NUMERIC, UNIT } from './keypad.svelte'
+export { default, keypad, NUMERIC, UNIT } from './keypad.svelte'
 

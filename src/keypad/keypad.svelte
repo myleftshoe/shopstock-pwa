@@ -28,15 +28,23 @@
 </style>
 
 <script context="module">
+    import { writable, get } from 'svelte/store'
     import NumericKeypad from './numeric-keypad.svelte'
     import UnitKeypad from './unit-keypad.svelte'
     export const NUMERIC = NumericKeypad
     export const UNIT = UnitKeypad
+    export const keypad = {
+        open() { visible.set(true) },
+        close() { visible.set(false)},
+        get isVisible() { return get(visible) }
+    }
+    const visible = writable(false)
+
 </script>
 
 <script>
     export let type = NUMERIC
-    export let visible = false
+    // export let visible = false
     import { createEventDispatcher } from 'svelte'
 
     let container
@@ -51,7 +59,7 @@
     id="keypad"
     bind:this={container}
     class="container"
-    class:hidden={!visible}
+    class:hidden={!$visible}
     on:click
     on:transitionend={handleTransitionEnd}
 >

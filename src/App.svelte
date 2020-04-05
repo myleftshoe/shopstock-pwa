@@ -3,7 +3,7 @@
     import { onMount, onDestroy, tick } from 'svelte'
     import { scrollTo } from 'svelte-scrollto'
     import stocklist, { keep, discard, textify } from './store'
-    import Keypad, { NUMERIC, UNIT } from './keypad'
+    import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
     import Items from './items.svelte'
     import Item from './item.svelte'
     import Loader from './loader.svelte'
@@ -19,7 +19,6 @@
     let selectedItem = {}
 
     let keypadType = NUMERIC
-    let keypadVisible = false
 
     let copied = false
 
@@ -41,7 +40,7 @@
     function handleQtyClick(e) {
         selectItem(e.detail.item)
         keypadType = NUMERIC
-        keypadVisible = true
+        keypad.open()
     }
 
     function handleHideClick(e) {
@@ -93,7 +92,7 @@
     }
 
     function ensureItemIsVisible(item) {
-        if (!keypadVisible) return
+        if (!keypad.isVisible) return
         if (itemIsUnderKeypad(item)) {
             scrollTo({
                 container: '#container',
@@ -133,7 +132,8 @@
             e.target.className.startsWith('quantity') ||
             e.target.parentElement.className.startsWith('quantity')
 
-        if (keypadVisible && !isQuantityElement) keypadVisible = false
+        if (keypad.isVisible && !isQuantityElement) 
+            keypad.close()
     }
 
     function handleAddClick() {
@@ -218,7 +218,6 @@
     </div>
     <Keypad
         bind:type={keypadType}
-        bind:visible={keypadVisible}
         on:click={handleKeypadClick}
         on:open={handleKeypadOpen}
     />
