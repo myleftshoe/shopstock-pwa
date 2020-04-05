@@ -12,6 +12,7 @@
     import Dialog from './dialog.svelte'
     import Search from './search.svelte'
     import handleKeypress from './handleKeypress'
+    import clipboard from './clipboard.js'
 
     let editItem = false
 
@@ -27,21 +28,11 @@
     let searchValue = ''
 
     onMount(() => {
-        document.addEventListener('copy', copyAsText)
         stocklist.load()
     })
 
-    onDestroy(() => {
-        document.removeEventListener('copy', copyAsText)
-    })
-
-    function copyAsText(e) {
-        e.preventDefault()
-        e.clipboardData.setData('text', textify(stocklist.completedItems))
-    }
-
-    function execCopy(e) {
-        document.execCommand('copy')
+    function copyToClipboard() {
+        clipboard.copy(textify(stocklist.completedItems))
         copied = true
         setTimeout(() => (copied = false), 2000)
         stocklist.complete()
@@ -211,7 +202,7 @@
             />
             <footer>
                 {#if !searchValue}
-                    <Button primary on:click={execCopy} disabled={copied}>
+                    <Button primary on:click={copyToClipboard} disabled={copied}>
                         {copied ? `Copied ${stocklist.completedItems.length} items!` : 'Complete'}
                     </Button>
                     <Button on:click={startOver} style="margin-top:24px">
