@@ -85,13 +85,10 @@
     }
 
     function handleKeypadOpen() {
-        // keypadType = NUMERIC
         ensureItemIsVisible(selectedItem)
     }
 
     function handleEditItemDone(e) {
-        // selectedItem = { ...e.detail.item }
-        // stocklist.replaceItem(selectedItem)
         updateItems()
         editDialog.close()
     }
@@ -106,11 +103,9 @@
     }
 
     function handleTouchStart(e) {
-        const isQuantityElement =
-            e.target.className.startsWith('quantity') ||
-            e.target.parentElement.className.startsWith('quantity')
-
-        if (keypad.isVisible && !isQuantityElement) keypad.close()
+        const isQuantityElement = e.target.closest(".quantity")
+        if (keypad.isVisible && !isQuantityElement) 
+            keypad.close()
     }
 
     function handleAddClick() {
