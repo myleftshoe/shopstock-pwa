@@ -1,10 +1,10 @@
 <div class="container">
-    <div class="loader">Loading...</div>
+    <div class="loader"/>
 </div>
 
 <style>
     .container {
-        height: 100%;
+        height: calc( 100vh - 5.5em );
         width: 100%;
         display: flex;
         align-items: center;
@@ -22,11 +22,7 @@
         animation: load7 1.8s infinite ease-in-out;
     }
     .loader {
-        color: #ffffff;
-        font-size: 10px;
-        margin: 0px auto;
-        position: relative;
-        text-indent: -9999em;
+        color:#fff;
         -webkit-transform: translateZ(0);
         -ms-transform: translateZ(0);
         transform: translateZ(0);
