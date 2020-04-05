@@ -14,7 +14,6 @@
 
     let copied = false
     let editItem = false
-    let keypadType = NUMERIC
     let searchValue = ''
     let selectedItem = {}
 
@@ -29,8 +28,7 @@
 
     function handleQtyClick(e) {
         selectItem(e.detail.item)
-        keypadType = NUMERIC
-        keypad.open()
+        keypad.open(NUMERIC)
     }
 
     function handleHideClick(e) {
@@ -64,7 +62,7 @@
     function handleKeypadClick(e) {
         const { type, key } = e.target.dataset
         if (type === 'header') {
-            keypadType = keypadType === NUMERIC ? UNIT : NUMERIC
+            keypad.type = keypad.type === NUMERIC ? UNIT : NUMERIC
             return
         }
         handleKeypress({ type, key }, selectedItem)
@@ -201,7 +199,6 @@
         </main>
     </div>
     <Keypad
-        bind:type={keypadType}
         on:click={handleKeypadClick}
         on:open={handleKeypadOpen}
     />

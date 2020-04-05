@@ -1,3 +1,51 @@
+<script context="module">
+    import { writable, get } from 'svelte/store'
+    import NumericKeypad from './numeric-keypad.svelte'
+    import UnitKeypad from './unit-keypad.svelte'
+    export const NUMERIC = NumericKeypad
+    export const UNIT = UnitKeypad
+    export const keypad = {
+        open(type) {
+            if (type) keypad.type = type
+            visible.set(true)
+        },
+        close() {
+            visible.set(false)
+        },
+        get isVisible() {
+            return get(visible)
+        },
+        get type() {
+            return get(_type)
+        },
+        set type(type) {
+            _type.set(type)
+        },
+    }
+    const visible = writable(false)
+    const _type = writable(NUMERIC)
+</script>
+
+<script>
+    import { createEventDispatcher } from 'svelte'
+
+    const dispatch = createEventDispatcher()
+    const handleTransitionEnd = () => dispatch(visible ? 'open' : 'close')
+
+    $: headerText = $_type === NUMERIC ? 'Choose unit ...' : '[ back ]'
+</script>
+
+<div
+    id="keypad"
+    class="container"
+    class:hidden={!$visible}
+    on:click
+    on:transitionend={handleTransitionEnd}
+>
+    <div class="unit" data-type="header">{headerText}</div>
+    <svelte:component this={$_type} />
+</div>
+
 <style>
     .container {
         background-color: #000;
@@ -26,43 +74,3 @@
         user-select: none;
     }
 </style>
-
-<script context="module">
-    import { writable, get } from 'svelte/store'
-    import NumericKeypad from './numeric-keypad.svelte'
-    import UnitKeypad from './unit-keypad.svelte'
-    export const NUMERIC = NumericKeypad
-    export const UNIT = UnitKeypad
-    export const keypad = {
-        open() { visible.set(true) },
-        close() { visible.set(false)},
-        get isVisible() { return get(visible) }
-    }
-    const visible = writable(false)
-
-</script>
-
-<script>
-    export let type = NUMERIC
-    // export let visible = false
-    import { createEventDispatcher } from 'svelte'
-
-    let container
-
-    const dispatch = createEventDispatcher()
-    const handleTransitionEnd = () => dispatch(visible ? 'open' : 'close')
-
-    $: headerText = type === NUMERIC ? 'Choose unit ...' : '[ back ]'
-</script>
-
-<div
-    id="keypad"
-    bind:this={container}
-    class="container"
-    class:hidden={!$visible}
-    on:click
-    on:transitionend={handleTransitionEnd}
->
-    <div class="unit" data-type="header">{headerText}</div>
-    <svelte:component this={type} />
-</div>
