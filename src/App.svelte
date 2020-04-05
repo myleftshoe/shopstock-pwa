@@ -68,13 +68,9 @@
     }
 
     function itemIsUnderKeypad(item) {
-        const elementBottom = document
-            .getElementById(item.id)
-            .getBoundingClientRect().bottom
-        const bodyMidpoint =
-            document.getElementsByTagName('body')[0].getBoundingClientRect()
-                .bottom / 2
-        return elementBottom > bodyMidpoint
+        const itemBottom = document.getElementById(item.id).getBoundingClientRect().bottom
+        const keypadTop = document.getElementById('keypad').getBoundingClientRect().top
+        return itemBottom > keypadTop
     }
 
     function ensureItemIsVisible(item) {
