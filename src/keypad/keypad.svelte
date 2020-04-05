@@ -21,8 +21,8 @@
         set type(type) {
             _type.set(type)
         },
-        isOverElement(elementId) {
-            const elementBottom = document.getElementById(elementId).getBoundingClientRect().bottom
+        isOverElement(element) {
+            const elementBottom = document.querySelector(element).getBoundingClientRect().bottom
             const keypadTop = document.getElementById('keypad').getBoundingClientRect().top
             return elementBottom > keypadTop
         }

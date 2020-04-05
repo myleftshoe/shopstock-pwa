@@ -69,12 +69,9 @@
 
     function autoscroll(item) {
         if (!keypad.isVisible) return
-        if (keypad.isOverElement(item.id)) {
-            scrollTo({
-                container: '#container',
-                element: `#${item.id}`,
-                offset: -100,
-            })
+        const element = `#${item.id}`
+        if (keypad.isOverElement(element)) {
+            scrollTo({element, container: 'main', offset: -100 })
         }
     }
 
@@ -148,8 +145,6 @@
         </header>
         <main
             bind:this={main}
-            id="container"
-            class="container"
             on:contextmenu|preventDefault|stopPropagation
         >
             <Items
