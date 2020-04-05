@@ -82,23 +82,25 @@
         updateItems()
     }
 
-    function scrollIntoView(item) {
-        scrollTo({
-            container: '#container',
-            element: `#${item.id}`,
-            offset: -100,
-        })
+    function itemIsUnderKeypad(item) {
+        const elementBottom = document
+            .getElementById(item.id)
+            .getBoundingClientRect().bottom
+        const bodyMidpoint = document
+            .getElementsByTagName('body')[0]
+            .getBoundingClientRect().bottom / 2
+        return (elementBottom > bodyMidpoint)
     }
 
     function ensureItemIsVisible(item) {
         if (!keypadVisible) return
-        const elementBottom = document
-            .getElementById(item.id)
-            .getBoundingClientRect().bottom
-        const bodyMidpoint =
-            document.getElementsByTagName('body')[0].getBoundingClientRect()
-                .bottom / 2
-        if (elementBottom > bodyMidpoint) scrollIntoView(item)
+        if (itemIsUnderKeypad(item)) {
+            scrollTo({
+                container: '#container',
+                element: `#${item.id}`,
+                offset: -100,
+            })
+        }
     }
 
     function handleKeypadOpen() {
