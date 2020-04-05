@@ -35,7 +35,7 @@
         const item = stocklist.findItemById(e.detail.id)
         if (item.hidden === true) {
             stocklist.remove(item)
-            return;
+            return
         }
         item.hidden = true
         updateItems()
@@ -72,10 +72,10 @@
         const elementBottom = document
             .getElementById(item.id)
             .getBoundingClientRect().bottom
-        const bodyMidpoint = document
-            .getElementsByTagName('body')[0]
-            .getBoundingClientRect().bottom / 2
-        return (elementBottom > bodyMidpoint)
+        const bodyMidpoint =
+            document.getElementsByTagName('body')[0].getBoundingClientRect()
+                .bottom / 2
+        return elementBottom > bodyMidpoint
     }
 
     function ensureItemIsVisible(item) {
@@ -119,8 +119,7 @@
             e.target.className.startsWith('quantity') ||
             e.target.parentElement.className.startsWith('quantity')
 
-        if (keypad.isVisible && !isQuantityElement) 
-            keypad.close()
+        if (keypad.isVisible && !isQuantityElement) keypad.close()
     }
 
     function handleAddClick() {
@@ -187,7 +186,11 @@
             />
             <footer>
                 {#if !searchValue}
-                    <Button primary on:click={copyToClipboard} disabled={copied}>
+                    <Button
+                        primary
+                        on:click={copyToClipboard}
+                        disabled={copied}
+                    >
                         {copied ? `Copied ${stocklist.completedItems.length} items!` : 'Complete'}
                     </Button>
                     <Button on:click={startOver} style="margin-top:24px">
@@ -197,10 +200,7 @@
             </footer>
         </main>
     </div>
-    <Keypad
-        on:click={handleKeypadClick}
-        on:open={handleKeypadOpen}
-    />
+    <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} />
 {/if}
 
 <style>
