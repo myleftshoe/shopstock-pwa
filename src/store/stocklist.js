@@ -19,6 +19,7 @@ store.load = async function (cacheFirst = true) {
         const items = cache.get()
         if (Array.isArray(items)) {
             store.set(items)
+            return
         }
     }
     const items = await storage.read()

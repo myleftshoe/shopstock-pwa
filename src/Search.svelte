@@ -2,6 +2,7 @@
     import { onMount, onDestroy } from 'svelte'
     import debounce from 'lodash-es/debounce'
     import { createEventDispatcher } from 'svelte'
+    import IconButton from './IconButton.svelte'
 
     const dispatch = createEventDispatcher()
 
@@ -33,15 +34,11 @@
     }
 
     $: if (!value) dispatch('clear')
+    $: icon = value ? 'arrow-left' : 'search'
 </script>
 
-<div style="width:50px">
-    <i
-        class={value ? 'fas fa-arrow-left' : 'fas fa-search'}
-        on:click={handleClick}
-    />
-</div>
 
+<IconButton {icon} on:click={handleClick}/>
 <input
     bind:this={input}
     type="text"

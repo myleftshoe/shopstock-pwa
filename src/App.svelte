@@ -7,6 +7,7 @@
     import Items from './Items.svelte'
     import Loader from './Loader.svelte'
     import Button from './Button.svelte'
+    import IconButton from './IconButton.svelte'
     import Search from './Search.svelte'
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
@@ -131,6 +132,12 @@
                 />
             </div>
             <div class="right">
+            {#if copied}
+                <IconButton icon="clipboard-check"/>
+            {:else}
+                <IconButton icon="copy" on:click={copyToClipboard}/>
+            {/if}
+                <IconButton icon="ellipsis-v"/>
                 {#if !items.length && searchValue.length > 3}
                     <button on:click={handleAddClick}>add</button>
                 {/if}
@@ -214,12 +221,11 @@
         flex: 100%;
         display: flex;
         align-items: center;
-        margin-left: 8px;
     }
     .right {
         width: 30vw;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
     }
     footer {
         flex-basis: 50vh;
