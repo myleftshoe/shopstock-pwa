@@ -20,11 +20,18 @@
     onMount(stocklist.load)
 
     function copyToClipboard() {
-        copiedText = textify(stocklist.completedItems)
-        clipboard.copy(copiedText)
+        copiedText = '';
         const toast = new Toast({position: 'top-center'})
-        toast.success(`Copied ${stocklist.completedItems.length} items!`)        
+        const items = stocklist.completedItems
+        if (!items.length) {
+            toast.info(`Nothing to copy!`)
+            return
+        }
+        copiedText = textify(items)
+        clipboard.copy(copiedText)
+        toast.success(`Copied ${items.length} items!`)        
         stocklist.complete()
+
     }
 
     function handleQtyClick(e) {
