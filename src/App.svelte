@@ -136,15 +136,16 @@
                 />
             </div>
             <div class="right">
-            {#if copied}
-                <IconButton icon="clipboard-check" on:click={copyToClipboard}/>
-            {:else}
-                <IconButton icon="copy" on:click={copyToClipboard}/>
-            {/if}
-                <IconButton icon="ellipsis-v"/>
-                {#if !items.length && searchValue.length > 3}
-                    <button on:click={handleAddClick}>add</button>
+            {#if !items.length && searchValue.length > 3}
+                <button on:click={handleAddClick}>add</button>
+            {:else if !searchValue.length}
+                {#if copied}
+                    <IconButton icon="clipboard-check" on:click={copyToClipboard}/>
+                {:else}
+                    <IconButton icon="copy" on:click={copyToClipboard}/>
                 {/if}
+                <IconButton icon="ellipsis-v"/>
+            {/if}
             </div>
         </header>
         <Scrollable>
