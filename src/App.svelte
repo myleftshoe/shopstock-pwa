@@ -1,7 +1,7 @@
 <script>
     import { onMount, onDestroy, tick } from 'svelte'
     import Toast from 'svelte-toast'
-    import stocklist, { keep, discard, textify } from './store'
+    import stocklist, { textify } from './store'
     import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './Scrollable.svelte'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
     import EditDialog, { editDialog } from './EditDialog.svelte'
