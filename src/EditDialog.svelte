@@ -9,7 +9,7 @@
 <script>
     export let item = {}
 
-    import Button from './button.svelte'
+    import Button from './Button.svelte'
     import { scale } from 'svelte/transition'
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()

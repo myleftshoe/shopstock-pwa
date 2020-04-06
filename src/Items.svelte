@@ -1,7 +1,7 @@
 <script>
     import { createEventDispatcher } from 'svelte'
     import { swipeToDelete } from './swipe-to-delete.js'
-    import Item from './item.svelte'
+    import Item from './Item.svelte'
 
     export let items = []
     export let selectedItem
