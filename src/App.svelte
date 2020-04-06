@@ -13,17 +13,20 @@
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
 
-    let copiedText = ''
     let searchValue = ''
     let selectedItem = {}
 
     onMount(stocklist.load)
 
     function copyToClipboard() {
-        copiedText = textify(stocklist.completedItems)
-        clipboard.copy(copiedText)
         const toast = new Toast({position: 'top-center'})
-        toast.success(`Copied ${stocklist.completedItems.length} items!`)        
+        const items = stocklist.completedItems
+        if (!items.length) {
+            toast.info(`Nothing to copy!`)
+            return
+        }
+        clipboard.copy(textify(items))
+        toast.success(`Copied ${items.length} items!`)        
         stocklist.complete()
     }
 
@@ -114,7 +117,6 @@
     }
 
     $: items = $stocklist.length && stocklist.filter(searchValue)
-    $: copied = $stocklist.length && copiedText === textify(stocklist.completedItems)
 
 </script>
 
@@ -136,15 +138,11 @@
                 />
             </div>
             <div class="right">
-            {#if copied}
-                <IconButton icon="clipboard-check"/>
-            {:else}
-                <IconButton icon="copy" on:click={copyToClipboard}/>
+            <IconButton icon="copy" on:click={copyToClipboard}/>
+            <IconButton icon="ellipsis-v"/>
+            {#if !items.length && searchValue.length > 3}
+                <button on:click={handleAddClick}>add</button>
             {/if}
-                <IconButton icon="ellipsis-v"/>
-                {#if !items.length && searchValue.length > 3}
-                    <button on:click={handleAddClick}>add</button>
-                {/if}
             </div>
         </header>
         <Scrollable>
