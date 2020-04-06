@@ -144,7 +144,6 @@
                 {:else}
                     <IconButton icon="copy" on:click={copyToClipboard}/>
                 {/if}
-                <IconButton icon="ellipsis-v"/>
             {/if}
             </div>
         </header>
@@ -158,6 +157,13 @@
                     on:hide={handleHideClick}
                     on:contextmenu={handleContextMenu}
                 />
+                <footer>
+                    {#if !searchValue}
+                        <Button on:click={startOver} style="margin-top:24px">
+                            Start over
+                        </Button>
+                    {/if}
+                </footer>
             </main>
         </Scrollable>
     </div>
@@ -217,5 +223,13 @@
         width: 30vw;
         display: flex;
         justify-content: flex-end;
+    }
+    footer {
+        flex-basis: 50vh;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 </style>
