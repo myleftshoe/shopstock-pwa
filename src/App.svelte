@@ -59,10 +59,6 @@
 
     function handleKeypadClick(e) {
         const { type, key } = e.target.dataset
-        if (type === 'header') {
-            keypad.type = keypad.type === NUMERIC ? UNIT : NUMERIC
-            return
-        }
         handleKeypress({ type, key }, selectedItem)
         updateItems()
     }
@@ -168,7 +164,7 @@
             </main>
         </Scrollable>
     </div>
-    <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} />
+    <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} keypads={[ NUMERIC, UNIT ]}/>
 {/if}
 
 <style>

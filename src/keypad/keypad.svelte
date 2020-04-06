@@ -25,7 +25,7 @@
             const elementBottom = document.querySelector(element).getBoundingClientRect().bottom
             const keypadTop = document.getElementById('keypad').getBoundingClientRect().top
             return elementBottom > keypadTop
-        }
+        },
     }
     const visible = writable(false)
     const _type = writable(NUMERIC)
@@ -37,17 +37,17 @@
     const dispatch = createEventDispatcher()
     const handleTransitionEnd = () => dispatch(visible ? 'open' : 'close')
 
-    $: headerText = $_type === NUMERIC ? 'Choose unit ...' : '[ back ]'
+    export let keypads = [ NUMERIC ]
+    function handleHeaderClick(e) {
+        e.stopPropagation()
+        // if (keypads.indexOf(keypads.type) + 1)
+        $_type = keypads[keypads.indexOf($_type) +  1] || keypads[0]
+    }
+
 </script>
 
-<div
-    id="keypad"
-    class="container"
-    class:hidden={!$visible}
-    on:click
-    on:transitionend={handleTransitionEnd}
->
-    <div class="unit" data-type="header">{headerText}</div>
+<div id="keypad" class="container" class:hidden={!$visible} on:click on:transitionend={handleTransitionEnd}>
+    <div class="unit" data-type="header" on:click={handleHeaderClick}><i class="fas fa-exchange-alt" style="pointer-events:none;"/></div>
     <svelte:component this={$_type} />
 </div>
 
