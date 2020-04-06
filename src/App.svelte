@@ -185,6 +185,12 @@
         overflow-y: scroll;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: none;
+        -ms-overscroll-behavior-y: none;
+        -ms-scroll-chaining: none;
+        -ms-overflow-style: none;
+        touch-action:none;
+        -ms-touch-action:none;
     }
     header {
         position: fixed;
