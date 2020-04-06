@@ -1,6 +1,7 @@
 <script>
     import { onMount, onDestroy, tick } from 'svelte'
     import stocklist, { keep, discard, textify } from './store'
+    import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './scrollable.svelte'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
     import EditDialog, { editDialog } from './editDialog.svelte'
     import Items from './items.svelte'
@@ -10,7 +11,6 @@
     import Search from './search.svelte'
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
-    import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './scrollable.svelte'
 
     let copied = false
     let searchValue = ''
