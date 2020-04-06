@@ -13,15 +13,15 @@
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
 
-    let copied = false
+    let copiedText = ''
     let searchValue = ''
     let selectedItem = {}
 
     onMount(stocklist.load)
 
     function copyToClipboard() {
-        clipboard.copy(textify(stocklist.completedItems))
-        copied = true
+        copiedText = textify(stocklist.completedItems)
+        clipboard.copy(copiedText)
         const toast = new Toast({position: 'top-center'})
         toast.success(`Copied ${stocklist.completedItems.length} items!`)        
         stocklist.complete()
@@ -56,7 +56,6 @@
     }
 
     function updateItems() {
-        copied = false
         stocklist.update()
     }
 
@@ -115,6 +114,8 @@
     }
 
     $: items = $stocklist.length && stocklist.filter(searchValue)
+    $: copied = $stocklist.length && copiedText === textify(stocklist.completedItems)
+
 </script>
 
 {#if !items}
