@@ -122,7 +122,7 @@
 
     $: items = $stocklist.length && stocklist.filter(searchValue)
     $: copied = $stocklist.length && copiedText === textify(stocklist.completedItems)
-
+    $: started = $stocklist.length && Boolean(stocklist.completedItems.length)
 </script>
 
 {#if !items}
@@ -145,7 +145,7 @@
             <div class="right">
             {#if !items.length && searchValue.length > 3}
                 <button on:click={handleAddClick}>add</button>
-            {:else if !searchValue.length}
+            {:else if started && !searchValue.length}
                 {#if copied}
                     <IconButton icon="clipboard-check" on:click={copyToClipboard}/>
                 {:else}
@@ -166,7 +166,7 @@
                 />
                 <footer>
                     {#if !searchValue}
-                        <Button on:click={startOver} style="margin-top:24px" disabled={!$stocklist.filter(keep.validQuantities).length}>
+                        <Button on:click={startOver} style="margin-top:24px" disabled={!started}>
                             Start over
                         </Button>
                     {/if}
