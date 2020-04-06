@@ -189,8 +189,8 @@
         -ms-overscroll-behavior-y: none;
         -ms-scroll-chaining: none;
         -ms-overflow-style: none;
-        touch-action:none;
-        -ms-touch-action:none;
+        touch-action:pan-y;
+        -ms-touch-action: pan-y;
     }
     header {
         position: fixed;
