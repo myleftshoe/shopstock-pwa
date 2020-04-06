@@ -1,18 +1,20 @@
-import { writable, get } from 'svelte/store';
-import UID, { alpha } from '../utils/uid.js';
+import { writable, get } from 'svelte/store'
+import UID, { alpha } from '../utils/uid.js'
 import Cache from './cache.js'
 import Jsonbin from './jsonbin.js'
+import { jsonbin } from '../secrets.js'
 import { isComplete } from './complete.js'
 
 const LOCAL_STORAGE_KEY = 'items'
-const JSONBIN_ID = '5e729cb6d3ffb01648aa44c6'
+const MASTERBIN_ID = jsonbin.masterBinId
+const WORKINGBIN_ID = jsonbin.workingBinId
 
 const cache = new Cache(LOCAL_STORAGE_KEY)
-const storage = new Jsonbin(JSONBIN_ID)
+const storage = new Jsonbin(MASTERBIN_ID)
 
-const store = writable([]);
+const store = writable([])
 
-store.load = async function(cacheFirst = true) {
+store.load = async function (cacheFirst = true) {
     if (cacheFirst) {
         const items = cache.get()
         if (Array.isArray(items)) {
@@ -21,13 +23,13 @@ store.load = async function(cacheFirst = true) {
     }
     const items = await storage.read()
     store.set(items.map(reset))
-    cache.set(store.get());
+    cache.set(store.get())
 }
 
-store.get = () => get(store) 
+store.get = () => get(store)
 
 store.add = (itemToAdd = {}) => store.set([...store.get(), {
-    id: new UID( {charset: alpha}).value,
+    id: new UID({ charset: alpha }).value,
     name: 'new item',
     qty: '',
     unit: '',
@@ -37,34 +39,63 @@ store.add = (itemToAdd = {}) => store.set([...store.get(), {
 store.remove = (itemToRemove = {}) => store.set(store.get().filter(item => item !== itemToRemove))
 
 store.update = (items = [...store.get()]) => {
-    store.isComplete = false;
+    store.isComplete = false
     store.set(items)
-    cache.set(items);
+    cache.set(items)
 }
 
 store.reset = () => store.set(store.get().map(reset))
 
 store.complete = () => {
-    store.isComplete = true;
+    persistWorking()
+    persistMaster()
+    notifyBackend()
+    store.isComplete = true
+}
+
+function persistMaster() {
+    const items = store.get()
+    if (!items) return
+    const data = items.map(({ name, unit, hidden }) => ({ name, unit, hidden }))
+    data.length && storage.update(data)
+}
+
+function persistWorking() {
+    const items = store.get()
+    if (!items) return
+    const storage = new Jsonbin(WORKINGBIN_ID)
+    const data = items.filter(keep.validQuantities).map(item => {
+        const { name, qty, unit, notes } = item
+        return [name, qty, unit, notes]
+    })
+    if (!data.length) return
+    storage.update(data)
+}
+
+async function notifyBackend() {
+    const url = 'https://script.google.com/macros/s/AKfycbzn7GB0LV-iqSbJsGg1t7x2Lr7LIzVqgIWrAadsgx8wxhyuEyju/exec?complete=true'
+    const response = await fetch(url)
+    const text = await response.text()
+    console.log('notifyBackend', text)
 }
 
 Object.defineProperty(store, 'isComplete', {
     get() { return get(isComplete) },
     set(boolean) { isComplete.set(boolean) },
-});
+})
 
 Object.defineProperty(store, 'completedItems', {
-    get() { 
+    get() {
         return [...store.get()].filter(keep.validQuantities)
     },
-    set() { throw 'Cannot assign to property completedItems'},
-});
+    set() { throw 'Cannot assign to property completedItems' },
+})
 
-store.filter = function(searchValue) {
+store.filter = function (searchValue) {
     let items = [...store.get()]
     console.log(items)
-    if (!items || !items.length) 
-        return items;
+    if (!items || !items.length)
+        return items
     if (!searchValue)
         items = items.filter(discard.hidden)
     if (searchValue.startsWith('...')) {
@@ -95,7 +126,7 @@ const keep = {
     validQuantities: item => item.qty.length > 0,
     hidden: item => item.hidden,
     namesWith: string => ({ name }) => name.toLowerCase().includes(string.toLowerCase()),
-    namesStartingWith: string => ({ name }) => name.toLowerCase().startsWith(string.toLowerCase()), 
+    namesStartingWith: string => ({ name }) => name.toLowerCase().startsWith(string.toLowerCase()),
 }
 
 const discard = {
@@ -108,7 +139,7 @@ const by = {
 }
 
 // conversion functions
-const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /, '');
+const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /, '')
 const textify = items => items.filter(keep.validQuantities).map(textifyItem).join('\r\n')
 const htmlify = items => items.filter(keep.validQuantities).map(textifyItem).join('<br>')
 
