@@ -1,5 +1,6 @@
 <script>
     import { onMount, onDestroy, tick } from 'svelte'
+    import Toast from 'svelte-toast'
     import stocklist, { keep, discard, textify } from './store'
     import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './Scrollable.svelte'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
@@ -21,7 +22,8 @@
     function copyToClipboard() {
         clipboard.copy(textify(stocklist.completedItems))
         copied = true
-        setTimeout(() => (copied = false), 2000)
+        const toast = new Toast({position: 'top-center'})
+        toast.success(`Copied ${stocklist.completedItems.length} items!`)        
         stocklist.complete()
     }
 
@@ -54,6 +56,7 @@
     }
 
     function updateItems() {
+        copied = false
         stocklist.update()
     }
 
@@ -153,20 +156,6 @@
                     on:hide={handleHideClick}
                     on:contextmenu={handleContextMenu}
                 />
-                <footer>
-                    {#if !searchValue}
-                        <Button
-                            primary
-                            on:click={copyToClipboard}
-                            disabled={copied}
-                        >
-                            {copied ? `Copied ${stocklist.completedItems.length} items!` : 'Complete'}
-                        </Button>
-                        <Button on:click={startOver} style="margin-top:24px">
-                            Start over
-                        </Button>
-                    {/if}
-                </footer>
             </main>
         </Scrollable>
     </div>
@@ -226,13 +215,5 @@
         width: 30vw;
         display: flex;
         justify-content: flex-end;
-    }
-    footer {
-        flex-basis: 50vh;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
 </style>

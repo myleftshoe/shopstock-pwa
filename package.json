@@ -19,7 +19,8 @@
     "svelte-scrollto": "^0.1.1"
   },
   "dependencies": {
-    "sirv-cli": "^0.4.5"
+    "sirv-cli": "^0.4.5",
+    "svelte-toast": "^1.0.0"
   },
   "scripts": {
     "build": "rollup -c",

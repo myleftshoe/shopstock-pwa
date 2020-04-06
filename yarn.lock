@@ -2410,6 +2410,11 @@ svelte-scrollto@^0.1.1:
   dependencies:
     svelte "3.x"
 
+svelte-toast@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/svelte-toast/-/svelte-toast-1.0.0.tgz#9b562d8c819a38c524e07b3f17f30b46dae7c630"
+  integrity sha512-i6XHJgCgyAYmobEXS78iei6cQBLYIDgk1rrj65wM0sIi4RzCl/9205sVruZT7zUf0N2xsLkeN2rFh9inlRJXEg==
+
 svelte@3.x, svelte@^3.20.1:
   version "3.20.1"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.20.1.tgz#8417fcd883a2f534b642a0737368272e651cf3ac"
