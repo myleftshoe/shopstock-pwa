@@ -87,7 +87,7 @@ Object.defineProperty(store, 'isComplete', {
 
 Object.defineProperty(store, 'completedItems', {
     get() {
-        return [...store.get()].filter(keep.validQuantities)
+        return [...store.get()].filter(keep.validQuantities).filter(discard.hidden)
     },
     set() { throw 'Cannot assign to property completedItems' },
 })

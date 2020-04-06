@@ -40,6 +40,7 @@
             return
         }
         item.hidden = true
+        item.qty = ''
         updateItems()
     }
 
