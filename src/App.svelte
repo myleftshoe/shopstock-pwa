@@ -145,7 +145,7 @@
             <div class="right">
             {#if !items.length && searchValue.length > 3}
                 <button on:click={handleAddClick}>add</button>
-            {:else if started && !searchValue.length}
+            {:else if started && !searchValue}
                 {#if copied}
                     <IconButton icon="clipboard-check" on:click={copyToClipboard}/>
                 {:else}
