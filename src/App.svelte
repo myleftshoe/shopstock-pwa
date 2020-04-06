@@ -1,6 +1,5 @@
 <script>
     import { onMount, onDestroy, tick } from 'svelte'
-    import { scrollTo } from 'svelte-scrollto'
     import stocklist, { keep, discard, textify } from './store'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
     import EditDialog, { editDialog } from './editDialog.svelte'
@@ -11,6 +10,7 @@
     import Search from './search.svelte'
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
+    import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './scrollable.svelte'
 
     let copied = false
     let searchValue = ''
@@ -71,7 +71,7 @@
         if (!keypad.isVisible) return
         const element = `#${item.id}`
         if (keypad.isOverElement(element)) {
-            scrollTo({element, container: 'main', offset: -100 })
+            scrollToElement(element, -100)
         }
     }
 
@@ -106,15 +106,13 @@
         stocklist.remove(selectedItem)
     }
 
-    let main
-    let savedScrollPos
     function handleSearchFocus() {
-        if (!searchValue) savedScrollPos = main.scrollTop
+        if (!searchValue) saveScrollPosition()
     }
 
     async function handleSearchClear() {
         await tick()
-        main.scrollTop = savedScrollPos
+        resetScrollPosition();
     }
 
     $: items = $stocklist.length && stocklist.filter(searchValue)
@@ -143,33 +141,32 @@
                 {/if}
             </div>
         </header>
-        <main
-            bind:this={main}
-            on:contextmenu|preventDefault|stopPropagation
-        >
-            <Items
-                {items}
-                {selectedItem}
-                on:itemclick={handleItemClick}
-                on:qtyclick={handleQtyClick}
-                on:hide={handleHideClick}
-                on:contextmenu={handleContextMenu}
-            />
-            <footer>
-                {#if !searchValue}
-                    <Button
-                        primary
-                        on:click={copyToClipboard}
-                        disabled={copied}
-                    >
-                        {copied ? `Copied ${stocklist.completedItems.length} items!` : 'Complete'}
-                    </Button>
-                    <Button on:click={startOver} style="margin-top:24px">
-                        Start over
-                    </Button>
-                {/if}
-            </footer>
-        </main>
+        <Scrollable>
+            <main on:contextmenu|preventDefault|stopPropagation>
+                <Items
+                    {items}
+                    {selectedItem}
+                    on:itemclick={handleItemClick}
+                    on:qtyclick={handleQtyClick}
+                    on:hide={handleHideClick}
+                    on:contextmenu={handleContextMenu}
+                />
+                <footer>
+                    {#if !searchValue}
+                        <Button
+                            primary
+                            on:click={copyToClipboard}
+                            disabled={copied}
+                        >
+                            {copied ? `Copied ${stocklist.completedItems.length} items!` : 'Complete'}
+                        </Button>
+                        <Button on:click={startOver} style="margin-top:24px">
+                            Start over
+                        </Button>
+                    {/if}
+                </footer>
+            </main>
+        </Scrollable>
     </div>
     <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} />
 {/if}
