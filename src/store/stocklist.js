@@ -47,21 +47,21 @@ store.update = (items = [...store.get()]) => {
 
 store.reset = () => store.set(store.get().map(reset))
 
-store.complete = () => {
-    persistWorking()
+store.complete = async () => {
     persistMaster()
+    await persistWorking()
     notifyBackend()
     store.isComplete = true
 }
 
-function persistMaster() {
+async function persistMaster() {
     const items = store.get()
     if (!items) return
     const data = items.map(({ name, unit, hidden }) => ({ name, unit, hidden }))
-    data.length && storage.update(data)
+    return storage.update(data)
 }
 
-function persistWorking() {
+async function persistWorking() {
     const items = store.get()
     if (!items) return
     const storage = new Jsonbin(WORKINGBIN_ID)
@@ -70,7 +70,7 @@ function persistWorking() {
         return [name, qty, unit, notes]
     })
     if (!data.length) return
-    storage.update(data)
+    return storage.update(data)
 }
 
 async function notifyBackend() {
