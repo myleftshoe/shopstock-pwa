@@ -159,7 +159,7 @@
                 />
                 <footer>
                     {#if !searchValue}
-                        <Button on:click={startOver} style="margin-top:24px">
+                        <Button on:click={startOver} style="margin-top:24px" disabled={!$stocklist.filter(keep.validQuantities).length}>
                             Start over
                         </Button>
                     {/if}
