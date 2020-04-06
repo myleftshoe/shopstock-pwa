@@ -1,3 +1,5 @@
+const pacify = { passive: true }
+
 export function swipeToDelete(node, selector, threshold = 50) {
     let x;
     let swiped;
@@ -10,8 +12,8 @@ export function swipeToDelete(node, selector, threshold = 50) {
         if (x > maxX) return;
         element = e.target.closest(selector);
         console.log(element)
-        node.addEventListener('touchmove', handleTouchmove);
-        node.addEventListener('touchend', handleTouchend);
+        node.addEventListener('touchmove', handleTouchmove, pacify);
+        node.addEventListener('touchend', handleTouchend, pacify);
         node.dispatchEvent(new CustomEvent('swipestart', {
             detail: { element }
         }));
@@ -40,15 +42,15 @@ export function swipeToDelete(node, selector, threshold = 50) {
     }
 
     function handleTouchend(e) {
-        node.removeEventListener('touchmove', handleTouchmove);
-        node.removeEventListener('touchend', handleTouchend);
+        node.removeEventListener('touchmove', handleTouchmove, pacify);
+        node.removeEventListener('touchend', handleTouchend, pacify);
     }
 
-    node.addEventListener('touchstart', handleTouchstart);
+    node.addEventListener('touchstart', handleTouchstart, pacify);
 
     return {
         destroy() {
-            node.removeEventListener('touchstart', handleTouchstart);
+            node.removeEventListener('touchstart', handleTouchstart, pacify);
         }
     };
 }

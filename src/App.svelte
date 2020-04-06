@@ -131,7 +131,7 @@
         on:done={handleEditItemDone}
         on:delete={handleDelete}
     />
-    <div on:touchstart|stopPropagation={handleTouchStart}>
+    <div on:touchstart|stopPropagation|passive={handleTouchStart}>
         <header>
             <div class="left">
                 <Search
