@@ -114,9 +114,12 @@
         resetScrollPosition();
     }
 
-    $: items = $stocklist.length && stocklist.filter(searchValue)
-    $: copied = $stocklist.length && copiedText === textify(stocklist.completedItems)
-    $: started = $stocklist.length && Boolean(stocklist.completedItems.length)
+    let items, copied, started
+    $: if ($stocklist.length) {
+        items = stocklist.filter(searchValue)
+        copied = copiedText === textify(stocklist.completedItems)
+        started = Boolean(stocklist.completedItems.length)
+    }
 </script>
 
 {#if !items}
