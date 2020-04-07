@@ -34,7 +34,7 @@
     }
 
     function handleHideClick(e) {
-        const item = stocklist.findItemById(e.detail.id)
+        const item = e.detail.item
         if (item.hidden === true) {
             stocklist.remove(item)
             return
