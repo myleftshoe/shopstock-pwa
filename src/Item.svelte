@@ -2,6 +2,8 @@
     export let item
     export let selected = false
 
+    import IconButton from './IconButton.svelte'
+
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
 
@@ -18,13 +20,21 @@
     async function handleItemClick(e) {
         dispatch('itemclick', { item })
         await tick()
-        state = states[state].nextState;
+        state = 'selected';
     }
 
     async function handleQtyClick(e) {
         dispatch('qtyclick', { item })
         await tick()
-        state = states[state].nextState;
+        state = 'selected';
+    }
+
+    function handleContextMenu(e) {
+        state = 'edit'
+    }
+
+    function handleEditClick(e) {
+        dispatch('editclick', { item })
     }
 
     function handleHideClick(e) {
@@ -37,7 +47,7 @@
         }
         element.addEventListener('transitionend', dispatchHide);
     }
-
+    
     $: state = !selected ? 'init' : state 
 </script>
 
@@ -46,7 +56,7 @@
     data-name={item.name}
     class={`row ${state}`}
     style={item.hidden && 'opacity: .7'}
-    on:contextmenu|preventDefault
+    on:contextmenu|preventDefault={handleContextMenu}
 >
     <div class="left" on:click|stopPropagation={handleItemClick}>
         <div>{item.name}</div>
@@ -54,17 +64,20 @@
             <div class="notes">{item.notes}</div>
         {/if}
     </div>
-        {#if state === 'edit'}
-            <div class={`right hide ${state}`} on:click|stopPropagation={handleHideClick}>
-                <div class="unit">{item.hidden ? 'delete': 'hide'}</div>
-            </div>
-        {:else}
-            <div class={`right ${state} quantity`} on:click|stopPropagation={handleQtyClick}>
-                <div tabindex="0">{item.qty}</div>
-                <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
-                <div class="unit">{item.unit}</div>
-            </div>
-        {/if}
+    <div class='editbutton' class:visible={state === 'edit'}>
+        <IconButton solid={false} icon='edit' style="color: #333" on:click={handleEditClick}></IconButton>
+    </div>
+    {#if state === 'edit'}
+        <div class={`right hide ${state}`} on:click|stopPropagation={handleHideClick}>
+            <div class="unit">{item.hidden ? 'delete': 'hide'}</div>
+        </div>
+    {:else}
+        <div class={`right ${state} quantity`} on:click|stopPropagation={handleQtyClick}>
+            <div tabindex="0">{item.qty}</div>
+            <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
+            <div class="unit">{item.unit}</div>
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -91,6 +104,7 @@
         display: flex;
         flex-direction: column;
         width: 30vw;
+        /* flex-basis: content; */
         padding: 5px;
         justify-content: center;
         align-items: center;
@@ -100,7 +114,16 @@
         background-color: #aee1cd;
     }
     .edit {
-        background-color: #f77;
+        background-color: #aee1cd;
+    }
+    .editbutton {
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+    }
+    .visible {
+        visibility: visible;
     }
     .unit {
         font-size: 10px;

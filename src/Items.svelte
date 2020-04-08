@@ -14,6 +14,6 @@
         on:itemclick
         on:qtyclick
         on:hide
-        on:contextmenu
+        on:editclick
     />
 {/each}

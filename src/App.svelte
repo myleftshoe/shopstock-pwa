@@ -48,7 +48,7 @@
         selectItem(e.detail.item)
     }
 
-    function handleContextMenu(e) {
+    function handleEditClick(e) {
         editDialogOpen = true
     }
 
@@ -157,7 +157,7 @@
                     on:itemclick={handleItemClick}
                     on:qtyclick={handleQtyClick}
                     on:hide={handleHideClick}
-                    on:contextmenu={handleContextMenu}
+                    on:editclick={handleEditClick}
                 />
                 <footer>
                     {#if !searchValue}
