@@ -1,6 +1,6 @@
 <script>
     import { swipeToDelete } from './swipe-to-delete.js'
-    import Item from './Item.svelte'
+    import Item from './ListItem.svelte'
 
     export let items = []
     export let selectedItem

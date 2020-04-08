@@ -5,7 +5,7 @@
     import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './Scrollable.svelte'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
     import EditDialog from './EditDialog.svelte'
-    import Items from './Items.svelte'
+    import List from './List.svelte'
     import Loader from './Loader.svelte'
     import Button from './Button.svelte'
     import IconButton from './IconButton.svelte'
@@ -151,7 +151,7 @@
         </header>
         <Scrollable>
             <main on:contextmenu|preventDefault|stopPropagation>
-                <Items
+                <List
                     {items}
                     {selectedItem}
                     on:itemclick={handleItemClick}
