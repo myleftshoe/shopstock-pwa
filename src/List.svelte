@@ -1,10 +1,7 @@
 <script>
-    import { swipeToDelete } from './swipe-to-delete.js'
     import Item from './ListItem.svelte'
-
     export let items = []
     export let selectedItem
-
 </script>
 
 {#each items as item (item.id)}
