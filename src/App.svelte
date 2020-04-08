@@ -5,6 +5,7 @@
     import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './Scrollable.svelte'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
     import EditDialog from './EditDialog.svelte'
+    import Header from './Header.svelte'
     import List from './List.svelte'
     import Loader from './Loader.svelte'
     import Button from './Button.svelte'
@@ -129,26 +130,26 @@
     <Loader />
 {:else}
     <div on:touchstart|stopPropagation|passive={handleTouchStart}>
-        <header>
-            <div class="left">
+        <Header>
+            <div slot="left">
                 <Search
                     bind:value={searchValue}
                     on:focus={handleSearchFocus}
                     on:clear={handleSearchClear}
                 />
             </div>
-            <div class="right">
-            {#if !items.length && searchValue.length > 3}
-                <button on:click={handleAddClick}>add</button>
-            {:else if started && !searchValue}
-                {#if copied}
-                    <IconButton icon="clipboard-check" on:click={copyToClipboard} aria-label="copy"/>
-                {:else}
-                    <IconButton icon="copy" on:click={copyToClipboard} aria-label="copy"/>
+            <div slot="right">
+                {#if !items.length && searchValue.length > 3}
+                    <button on:click={handleAddClick}>add</button>
+                {:else if started && !searchValue}
+                    {#if copied}
+                        <IconButton icon="clipboard-check" on:click={copyToClipboard} aria-label="copy"/>
+                    {:else}
+                        <IconButton icon="copy" on:click={copyToClipboard} aria-label="copy"/>
+                    {/if}
                 {/if}
-            {/if}
             </div>
-        </header>
+        </Header>
         <Scrollable>
             <main on:contextmenu|preventDefault|stopPropagation>
                 <List
@@ -197,48 +198,6 @@
         -ms-overflow-style: none;
         touch-action:pan-y;
         -ms-touch-action: pan-y;
-    }
-    header {
-        position: fixed;
-        top: 0;
-        width: 100vw;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 48px;
-        font-weight: bolder;
-        text-transform: uppercase;
-        z-index: 100;
-        background-color: #000;
-        color: #fff;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-    }
-    header button {
-        width: 100%;
-        padding: 2px 8px;
-        border: none;
-        outline: none;
-        font-weight: inherit;
-        text-transform: inherit;
-        background-color: transparent;
-        color: #ddd;
-    }
-    header button:active {
-        background-color: gray;
-        color: #ddd;
-        padding: 16px;
-    }
-    .left {
-        flex: 100%;
-        display: flex;
-        align-items: center;
-    }
-    .right {
-        width: 30vw;
-        display: flex;
-        justify-content: flex-end;
     }
     footer {
         flex-basis: 50vh;
