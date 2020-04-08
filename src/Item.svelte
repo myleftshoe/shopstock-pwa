@@ -1,23 +1,34 @@
 <script>
     export let item
     export let selected = false
-    let deleting    
 
-    import { createEventDispatcher } from 'svelte'
+    import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
 
-    function handleItemClick(e) {
-        const target = e.target
-        dispatch('itemclick', { item })
-        if (selected)
-            deleting = true
-        else if (deleting)
-            deleting = false
+    const states = {
+        init: { nextState: 'selected'},
+        selected: { nextState: 'edit'},
+        edit: { nextState: 'selected' } 
     }
 
-    function handleQtyClick(e) {
+    async function handleRowClick(e) {
+        console.log(state)
+        const target = e.target
+        dispatch('itemclick', { item })
+    }
+
+    async function handleItemClick(e) {
+        const target = e.target
+        dispatch('itemclick', { item })
+        await tick()
+        state = states[state].nextState;
+    }
+
+    async function handleQtyClick(e) {
         const target = e.target
         dispatch('qtyclick', { item })
+        await tick()
+        state = states[state].nextState;
     }
 
     function handleHideClick(e) {
@@ -31,36 +42,35 @@
         element.addEventListener('transitionend', dispatchHide);
     }
 
-    $: deletable = selected && deleting  
+    $: state = !selected ? 'init' : state 
+    $: {console.log(item.name, selected, state)}
+
 </script>
 
 <div
     id={item.id}
     data-name={item.name}
-    class="row"
-    class:selected
-    class:deletable
-    on:click={handleItemClick}
+    class={`row ${state}`}
     style={item.hidden && 'opacity: .7'}
     on:contextmenu|preventDefault
 >
-    <div class="left">
+    <div class="left" on:click|stopPropagation={handleItemClick}>
         <div>{item.name}</div>
         {#if item.notes}
             <div class="notes">{item.notes}</div>
         {/if}
     </div>
-    {#if deletable}
-        <div class="right hide deletable" on:click|stopPropagation={handleHideClick}>
-            <div class="unit">hide</div>
-        </div>
-    {:else}
-        <div class="right" on:click|stopPropagation={handleQtyClick}>
-            <div tabindex="0">{item.qty}</div>
-            <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
-            <div class="unit">{item.unit}</div>
-        </div>
-    {/if}
+        {#if state === 'edit'}
+            <div class={`right ${state}`} on:click|stopPropagation={handleHideClick}>
+                <div class="unit">hide</div>
+            </div>
+        {:else}
+            <div class={`right ${state} quantity`} on:click|stopPropagation={handleQtyClick}>
+                <div tabindex="0">{item.qty}</div>
+                <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
+                <div class="unit">{item.unit}</div>
+            </div>
+        {/if}
 </div>
 
 <style>
@@ -69,7 +79,6 @@
         flex-direction: row;
         justify-content: space-between;
         margin-top: 1px;
-        background-color: #f9f6ef;
         flex: 0 0 auto;
         transition: transform 0.3s ease, opacity 0.3s ease;
         max-height: 100px;
@@ -77,14 +86,11 @@
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-    }
-    .selected {
-        background-color: #aee1cd;
+        background-color: #f9f6ef;
     }
     .left {
         padding: 16px 12px;
         border: none;
-        background-color: transparent;
         flex-basis: 100%;
     }
     .right {
@@ -92,11 +98,16 @@
         flex-direction: column;
         width: 30vw;
         padding: 5px;
-        background-color: #aee1cd;
         justify-content: center;
         align-items: center;
+        background-color: #aee1cd;
     }
-    .deletable {
+    .init {
+    }
+    .selected {
+        background-color: #aee1cd;
+    }
+    .edit {
         background-color: #f77;
     }
     .unit {
