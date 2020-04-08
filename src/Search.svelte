@@ -24,21 +24,24 @@
         dispatch('focus')
     }
 
-    function handleClick() {
-        if (value) {
-            value = ''
-            input.value = ''
-        } else {
-            input.focus()
-        }
+    function handleBackClick() {
+        value = ''
+        input.value = ''
+    }
+
+    function handleSearchClick() {
+        input.focus()
     }
 
     $: if (!value) dispatch('clear')
     $: icon = value ? 'arrow-left' : 'search'
 </script>
 
-
-<IconButton {icon} on:click={handleClick}/>
+{#if value}
+    <IconButton icon="arrow-left" on:click={handleBackClick} aria-label="back"/>
+{:else}
+    <IconButton icon="search" on:click={handleSearchClick} aria-label="search"/>
+{/if}
 <input
     bind:this={input}
     type="text"
@@ -46,6 +49,7 @@
     {placeholder}
     on:focus={handleFocus}
     on:blur={hidePlaceholder}
+    aria-label='search'
 />
 
 <style>

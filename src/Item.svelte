@@ -63,7 +63,7 @@
         {/if}
     </div>
     <div class='editbutton' class:visible={state === 'edit'}>
-        <IconButton solid={false} icon='edit' style="color: #333" on:click={handleEditClick}></IconButton>
+        <IconButton solid={false} icon='edit' style="color: #333" on:click={handleEditClick} aria-label="edit item"/>
     </div>
     {#if state === 'edit'}
         <div class={`right hide ${state}`} on:click|stopPropagation={handleHideClick}>

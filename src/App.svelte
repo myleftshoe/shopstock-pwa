@@ -142,9 +142,9 @@
                 <button on:click={handleAddClick}>add</button>
             {:else if started && !searchValue}
                 {#if copied}
-                    <IconButton icon="clipboard-check" on:click={copyToClipboard}/>
+                    <IconButton icon="clipboard-check" on:click={copyToClipboard} aria-label="copy"/>
                 {:else}
-                    <IconButton icon="copy" on:click={copyToClipboard}/>
+                    <IconButton icon="copy" on:click={copyToClipboard} aria-label="copy"/>
                 {/if}
             {/if}
             </div>
