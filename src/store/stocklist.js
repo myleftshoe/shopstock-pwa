@@ -117,7 +117,12 @@ store.findItemIndex = itemToFind => store.get().findIndex(item => item.id === it
 
 store.findItemById = id => store.get().find(item => item.id === id)
 
-store.replaceItem = item => store.get()[store.findItemIndex(item)] = { ...item }
+store.replaceItem = item => { 
+    const index = store.findItemIndex(item)
+    const newItem = { ...item }
+    store.get()[index] = newItem
+    return newItem
+}
 
 
 const reset = item => ({ id: new UID({ charset: alpha }).value, ...item, qty: '' })

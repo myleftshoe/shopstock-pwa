@@ -1,73 +1,61 @@
-<script context="module">
-    import { writable, get } from 'svelte/store'
-    const open = writable(false);
-    export const editDialog = {
-        open() { open.set(true) },
-        close() { open.set(false) },
-    }
-</script>
 <script>
     export let item = {}
-
+    export let open = false
     import Button from './Button.svelte'
-    import { scale } from 'svelte/transition'
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
-    // introduced cancelling to stop ms edge submitting after cancel
-    let cancelling = false
     function handleSubmit(e) {
-        if (!cancelling) {
-            dispatch('done', { item })
-        }
-        $open = false
+        e.preventDefault()
+        e.stopPropagation()
+        open = false;
+        dispatch('done', { item })
+    }
+
+    function handleClose(e) {
+        e.preventDefault()
+        e.stopPropagation()
+        open = false;
         dispatch('close')
     }
 
-    function handleClose() {
-        cancelling = true
-        $open = false
-        dispatch('close')
-    }
-
-    function handleDelete() {
+    function handleDelete(e) {
+        e.preventDefault()
+        e.stopPropagation()
+        open = false;
         dispatch('delete')
-        $open = false
-        dispatch('close')
     }
+
+    $: console.log('EditDialog rendering' )
 </script>
-{#if $open}
-    <form on:submit|preventDefault|stopPropagation={handleSubmit}>
-        <div class="itemname">
-            <input
-                id="itemname"
-                required
-                type="text"
-                bind:value={item.name}
-                placeholder="Enter item name"
-            />
-        </div>
-        <textarea id="notes" rows="4" placeholder="Notes" bind:value={item.notes} />
-        <div class="actions">
-            <!-- 
-                For some reason pressing enter in the itemname input would fire the cancel button.
-                Set form=donothing (a non-existing form) fixes it. Moving the cancel button after submit works also.
-            -->
-            <button
-                on:click|preventDefault|stopPropagation={handleClose}
-                form="noform"
-            >
-                <i class="fas fa-times" />
-            </button>
-            <button type="submit">
-                <i class="fas fa-check" />
-            </button>
-        </div>
-        <Button on:click={handleDelete} style="color: #333;">
-            Delete this item permanently
-        </Button>
-    </form>
-{/if}
+<form on:submit|preventDefault|stopPropagation={handleSubmit}>
+    <div class="itemname">
+        <input
+            id="itemname"
+            required
+            type="text"
+            bind:value={item.name}
+            placeholder="Enter item name"
+        />
+    </div>
+    <textarea id="notes" rows="4" placeholder="Notes" bind:value={item.notes} />
+    <div class="actions">
+        <button
+            on:click={handleClose}
+        >
+            <i class="fas fa-times" />
+        </button>
+        <button type="submit">
+            <i class="fas fa-check" />
+        </button>
+    </div>
+    <Button 
+        on:click={handleDelete}
+        style="color: #333;"
+    >
+        Delete this item permanently
+    </Button>
+</form>
 
 <style>
     form {

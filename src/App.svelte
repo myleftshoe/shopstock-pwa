@@ -4,7 +4,7 @@
     import stocklist, { textify } from './store'
     import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './Scrollable.svelte'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
-    import EditDialog, { editDialog } from './EditDialog.svelte'
+    import EditDialog from './EditDialog.svelte'
     import Items from './Items.svelte'
     import Loader from './Loader.svelte'
     import Button from './Button.svelte'
@@ -49,7 +49,7 @@
     }
 
     function handleContextMenu(e) {
-        editDialog.open()
+        editDialogOpen = true
     }
 
     function selectItem(item) {
@@ -80,8 +80,8 @@
     }
 
     function handleEditItemDone(e) {
+        Object.assign(selectedItem, e.detail.item)
         updateItems()
-        editDialog.close()
     }
 
     function startOver() {
@@ -121,16 +121,13 @@
         copied = copiedText === textify(stocklist.completedItems)
         started = Boolean(stocklist.completedItems.length)
     }
+
+    let editDialogOpen = false;
 </script>
 
 {#if !items}
     <Loader />
 {:else}
-    <EditDialog
-        item={selectedItem}
-        on:done={handleEditItemDone}
-        on:delete={handleDelete}
-    />
     <div on:touchstart|stopPropagation|passive={handleTouchStart}>
         <header>
             <div class="left">
@@ -173,6 +170,14 @@
         </Scrollable>
     </div>
     <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} keypads={[ NUMERIC, UNIT ]}/>
+{/if}
+{#if editDialogOpen}
+    <EditDialog
+        bind:open={editDialogOpen}
+        item={{...selectedItem}}
+        on:done={handleEditItemDone}
+        on:delete={handleDelete}
+    />
 {/if}
 
 <style>
