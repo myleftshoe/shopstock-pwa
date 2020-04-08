@@ -13,10 +13,6 @@
         edit: { nextState: 'selected' } 
     }
 
-    async function handleRowClick(e) {
-        dispatch('itemclick', { item })
-    }
-
     async function handleItemClick(e) {
         dispatch('itemclick', { item })
         await tick()
@@ -29,7 +25,9 @@
         state = 'selected';
     }
 
-    function handleContextMenu(e) {
+    async function handleContextMenu(e) {
+        dispatch('itemclick', { item })
+        await tick()
         state = 'edit'
     }
 
