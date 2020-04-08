@@ -99,6 +99,7 @@
         align-self: center;
         background-color: transparent;
         border: none;
+        border-bottom: 1px solid #000;
         outline: none;
         margin: 0 16px;
         padding: 8px 16px;
@@ -113,14 +114,15 @@
     textarea {
         font-size: 20px;
         background-color: transparent;
-        border: 1px solid #777;
+        /* border: 1px solid #777; */
+        border:none;
         outline: none;
         padding: 8px 16px;
         resize: none;
         width: calc(100vw - 64px);
     }
     textarea:focus {
-        border: 1px solid #000;
+        /* border: 1px solid #000; */
     }
     .actions {
         display: flex;
