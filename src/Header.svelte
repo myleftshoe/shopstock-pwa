@@ -10,7 +10,7 @@
         font-weight: bolder;
         text-transform: uppercase;
         z-index: 100;
-        background-color: #333;
+        background-color: #000;
         color: #fff;
         -webkit-user-select: none;
         -moz-user-select: none;
