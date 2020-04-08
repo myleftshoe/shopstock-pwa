@@ -12,19 +12,16 @@
     }
 
     async function handleRowClick(e) {
-        const target = e.target
         dispatch('itemclick', { item })
     }
 
     async function handleItemClick(e) {
-        const target = e.target
         dispatch('itemclick', { item })
         await tick()
         state = states[state].nextState;
     }
 
     async function handleQtyClick(e) {
-        const target = e.target
         dispatch('qtyclick', { item })
         await tick()
         state = states[state].nextState;
@@ -58,8 +55,8 @@
         {/if}
     </div>
         {#if state === 'edit'}
-            <div class={`right ${state}`} on:click|stopPropagation={handleHideClick}>
-                <div class="unit">hide</div>
+            <div class={`right hide ${state}`} on:click|stopPropagation={handleHideClick}>
+                <div class="unit">{item.hidden ? 'delete': 'hide'}</div>
             </div>
         {:else}
             <div class={`right ${state} quantity`} on:click|stopPropagation={handleQtyClick}>
@@ -98,8 +95,6 @@
         justify-content: center;
         align-items: center;
         background-color: #aee1cd;
-    }
-    .init {
     }
     .selected {
         background-color: #aee1cd;
