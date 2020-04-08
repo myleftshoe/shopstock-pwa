@@ -6,53 +6,35 @@
     const dispatch = createEventDispatcher()
 
     function handleSubmit(e) {
-        e.preventDefault()
-        e.stopPropagation()
-        open = false;
+        open = false
         dispatch('done', { item })
     }
 
     function handleClose(e) {
-        e.preventDefault()
-        e.stopPropagation()
-        open = false;
-        dispatch('close')
+        open = false
     }
 
     function handleDelete(e) {
-        e.preventDefault()
-        e.stopPropagation()
-        open = false;
+        open = false
         dispatch('delete')
     }
 
-    $: console.log('EditDialog rendering' )
 </script>
+
 <form on:submit|preventDefault|stopPropagation={handleSubmit}>
     <div class="itemname">
-        <input
-            id="itemname"
-            required
-            type="text"
-            bind:value={item.name}
-            placeholder="Enter item name"
-        />
+        <input id="itemname" required type="text" bind:value={item.name} placeholder="Enter item name" />
     </div>
     <textarea id="notes" rows="4" placeholder="Notes" bind:value={item.notes} />
     <div class="actions">
-        <button
-            on:click={handleClose}
-        >
+        <button type="button" on:click={handleClose}>
             <i class="fas fa-times" />
         </button>
         <button type="submit">
             <i class="fas fa-check" />
         </button>
     </div>
-    <Button 
-        on:click={handleDelete}
-        style="color: #333;"
-    >
+    <Button type="button" on:click={handleDelete} style="color: #333;">
         Delete this item permanently
     </Button>
 </form>
@@ -103,7 +85,7 @@
         font-size: 20px;
         background-color: transparent;
         /* border: 1px solid #777; */
-        border:none;
+        border: none;
         outline: none;
         padding: 8px 16px;
         resize: none;
