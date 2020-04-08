@@ -12,7 +12,6 @@
     }
 
     async function handleRowClick(e) {
-        console.log(state)
         const target = e.target
         dispatch('itemclick', { item })
     }
@@ -43,8 +42,6 @@
     }
 
     $: state = !selected ? 'init' : state 
-    $: {console.log(item.name, selected, state)}
-
 </script>
 
 <div
