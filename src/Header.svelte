@@ -18,6 +18,6 @@
     }
 </style>
 <header>
-        <slot name="left"/>
-        <slot name="right"/>
+    <slot name="left"/>
+    <slot name="right"/>
 </header>

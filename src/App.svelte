@@ -140,7 +140,7 @@
             </div>
             <div slot="right">
                 {#if !items.length && searchValue.length > 3}
-                    <button on:click={handleAddClick}>add</button>
+                    <Button on:click={handleAddClick}>add</Button>
                 {:else if started && !searchValue}
                     {#if copied}
                         <IconButton icon="clipboard-check" on:click={copyToClipboard} aria-label="copy"/>

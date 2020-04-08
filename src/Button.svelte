@@ -1,16 +1,13 @@
-<script>
-    export let floating = false
-    export let primary = false
-</script>
-
-<button class:floating class:primary on:click {...$$restProps}>
+<button on:click {...$$restProps}>
     <slot />
 </button>
 
 <style>
     button {
+        display:flex;
+        align-items: center;
+        justify-content: center;
         background-color: transparent;
-        margin: 16px;
         border: none;
         outline: none;
         border-radius: 7px;
@@ -22,16 +19,6 @@
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-    }
-    .primary {
-        background-color: #aee1cd;
-    }
-    .floating {
-        position: fixed;
-        bottom: 10%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        margin: 0 auto;
     }
     button:active {
         color: grey;
