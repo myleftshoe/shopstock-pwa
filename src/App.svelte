@@ -3,7 +3,7 @@
     import Toast from 'svelte-toast'
     import stocklist, { textify } from './store'
     import Scrollable, { scrollable } from './Scrollable.svelte'
-    import Keypad, { keypad, NUMERIC, UNIT } from './Keypad'
+    import Keypad, { keypad } from './Keypad'
     import EditDialog from './EditDialog.svelte'
     import Main from './Main.svelte'
     import Header from './Header.svelte'
@@ -46,7 +46,7 @@
     // Item handlers
     function handleItemClick(e) {
         selectItem(e.detail.item)
-        keypad.open(NUMERIC)
+        keypad.open()
     }
     function handleLongpress(e) {
         keypad.close()
