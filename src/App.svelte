@@ -88,10 +88,6 @@
     }
 
     function startOver() {
-        // don't set stocklist.isComplete to false until item is edited
-        // stocklist.isComplete = false
-        // Clear quantities first in case offline, then force
-        // fetch latest stocklist by passing stocklist.isComplete true
         stocklist.reset()
         stocklist.load(false)
     }
