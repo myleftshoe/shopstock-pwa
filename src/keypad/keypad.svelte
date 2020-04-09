@@ -49,8 +49,10 @@
 <div id="keypad" class="container" class:hidden={!$visible} on:click on:transitionend={handleTransitionEnd}>
     <!-- <div class="header" data-type="header" on:click={handleHeaderClick}> -->
     <div class="header">
-        {#each ['bags', 'boxes', 'black tubs', 'trays', 'bin', 'shelf'] as unit }
-            <Button data-type='header' data-key={unit} style="text-transform: lowercase; font-weight: 400;">{unit}</Button>
+        {#each ['bags', 'boxes', 'black tubs', 'trays', 'bin', 'shelf'] as unit}
+            <Button data-type="header" data-key={unit} style="text-transform: lowercase; font-weight: 400;">
+                {unit}
+            </Button>
         {/each}
     </div>
     <svelte:component this={$_type} />
@@ -89,8 +91,7 @@
         -ms-overscroll-behavior-x: none;
         -ms-scroll-chaining: none;
         -ms-overflow-style: none;
-        touch-action:pan-x;
+        touch-action: pan-x;
         -ms-touch-action: pan-x;
-
     }
 </style>
