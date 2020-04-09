@@ -5,6 +5,7 @@
     import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './Scrollable.svelte'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
     import EditDialog from './EditDialog.svelte'
+    import Main from './Main.svelte'
     import Header from './Header.svelte'
     import Footer from './Footer.svelte'
     import List from './List.svelte'
@@ -152,7 +153,7 @@
             </div>
         </Header>
         <Scrollable>
-            <main on:contextmenu|preventDefault|stopPropagation>
+            <Main>
                 <List
                     {items}
                     {selectedItem}
@@ -168,7 +169,7 @@
                         </Button>
                     {/if}
                 </Footer>
-            </main>
+            </Main>
         </Scrollable>
     </div>
     <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} keypads={[ NUMERIC, UNIT ]}/>
@@ -181,23 +182,3 @@
         on:delete={handleDelete}
     />
 {/if}
-
-<style>
-    main {
-        position: fixed;
-        top: 48px;
-        display: flex;
-        flex-direction: column;
-        width: 100vw;
-        height: calc(100vh - 48px);
-        overflow-y: scroll;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior-y: none;
-        -ms-overscroll-behavior-y: none;
-        -ms-scroll-chaining: none;
-        -ms-overflow-style: none;
-        touch-action:pan-y;
-        -ms-touch-action: pan-y;
-    }
-</style>
