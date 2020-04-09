@@ -19,4 +19,6 @@
     export let value
 </script>
 
-<button on:click data-type={type} data-key={value}>{value}</button>
+<button on:click data-type={type} data-key={value}>
+    <slot>{value}</slot>
+</button>

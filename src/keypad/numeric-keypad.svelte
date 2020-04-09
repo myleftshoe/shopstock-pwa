@@ -1,6 +1,7 @@
 <script>
     import KeyRow from './keyrow.svelte'
     import Key from './key.svelte'
+    import IconButton from '../IconButton.svelte'
 </script>
 
 <KeyRow>
@@ -25,5 +26,5 @@
     <Key type="increment" value="+" />
     <Key type="number" value="0" />
     <Key type="decrement" value="-" />
-    <Key type="clear" value="X" />
+    <Key type="clear" value="X"><IconButton style='pointer-events: none;' icon='backspace'/></Key>
 </KeyRow>
