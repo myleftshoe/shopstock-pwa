@@ -23,7 +23,7 @@
 
     onMount(stocklist.load)
 
-    function copyToClipboard() {
+    function handleCopy() {
         const toast = new Toast({ position: 'top-center' })
         const items = stocklist.completedItems
         copiedText = textify(items)
@@ -126,9 +126,9 @@
                 <Button on:click={handleAddClick}>add</Button>
             {:else if started && !searchValue}
                 {#if copied}
-                    <IconButton icon="clipboard-check" on:click={copyToClipboard} aria-label="copy" />
+                    <IconButton icon="clipboard-check" on:click={handleCopy} aria-label="copy" />
                 {:else}
-                    <IconButton icon="copy" on:click={copyToClipboard} aria-label="copy" />
+                    <IconButton icon="copy" on:click={handleCopy} aria-label="copy" />
                 {/if}
             {/if}
         </div>
