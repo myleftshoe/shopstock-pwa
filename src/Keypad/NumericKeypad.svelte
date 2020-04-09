@@ -1,6 +1,6 @@
 <script>
-    import KeyRow from './keyrow.svelte'
-    import Key from './key.svelte'
+    import KeyRow from './KeyRow.svelte'
+    import Key from './Key.svelte'
 </script>
 
 <KeyRow>
@@ -25,5 +25,7 @@
     <Key type="increment" value="+" />
     <Key type="number" value="0" />
     <Key type="decrement" value="-" />
-    <Key type="clear" value="X"><i class='fas fa-backspace' style='pointer-events: none;'/></Key>
+    <Key type="clear" value="X">
+        <i class="fas fa-backspace" style="pointer-events: none;" />
+    </Key>
 </KeyRow>

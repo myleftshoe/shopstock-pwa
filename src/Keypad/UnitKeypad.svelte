@@ -1,6 +1,6 @@
 <script>
-    import KeyRow from './keyrow.svelte'
-    import Key from './key.svelte'
+    import KeyRow from './KeyRow.svelte'
+    import Key from './Key.svelte'
     const type = 'unit'
 </script>
 

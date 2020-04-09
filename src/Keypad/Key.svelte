@@ -1,3 +1,12 @@
+<script>
+    export let type
+    export let value
+</script>
+
+<button on:click data-type={type} data-key={value}>
+    <slot>{value}</slot>
+</button>
+
 <style>
     button {
         background-color: #333;
@@ -13,12 +22,3 @@
         background-color: #777;
     }
 </style>
-
-<script>
-    export let type
-    export let value
-</script>
-
-<button on:click data-type={type} data-key={value}>
-    <slot>{value}</slot>
-</button>

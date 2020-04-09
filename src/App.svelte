@@ -3,7 +3,7 @@
     import Toast from 'svelte-toast'
     import stocklist, { textify } from './store'
     import Scrollable, { scrollable } from './Scrollable.svelte'
-    import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
+    import Keypad, { keypad, NUMERIC, UNIT } from './Keypad'
     import EditDialog from './EditDialog.svelte'
     import Main from './Main.svelte'
     import Header from './Header.svelte'

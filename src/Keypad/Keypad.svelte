@@ -1,7 +1,7 @@
 <script context="module">
     import { writable, get } from 'svelte/store'
-    import NumericKeypad from './numeric-keypad.svelte'
-    import UnitKeypad from './unit-keypad.svelte'
+    import NumericKeypad from './NumericKeypad.svelte'
+    import UnitKeypad from './UnitKeypad.svelte'
     import Button from '../Button.svelte'
     export const NUMERIC = NumericKeypad
     export const UNIT = UnitKeypad
