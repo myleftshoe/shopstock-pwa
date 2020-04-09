@@ -5,6 +5,7 @@
     import Button from '../Button.svelte'
     export const NUMERIC = NumericKeypad
     export const UNIT = UnitKeypad
+
     export const keypad = {
         open(type) {
             if (type) keypad.type = type
@@ -30,15 +31,41 @@
     }
     const open = writable(false)
     const _type = writable(NUMERIC)
+    const pacify = { passive: true }
 </script>
 
 <script>
-    import { createEventDispatcher } from 'svelte'
-
-    const dispatch = createEventDispatcher()
-    const handleTransitionEnd = () => dispatch($open ? 'open' : 'close')
-
     export let keypads = [NUMERIC]
+    export let closeOn = []
+
+    import { createEventDispatcher } from 'svelte'
+    const dispatch = createEventDispatcher()
+
+    function handleOpen() {
+        dispatch('open')
+        closeOn.forEach(([element, event]) => {
+            element.addEventListener(event, close, pacify)
+        })
+    }
+
+    function close(e) {
+        e.stopPropagation()
+        keypad.close()
+    }
+
+    function handleClose() {
+        dispatch('close')
+        closeOn.forEach(([element, event]) => {
+            element.removeEventListener(event, close, pacify)
+        })
+    }
+
+    function handleTransitionEnd() {
+        if ($open) handleOpen()
+        else handleClose()
+    }
+
+    // Not used
     function handleHeaderClick(e) {
         e.stopPropagation()
         // if (keypads.indexOf(keypads.type) + 1)

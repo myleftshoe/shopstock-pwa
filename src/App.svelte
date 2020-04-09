@@ -73,10 +73,8 @@
         }
     }
 
-    const pacify = { passive: true }
     function handleKeypadOpen() {
         autoscroll(selectedItem)
-        scrollable.element.addEventListener('touchmove', handleTouchMove, pacify)
     }
 
     function handleEditItemDone(e) {
@@ -87,12 +85,6 @@
     function startOver() {
         stocklist.reset()
         stocklist.load(false)
-    }
-
-    function handleTouchMove(e) {
-        e.stopPropagation()
-        scrollable.element.removeEventListener('touchmove', handleTouchMove, pacify)
-        keypad.close()
     }
 
     function handleAddClick() {
@@ -118,6 +110,7 @@
         copied = copiedText === textify(stocklist.completedItems)
         started = Boolean(stocklist.completedItems.length)
     }
+    let scrollableElement
 </script>
 
 {#if !items}
@@ -140,7 +133,7 @@
         </div>
     </Header>
     <Scrollable>
-        <Main bind:ref={scrollable.element}>
+        <Main bind:ref={scrollableElement}>
             <List
                 {items}
                 {selectedItem}
@@ -148,7 +141,8 @@
                 on:qtyclick={handleQtyClick}
                 on:longpress={handleLongpress}
                 on:editclick={handleEditClick}
-                on:hide={handleHideClick}
+                on:hide={handleHideClick}        
+
             />
             <Footer>
                 {#if !searchValue}
@@ -157,7 +151,11 @@
             </Footer>
         </Main>
     </Scrollable>
-    <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} keypads={[NUMERIC, UNIT]} />
+    <Keypad 
+        on:click={handleKeypadClick} 
+        on:open={handleKeypadOpen} 
+        closeOn={[[scrollableElement, 'touchmove']]}
+    />
 {/if}
 {#if editDialogOpen}
     <EditDialog
