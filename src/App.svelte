@@ -19,6 +19,7 @@
     let copiedText = ''
     let searchValue = ''
     let selectedItem = {}
+    let editDialogOpen = false;
 
     onMount(stocklist.load)
 
@@ -120,8 +121,6 @@
         copied = copiedText === textify(stocklist.completedItems)
         started = Boolean(stocklist.completedItems.length)
     }
-
-    let editDialogOpen = false;
 </script>
 
 {#if !items}
