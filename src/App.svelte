@@ -2,7 +2,7 @@
     import { onMount, onDestroy, tick } from 'svelte'
     import Toast from 'svelte-toast'
     import stocklist, { textify } from './store'
-    import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './Scrollable.svelte'
+    import Scrollable, { scrollable } from './Scrollable.svelte'
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
     import EditDialog from './EditDialog.svelte'
     import Main from './Main.svelte'
@@ -69,7 +69,7 @@
         if (!keypad.isVisible) return
         const element = `#${item.id}`
         if (keypad.isOverElement(element)) {
-            scrollToElement(element, -100)
+            scrollable.scrollToElement(element, -100)
         }
     }
 
@@ -104,12 +104,12 @@
     }
 
     function handleSearchFocus() {
-        if (!searchValue) saveScrollPosition()
+        if (!searchValue) scrollable.saveScrollPosition()
     }
 
     async function handleSearchClear() {
         await tick()
-        resetScrollPosition();
+        scrollable.resetScrollPosition();
     }
 
     let items, copied, started
