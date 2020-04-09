@@ -47,6 +47,7 @@
     }
 
     function handleLongpress(e) {
+        keypad.close()
         selectItem(e.detail.item)
     }
 
