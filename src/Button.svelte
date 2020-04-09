@@ -16,6 +16,7 @@
         font-weight: 600;
         font-size: 16px;
         text-transform: uppercase;
+        white-space: nowrap;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
