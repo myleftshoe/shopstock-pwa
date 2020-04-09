@@ -84,5 +84,13 @@
         user-select: none;
         overflow-x: scroll;
         overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: none;
+        -ms-overscroll-behavior-x: none;
+        -ms-scroll-chaining: none;
+        -ms-overflow-style: none;
+        touch-action:pan-x;
+        -ms-touch-action: pan-x;
+
     }
 </style>
