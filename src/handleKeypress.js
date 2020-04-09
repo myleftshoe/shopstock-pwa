@@ -1,6 +1,8 @@
 export default function handleKeypress( {type, key}, item) {
     let stop = true
     switch (type) {
+        case 'header': 
+            item.unit = key
         case 'unit':
             item.unit = key
             break
