@@ -2,6 +2,7 @@
     import { writable, get } from 'svelte/store'
     import NumericKeypad from './numeric-keypad.svelte'
     import UnitKeypad from './unit-keypad.svelte'
+    import IconButton from '../IconButton.svelte'
     export const NUMERIC = NumericKeypad
     export const UNIT = UnitKeypad
     export const keypad = {
@@ -47,7 +48,7 @@
 </script>
 
 <div id="keypad" class="container" class:hidden={!$visible} on:click on:transitionend={handleTransitionEnd}>
-    <div class="unit" data-type="header" on:click={handleHeaderClick}><i class="fas fa-exchange-alt" style="pointer-events:none;"/></div>
+    <div class="header" data-type="header" on:click={handleHeaderClick}><IconButton icon="exchange-alt" style="pointer-events:none;"/></div>
     <svelte:component this={$_type} />
 </div>
 
@@ -66,7 +67,7 @@
     .hidden {
         transform: translateY(50vh);
     }
-    .unit {
+    .header {
         position: relative;
         display: flex;
         align-items: center;
