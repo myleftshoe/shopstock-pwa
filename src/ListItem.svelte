@@ -19,12 +19,6 @@
         state = 'selected';
     }
 
-    async function handleQtyClick(e) {
-        dispatch('qtyclick', { item })
-        await tick()
-        state = 'selected';
-    }
-
     async function handleContextMenu(e) {
         dispatch('longpress', { item })
         await tick()
@@ -32,6 +26,7 @@
     }
 
     function handleEditClick(e) {
+        e.stopPropagation()
         dispatch('editclick', { item })
     }
 
@@ -41,7 +36,7 @@
         element.style.opacity = 0.3;
         const dispatchHide = () => {
             element.removeEventListener('transitionend', dispatchHide);
-            dispatch('hide', { item })
+            dispatch('hideclick', { item })
         }
         element.addEventListener('transitionend', dispatchHide);
     }
@@ -54,9 +49,10 @@
     data-name={item.name}
     class={`row ${state}`}
     style={item.hidden && 'opacity: .7'}
+    on:click={handleItemClick}
     on:contextmenu|preventDefault={handleContextMenu}
 >
-    <div class="left" on:click|stopPropagation={handleItemClick}>
+    <div class="left">
         <div>{item.name}</div>
         {#if item.notes}
             <div class="notes">{item.notes}</div>
@@ -70,7 +66,7 @@
             <div class="unit">{item.hidden ? 'delete': 'hide'}</div>
         </div>
     {:else}
-        <div class={`right ${state} quantity`} on:click|stopPropagation={handleQtyClick}>
+        <div class={`right ${state} quantity`}>
             <div tabindex="0">{item.qty}</div>
             <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
             <div class="unit">{item.unit}</div>

@@ -32,11 +32,6 @@
         stocklist.complete()
     }
 
-    function handleQtyClick(e) {
-        selectItem(e.detail.item)
-        keypad.open(NUMERIC)
-    }
-
     function handleHideClick(e) {
         stocklist.hideOrDelete(e.detail.item)
     }
@@ -139,10 +134,9 @@
                 {items}
                 {selectedItem}
                 on:itemclick={handleItemClick}
-                on:qtyclick={handleQtyClick}
                 on:longpress={handleLongpress}
                 on:editclick={handleEditClick}
-                on:hide={handleHideClick}        
+                on:hideclick={handleHideClick}        
 
             />
             <Footer>
