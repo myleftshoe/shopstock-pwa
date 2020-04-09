@@ -109,9 +109,13 @@ store.filter = function (searchValue) {
         return items
     if (!searchValue)
         items = items.filter(discard.hidden)
-    if (searchValue.startsWith('...')) {
+    if (searchValue.startsWith('-')) {
         items = items.filter(keep.hidden)
-        searchValue = searchValue.substr(3)
+        searchValue = searchValue.substr(1)
+    }
+    if (searchValue.startsWith('#')) {
+        items = items.filter(keep.validQuantities)
+        searchValue = searchValue.substr(1)
     }
     if (searchValue) {
         if (searchValue.length < 3)
