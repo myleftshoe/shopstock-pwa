@@ -39,6 +39,16 @@ store.add = (itemToAdd = {}) => store.set([...store.get(), {
 
 store.remove = (itemToRemove = {}) => store.set(store.get().filter(item => item !== itemToRemove))
 
+store.hideOrDelete = function(item) {
+    if (item.hidden === true) {
+        store.remove(item)
+        return
+    }
+    item.hidden = true
+    item.qty = ''
+    store.update()
+}
+
 store.update = (items = [...store.get()]) => {
     store.isComplete = false
     store.set(items)

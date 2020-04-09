@@ -38,14 +38,7 @@
     }
 
     function handleHideClick(e) {
-        const item = e.detail.item
-        if (item.hidden === true) {
-            stocklist.remove(item)
-            return
-        }
-        item.hidden = true
-        item.qty = ''
-        updateItems()
+        stocklist.hideOrDelete(e.detail.item)
     }
 
     function handleItemClick(e) {
@@ -61,14 +54,10 @@
         autoscroll(selectedItem)
     }
 
-    function updateItems() {
-        stocklist.update()
-    }
-
     function handleKeypadClick(e) {
         const { type, key } = e.target.dataset
         handleKeypress({ type, key }, selectedItem)
-        updateItems()
+        stocklist.update()
     }
 
     function autoscroll(item) {
@@ -85,7 +74,7 @@
 
     function handleEditItemDone(e) {
         Object.assign(selectedItem, e.detail.item)
-        updateItems()
+        stocklist.update()
     }
 
     function startOver() {
