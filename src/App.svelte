@@ -66,7 +66,7 @@
     }
 
     function autoscroll(item) {
-        if (!keypad.isVisible) return
+        if (!keypad.isOpen) return
         const element = `#${item.id}`
         if (keypad.isOverElement(element)) {
             scrollable.scrollToElement(element, -100)

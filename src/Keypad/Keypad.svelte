@@ -8,13 +8,13 @@
     export const keypad = {
         open(type) {
             if (type) keypad.type = type
-            visible.set(true)
+            open.set(true)
         },
         close() {
-            visible.set(false)
+            open.set(false)
         },
-        get isVisible() {
-            return get(visible)
+        get isOpen() {
+            return get(open)
         },
         get type() {
             return get(_type)
@@ -28,7 +28,7 @@
             return elementBottom > keypadTop
         },
     }
-    const visible = writable(false)
+    const open = writable(false)
     const _type = writable(NUMERIC)
 </script>
 
@@ -36,7 +36,7 @@
     import { createEventDispatcher } from 'svelte'
 
     const dispatch = createEventDispatcher()
-    const handleTransitionEnd = () => dispatch(visible ? 'open' : 'close')
+    const handleTransitionEnd = () => dispatch($open ? 'open' : 'close')
 
     export let keypads = [NUMERIC]
     function handleHeaderClick(e) {
@@ -46,7 +46,7 @@
     }
 </script>
 
-<div id="keypad" class="container" class:hidden={!$visible} on:click on:transitionend={handleTransitionEnd}>
+<div id="keypad" class="container" class:hidden={!$open} on:click on:transitionend={handleTransitionEnd}>
     <!-- <div class="header" data-type="header" on:click={handleHeaderClick}> -->
     <div class="header">
         {#each ['bags', 'boxes', 'black tubs', 'trays', 'bin', 'shelf'] as unit}
