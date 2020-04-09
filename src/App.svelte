@@ -32,57 +32,7 @@
         stocklist.complete()
     }
 
-    function handleHideClick(e) {
-        stocklist.hideOrDelete(e.detail.item)
-    }
-
-    function handleItemClick(e) {
-        selectItem(e.detail.item)
-        keypad.open(NUMERIC)
-    }
-
-    function handleLongpress(e) {
-        keypad.close()
-        selectItem(e.detail.item)
-    }
-
-    function handleEditClick(e) {
-        editDialogOpen = true
-    }
-
-    function selectItem(item) {
-        selectedItem = item
-        autoscroll(selectedItem)
-    }
-
-    function handleKeypadClick(e) {
-        const { type, key } = e.target.dataset
-        handleKeypress({ type, key }, selectedItem)
-        stocklist.update()
-    }
-
-    function autoscroll(item) {
-        if (!keypad.isOpen) return
-        const element = `#${item.id}`
-        if (keypad.isOverElement(element)) {
-            scrollable.scrollToElement(element, -100)
-        }
-    }
-
-    function handleKeypadOpen() {
-        autoscroll(selectedItem)
-    }
-
-    function handleEditItemDone(e) {
-        Object.assign(selectedItem, e.detail.item)
-        stocklist.update()
-    }
-
-    function startOver() {
-        stocklist.reset()
-        stocklist.load(false)
-    }
-
+    // Header handlers
     function handleAddClick() {
         stocklist.add({ name: searchValue })
     }
@@ -98,6 +48,60 @@
     async function handleSearchClear() {
         await tick()
         scrollable.resetScrollPosition()
+    }
+
+    // Item handlers
+    function handleItemClick(e) {
+        selectItem(e.detail.item)
+        keypad.open(NUMERIC)
+    }
+
+    function handleLongpress(e) {
+        keypad.close()
+        selectItem(e.detail.item)
+    }
+
+    function handleEditClick(e) {
+        editDialogOpen = true
+    }
+
+    function handleHideClick(e) {
+        stocklist.hideOrDelete(e.detail.item)
+    }
+
+    function handleEditItemDone(e) {
+        Object.assign(selectedItem, e.detail.item)
+        stocklist.update()
+    }
+
+    // Keypad handlers
+    function handleKeypadOpen() {
+        autoscroll(selectedItem)
+    }
+
+    function handleKeypadClick(e) {
+        const { type, key } = e.target.dataset
+        handleKeypress({ type, key }, selectedItem)
+        stocklist.update()
+    }
+
+    // Other functions
+    function selectItem(item) {
+        selectedItem = item
+        autoscroll(selectedItem)
+    }
+
+    function autoscroll(item) {
+        if (!keypad.isOpen) return
+        const element = `#${item.id}`
+        if (keypad.isOverElement(element)) {
+            scrollable.scrollToElement(element, -100)
+        }
+    }
+
+    function startOver() {
+        stocklist.reset()
+        stocklist.load(false)
     }
 
     let items, copied, started
