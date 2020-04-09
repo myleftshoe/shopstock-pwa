@@ -58,13 +58,13 @@
 
 <style>
     .container {
-        background-color: #000;
+        background-color: #111;
         position: fixed;
         bottom: 0;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        height: 50vh;
+        height: 46vh;
         width: 100vw;
         transition: transform 0.3s ease;
     }
@@ -76,7 +76,7 @@
         display: flex;
         align-items: center;
         /* justify-content: center; */
-        height: 7vh;
+        height: 8vh;
         width: 100vw;
         color: white;
         -webkit-user-select: none;

@@ -1,7 +1,7 @@
 <style>
     button {
         background-color: #333;
-        border: 2px solid black;
+        border: 2px solid #111;
         outline: none;
         cursor: pointer;
         color: white;
