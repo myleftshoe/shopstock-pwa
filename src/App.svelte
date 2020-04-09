@@ -73,8 +73,10 @@
         }
     }
 
+    const pacify = { passive: true }
     function handleKeypadOpen() {
         autoscroll(selectedItem)
+        scrollContainer.addEventListener('touchmove', handleTouchMove, pacify)
     }
 
     function handleEditItemDone(e) {
@@ -87,9 +89,10 @@
         stocklist.load(false)
     }
 
-    function handleTouchStart(e) {
-        const isQuantityElement = e.target.closest(".quantity")
-        if (!isQuantityElement) keypad.close()
+    function handleTouchMove(e) {
+        e.stopPropagation()
+        scrollContainer.removeEventListener('touchmove', handleTouchMove, pacify)
+        keypad.close()
     }
 
     function handleAddClick() {
@@ -115,53 +118,54 @@
         copied = copiedText === textify(stocklist.completedItems)
         started = Boolean(stocklist.completedItems.length)
     }
+
+    let scrollContainer
+
 </script>
 
 {#if !items}
     <Loader />
 {:else}
-    <div on:touchstart|stopPropagation|passive={handleTouchStart}>
-        <Header>
-            <div slot="left">
-                <Search
-                    bind:value={searchValue}
-                    on:focus={handleSearchFocus}
-                    on:clear={handleSearchClear}
-                />
-            </div>
-            <div slot="right">
-                {#if !items.length && searchValue.length > 3}
-                    <Button on:click={handleAddClick}>add</Button>
-                {:else if started && !searchValue}
-                    {#if copied}
-                        <IconButton icon="clipboard-check" on:click={copyToClipboard} aria-label="copy"/>
-                    {:else}
-                        <IconButton icon="copy" on:click={copyToClipboard} aria-label="copy"/>
-                    {/if}
+    <Header on:touchstart={keypad.close}>
+        <div slot="left">
+            <Search
+                bind:value={searchValue}
+                on:focus={handleSearchFocus}
+                on:clear={handleSearchClear}
+            />
+        </div>
+        <div slot="right">
+            {#if !items.length && searchValue.length > 3}
+                <Button on:click={handleAddClick}>add</Button>
+            {:else if started && !searchValue}
+                {#if copied}
+                    <IconButton icon="clipboard-check" on:click={copyToClipboard} aria-label="copy"/>
+                {:else}
+                    <IconButton icon="copy" on:click={copyToClipboard} aria-label="copy"/>
                 {/if}
-            </div>
-        </Header>
-        <Scrollable>
-            <Main>
-                <List
-                    {items}
-                    {selectedItem}
-                    on:itemclick={handleItemClick}
-                    on:qtyclick={handleQtyClick}
-                    on:longpress={handleLongpress}
-                    on:editclick={handleEditClick}
-                    on:hide={handleHideClick}
-                />
-                <Footer>
-                    {#if !searchValue}
-                        <Button on:click={startOver} style="margin-top:24px" disabled={!started}>
-                            Start over
-                        </Button>
-                    {/if}
-                </Footer>
-            </Main>
-        </Scrollable>
-    </div>
+            {/if}
+        </div>
+    </Header>
+    <Scrollable>
+        <Main bind:ref={scrollContainer}>
+            <List
+                {items}
+                {selectedItem}
+                on:itemclick={handleItemClick}
+                on:qtyclick={handleQtyClick}
+                on:longpress={handleLongpress}
+                on:editclick={handleEditClick}
+                on:hide={handleHideClick}
+            />
+            <Footer>
+                {#if !searchValue}
+                    <Button on:click={startOver} style="margin-top:24px" disabled={!started}>
+                        Start over
+                    </Button>
+                {/if}
+            </Footer>
+        </Main>
+    </Scrollable>
     <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} keypads={[ NUMERIC, UNIT ]}/>
 {/if}
 {#if editDialogOpen}

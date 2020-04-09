@@ -17,7 +17,7 @@
         -ms-user-select: none;
     }
 </style>
-<header>
+<header on:touchstart>
     <slot name="left"/>
     <slot name="right"/>
 </header>

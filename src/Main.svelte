@@ -17,6 +17,9 @@
         -ms-touch-action: pan-y;
     }
 </style>
-<main>
+<script>
+    export let ref = undefined
+</script>
+<main bind:this={ref}>
     <slot/>
 </main>
