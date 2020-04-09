@@ -43,6 +43,11 @@
 
     function handleItemClick(e) {
         selectItem(e.detail.item)
+        keypad.open(NUMERIC)
+    }
+
+    function handleLongpress(e) {
+        selectItem(e.detail.item)
     }
 
     function handleEditClick(e) {
@@ -143,8 +148,9 @@
                     {selectedItem}
                     on:itemclick={handleItemClick}
                     on:qtyclick={handleQtyClick}
-                    on:hide={handleHideClick}
+                    on:longpress={handleLongpress}
                     on:editclick={handleEditClick}
+                    on:hide={handleHideClick}
                 />
                 <Footer>
                     {#if !searchValue}

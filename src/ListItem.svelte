@@ -26,7 +26,7 @@
     }
 
     async function handleContextMenu(e) {
-        dispatch('itemclick', { item })
+        dispatch('longpress', { item })
         await tick()
         state = 'edit'
     }

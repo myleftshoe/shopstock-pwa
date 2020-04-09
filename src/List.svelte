@@ -10,7 +10,8 @@
         selected={selectedItem === item}
         on:itemclick
         on:qtyclick
-        on:hide
+        on:longpress
         on:editclick
+        on:hide
     />
 {/each}
