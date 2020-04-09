@@ -19,16 +19,16 @@
     let copiedText = ''
     let searchValue = ''
     let selectedItem = {}
-    let editDialogOpen = false;
+    let editDialogOpen = false
 
     onMount(stocklist.load)
 
     function copyToClipboard() {
-        const toast = new Toast({position: 'top-center'})
+        const toast = new Toast({ position: 'top-center' })
         const items = stocklist.completedItems
         copiedText = textify(items)
         clipboard.copy(copiedText)
-        toast.success(`Copied ${items.length} items!`)        
+        toast.success(`Copied ${items.length} items!`)
         stocklist.complete()
     }
 
@@ -109,7 +109,7 @@
 
     async function handleSearchClear() {
         await tick()
-        scrollable.resetScrollPosition();
+        scrollable.resetScrollPosition()
     }
 
     let items, copied, started
@@ -118,7 +118,6 @@
         copied = copiedText === textify(stocklist.completedItems)
         started = Boolean(stocklist.completedItems.length)
     }
-
 </script>
 
 {#if !items}
@@ -126,20 +125,16 @@
 {:else}
     <Header on:touchstart={keypad.close}>
         <div slot="left">
-            <Search
-                bind:value={searchValue}
-                on:focus={handleSearchFocus}
-                on:clear={handleSearchClear}
-            />
+            <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
         </div>
         <div slot="right">
             {#if !items.length && searchValue.length > 3}
                 <Button on:click={handleAddClick}>add</Button>
             {:else if started && !searchValue}
                 {#if copied}
-                    <IconButton icon="clipboard-check" on:click={copyToClipboard} aria-label="copy"/>
+                    <IconButton icon="clipboard-check" on:click={copyToClipboard} aria-label="copy" />
                 {:else}
-                    <IconButton icon="copy" on:click={copyToClipboard} aria-label="copy"/>
+                    <IconButton icon="copy" on:click={copyToClipboard} aria-label="copy" />
                 {/if}
             {/if}
         </div>
@@ -157,19 +152,17 @@
             />
             <Footer>
                 {#if !searchValue}
-                    <Button on:click={startOver} style="margin-top:24px" disabled={!started}>
-                        Start over
-                    </Button>
+                    <Button on:click={startOver} style="margin-top:24px" disabled={!started}>Start over</Button>
                 {/if}
             </Footer>
         </Main>
     </Scrollable>
-    <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} keypads={[ NUMERIC, UNIT ]}/>
+    <Keypad on:click={handleKeypadClick} on:open={handleKeypadOpen} keypads={[NUMERIC, UNIT]} />
 {/if}
 {#if editDialogOpen}
     <EditDialog
         bind:open={editDialogOpen}
-        item={{...selectedItem}}
+        item={{ ...selectedItem }}
         on:done={handleEditItemDone}
         on:delete={handleDelete}
     />
