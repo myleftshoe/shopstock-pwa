@@ -23,6 +23,14 @@
 
     onMount(stocklist.load)
 
+    // Header handlers
+    function handleSearchFocus() {
+        if (!searchValue) scrollable.saveScrollPosition()
+    }
+    async function handleSearchClear() {
+        await tick()
+        scrollable.resetScrollPosition()
+    }
     function handleCopy() {
         const toast = new Toast({ position: 'top-center' })
         const items = stocklist.completedItems
@@ -31,23 +39,8 @@
         toast.success(`Copied ${items.length} items!`)
         stocklist.complete()
     }
-
-    // Header handlers
     function handleAddClick() {
         stocklist.add({ name: searchValue })
-    }
-
-    function handleDelete() {
-        stocklist.remove(selectedItem)
-    }
-
-    function handleSearchFocus() {
-        if (!searchValue) scrollable.saveScrollPosition()
-    }
-
-    async function handleSearchClear() {
-        await tick()
-        scrollable.resetScrollPosition()
     }
 
     // Item handlers
@@ -55,30 +48,28 @@
         selectItem(e.detail.item)
         keypad.open(NUMERIC)
     }
-
     function handleLongpress(e) {
         keypad.close()
         selectItem(e.detail.item)
     }
-
     function handleEditClick(e) {
         editDialogOpen = true
     }
-
     function handleHideClick(e) {
         stocklist.hideOrDelete(e.detail.item)
     }
-
     function handleEditItemDone(e) {
         Object.assign(selectedItem, e.detail.item)
         stocklist.update()
+    }
+    function handleDelete() {
+        stocklist.remove(selectedItem)
     }
 
     // Keypad handlers
     function handleKeypadOpen() {
         autoscroll(selectedItem)
     }
-
     function handleKeypadClick(e) {
         const { type, key } = e.target.dataset
         handleKeypress({ type, key }, selectedItem)
@@ -90,7 +81,6 @@
         selectedItem = item
         autoscroll(selectedItem)
     }
-
     function autoscroll(item) {
         if (!keypad.isOpen) return
         const element = `#${item.id}`
@@ -98,7 +88,6 @@
             scrollable.scrollToElement(element, -100)
         }
     }
-
     function startOver() {
         stocklist.reset()
         stocklist.load(false)
@@ -140,8 +129,7 @@
                 on:itemclick={handleItemClick}
                 on:longpress={handleLongpress}
                 on:editclick={handleEditClick}
-                on:hideclick={handleHideClick}        
-
+                on:hideclick={handleHideClick}
             />
             <Footer>
                 {#if !searchValue}
