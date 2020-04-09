@@ -76,7 +76,7 @@
     const pacify = { passive: true }
     function handleKeypadOpen() {
         autoscroll(selectedItem)
-        scrollContainer.addEventListener('touchmove', handleTouchMove, pacify)
+        scrollable.element.addEventListener('touchmove', handleTouchMove, pacify)
     }
 
     function handleEditItemDone(e) {
@@ -91,7 +91,7 @@
 
     function handleTouchMove(e) {
         e.stopPropagation()
-        scrollContainer.removeEventListener('touchmove', handleTouchMove, pacify)
+        scrollable.element.removeEventListener('touchmove', handleTouchMove, pacify)
         keypad.close()
     }
 
@@ -119,8 +119,6 @@
         started = Boolean(stocklist.completedItems.length)
     }
 
-    let scrollContainer
-
 </script>
 
 {#if !items}
@@ -147,7 +145,7 @@
         </div>
     </Header>
     <Scrollable>
-        <Main bind:ref={scrollContainer}>
+        <Main bind:ref={scrollable.element}>
             <List
                 {items}
                 {selectedItem}
