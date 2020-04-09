@@ -6,6 +6,7 @@
     import Keypad, { keypad, NUMERIC, UNIT } from './keypad'
     import EditDialog from './EditDialog.svelte'
     import Header from './Header.svelte'
+    import Footer from './Footer.svelte'
     import List from './List.svelte'
     import Loader from './Loader.svelte'
     import Button from './Button.svelte'
@@ -160,13 +161,13 @@
                     on:hide={handleHideClick}
                     on:editclick={handleEditClick}
                 />
-                <footer>
+                <Footer>
                     {#if !searchValue}
                         <Button on:click={startOver} style="margin-top:24px" disabled={!started}>
                             Start over
                         </Button>
                     {/if}
-                </footer>
+                </Footer>
             </main>
         </Scrollable>
     </div>
@@ -198,13 +199,5 @@
         -ms-overflow-style: none;
         touch-action:pan-y;
         -ms-touch-action: pan-y;
-    }
-    footer {
-        flex-basis: 50vh;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
 </style>
