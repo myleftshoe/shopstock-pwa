@@ -38,17 +38,18 @@
     const dispatch = createEventDispatcher()
     const handleTransitionEnd = () => dispatch(visible ? 'open' : 'close')
 
-    export let keypads = [ NUMERIC ]
+    export let keypads = [NUMERIC]
     function handleHeaderClick(e) {
         e.stopPropagation()
         // if (keypads.indexOf(keypads.type) + 1)
-        $_type = keypads[keypads.indexOf($_type) +  1] || keypads[0]
+        $_type = keypads[keypads.indexOf($_type) + 1] || keypads[0]
     }
-
 </script>
 
 <div id="keypad" class="container" class:hidden={!$visible} on:click on:transitionend={handleTransitionEnd}>
-    <div class="header" data-type="header" on:click={handleHeaderClick}><IconButton icon="exchange-alt" style="pointer-events:none;"/></div>
+    <div class="header" data-type="header" on:click={handleHeaderClick}>
+        <IconButton icon="exchange-alt" style="pointer-events:none;" />
+    </div>
     <svelte:component this={$_type} />
 </div>
 
