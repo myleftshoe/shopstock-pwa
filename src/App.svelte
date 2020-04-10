@@ -2,7 +2,7 @@
     import { onMount, onDestroy, tick } from 'svelte'
     import Toast from 'svelte-toast'
     import stocklist, { textify } from './store'
-    import Scrollable, { scrollable } from './Scrollable.svelte'
+    import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './Scrollable.svelte'
     import Keypad, { keypad } from './Keypad'
     import EditDialog from './EditDialog.svelte'
     import Main from './Main.svelte'
@@ -16,6 +16,7 @@
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
 
+    let main
     let copiedText = ''
     let searchValue = ''
     let selectedItem = {}
@@ -25,11 +26,11 @@
 
     // Header handlers
     function handleSearchFocus() {
-        if (!searchValue) scrollable.saveScrollPosition()
+        if (!searchValue) saveScrollPosition(main)
     }
     async function handleSearchClear() {
         await tick()
-        scrollable.resetScrollPosition()
+        resetScrollPosition(main)
     }
     function handleCopy() {
         const toast = new Toast({ position: 'top-center' })
@@ -85,7 +86,7 @@
         if (!keypad.isOpen) return
         const element = `#${item.id}`
         if (keypad.isOverElement(element)) {
-            scrollable.scrollToElement(element, -100)
+            scrollToElement(element, -100)
         }
     }
     function startOver() {
@@ -99,7 +100,6 @@
         copied = copiedText === textify(stocklist.completedItems)
         started = Boolean(stocklist.completedItems.length)
     }
-    let scrollableElement
 </script>
 
 {#if !items}
@@ -122,7 +122,7 @@
         </div>
     </Header>
     <Scrollable>
-        <Main bind:ref={scrollableElement}>
+        <Main bind:ref={main}>
             <List
                 {items}
                 {selectedItem}
@@ -141,7 +141,7 @@
     <Keypad 
         on:click={handleKeypadClick} 
         on:open={handleKeypadOpen} 
-        closeOn={[[scrollableElement, 'touchmove']]}
+        closeOn={[[main, 'touchmove']]}
     />
 {/if}
 {#if editDialogOpen}

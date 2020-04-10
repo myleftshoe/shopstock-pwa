@@ -1,30 +1,21 @@
 <script context="module">
     import { scrollTo } from 'svelte-scrollto'
 
-    let ref
-    let savedScrollPosition
+    const savedScrollPositions = new Map()
 
-    function saveScrollPosition() {
-        const container = ref.firstChild
-        savedScrollPosition = container.scrollTop
+    export function saveScrollPosition(container) {
+        savedScrollPositions.set(container, container.scrollTop)
     }
 
-    function resetScrollPosition() {
-        const container = ref.firstChild
-        container.scrollTop = savedScrollPosition
+    export function resetScrollPosition(container) {
+        container.scrollTop = savedScrollPositions.get(container)
     }
 
-    function scrollToElement(element) {
-        scrollTo({ element, container: ref.firstChild, offset: -100 })
-    }
-
-    export const scrollable = {
-        saveScrollPosition,
-        resetScrollPosition,
-        scrollToElement,
+    export function scrollToElement(container, element) {
+        scrollTo({ element, container, offset: -100 })
     }
 </script>
 
-<div bind:this={ref}>
+<div>
     <slot />
 </div>
