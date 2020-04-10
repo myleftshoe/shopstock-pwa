@@ -134,6 +134,9 @@
             {#if !searchValue}
                 <Button on:click={startOver} style="margin-top:24px" disabled={!started}>Start over</Button>
             {/if}
+            {#if !items.length}
+                <Button on:click={startOver} style="margin-top:24px" disabled>No results</Button>
+            {/if}
         </Footer>
     </Main>
     <Keypad 
