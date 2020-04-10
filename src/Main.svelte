@@ -1,3 +1,11 @@
+<script>
+    export let ref = undefined
+</script>
+
+<main bind:this={ref}>
+    <slot />
+</main>
+
 <style>
     main {
         position: fixed;
@@ -13,13 +21,7 @@
         -ms-overscroll-behavior-y: none;
         -ms-scroll-chaining: none;
         -ms-overflow-style: none;
-        touch-action:pan-y;
+        touch-action: pan-y;
         -ms-touch-action: pan-y;
     }
 </style>
-<script>
-    export let ref = undefined
-</script>
-<main bind:this={ref}>
-    <slot/>
-</main>

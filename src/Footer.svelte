@@ -1,3 +1,7 @@
+<footer>
+    <slot />
+</footer>
+
 <style>
     footer {
         flex-basis: 50vh;
@@ -8,6 +12,3 @@
         justify-content: center;
     }
 </style>
-<footer>
-    <slot/>
-</footer>

@@ -8,15 +8,15 @@
     const dispatch = createEventDispatcher()
 
     const states = {
-        init: { nextState: 'selected'},
-        selected: { nextState: 'edit'},
-        edit: { nextState: 'selected' } 
+        init: { nextState: 'selected' },
+        selected: { nextState: 'edit' },
+        edit: { nextState: 'selected' },
     }
 
     async function handleItemClick(e) {
         dispatch('itemclick', { item })
         await tick()
-        state = 'selected';
+        state = 'selected'
     }
 
     async function handleContextMenu(e) {
@@ -33,15 +33,15 @@
     function handleHideClick(e) {
         const element = e.target.closest('.row')
         element.style.transform = 'scaleX(0)'
-        element.style.opacity = 0.3;
+        element.style.opacity = 0.3
         const dispatchHide = () => {
-            element.removeEventListener('transitionend', dispatchHide);
+            element.removeEventListener('transitionend', dispatchHide)
             dispatch('hideclick', { item })
         }
-        element.addEventListener('transitionend', dispatchHide);
+        element.addEventListener('transitionend', dispatchHide)
     }
-    
-    $: state = !selected ? 'init' : state 
+
+    $: state = !selected ? 'init' : state
 </script>
 
 <div
@@ -58,12 +58,12 @@
             <div class="notes">{item.notes}</div>
         {/if}
     </div>
-    <div class='editbutton' class:visible={state === 'edit'}>
-        <IconButton solid={false} icon='edit' style="color: #333" on:click={handleEditClick} aria-label="edit item"/>
+    <div class="editbutton" class:visible={state === 'edit'}>
+        <IconButton solid={false} icon="edit" style="color: #333" on:click={handleEditClick} aria-label="edit item" />
     </div>
     {#if state === 'edit'}
         <div class={`right hide ${state}`} on:click|stopPropagation={handleHideClick}>
-            <div class="unit">{item.hidden ? 'delete': 'hide'}</div>
+            <div class="unit">{item.hidden ? 'delete' : 'hide'}</div>
         </div>
     {:else}
         <div class={`right ${state} quantity`}>
@@ -111,7 +111,7 @@
         background-color: #aee1cd;
     }
     .editbutton {
-        display:flex;
+        display: flex;
         align-items: center;
         justify-content: center;
         visibility: hidden;

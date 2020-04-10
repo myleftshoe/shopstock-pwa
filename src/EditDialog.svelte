@@ -18,14 +18,20 @@
         open = false
         dispatch('delete')
     }
-
 </script>
 
 <form on:submit|preventDefault|stopPropagation={handleSubmit}>
     <div class="itemname">
-        <input id="itemname" required type="text" bind:value={item.name} placeholder="Enter item name" aria-label='item name'/>
+        <input
+            id="itemname"
+            required
+            type="text"
+            bind:value={item.name}
+            placeholder="Enter item name"
+            aria-label="item name"
+        />
     </div>
-    <textarea id="notes" rows="4" placeholder="Notes" bind:value={item.notes} aria-label='notes'/>
+    <textarea id="notes" rows="4" placeholder="Notes" bind:value={item.notes} aria-label="notes" />
     <div class="actions">
         <button type="button" on:click={handleClose} aria-label="cancel">
             <i class="fas fa-times" />

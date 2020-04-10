@@ -4,7 +4,7 @@
     $: faClass = `${solid ? 'fas' : 'far'} fa-${icon}`
 </script>
 
-<button on:click on:contextmenu|preventDefault {...$$restProps} >
+<button on:click on:contextmenu|preventDefault {...$$restProps}>
     <i class={faClass} />
 </button>
 

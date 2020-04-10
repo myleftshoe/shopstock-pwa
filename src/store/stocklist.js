@@ -39,7 +39,7 @@ store.add = (itemToAdd = {}) => store.set([...store.get(), {
 
 store.remove = (itemToRemove = {}) => store.set(store.get().filter(item => item !== itemToRemove))
 
-store.hideOrDelete = function(item) {
+store.hideOrDelete = function (item) {
     if (item.hidden === true) {
         store.remove(item)
         return
@@ -131,7 +131,7 @@ store.findItemIndex = itemToFind => store.get().findIndex(item => item.id === it
 
 store.findItemById = id => store.get().find(item => item.id === id)
 
-store.replaceItem = item => { 
+store.replaceItem = item => {
     const index = store.findItemIndex(item)
     const newItem = { ...item }
     store.get()[index] = newItem

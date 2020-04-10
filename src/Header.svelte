@@ -1,3 +1,7 @@
+<header on:touchstart>
+    <slot />
+</header>
+
 <style>
     header {
         position: fixed;
@@ -17,6 +21,3 @@
         -ms-user-select: none;
     }
 </style>
-<header on:touchstart>
-    <slot/>
-</header>

@@ -1,5 +1,5 @@
 function copy(text) {
-    
+
     document.addEventListener('copy', handleCopy)
     document.execCommand('copy')
 

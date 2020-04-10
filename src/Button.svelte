@@ -4,7 +4,7 @@
 
 <style>
     button {
-        display:flex;
+        display: flex;
         align-items: center;
         justify-content: center;
         background-color: transparent;
