@@ -11,5 +11,5 @@ export function resetScrollPosition(container) {
 }
 
 export function scrollToElement(container, element) {
-    scrollTo({ element, container, offset: -100 })
+    scrollTo({ container, element, offset: -100 })
 }

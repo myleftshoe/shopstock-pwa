@@ -86,7 +86,7 @@
         if (!keypad.isOpen) return
         const element = `#${item.id}`
         if (keypad.isOverElement(element)) {
-            scrollToElement(element, -100)
+            scrollToElement(main, element, -100)
         }
     }
     function startOver() {
