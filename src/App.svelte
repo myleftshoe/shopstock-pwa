@@ -106,10 +106,10 @@
     <Loader />
 {:else}
     <Header on:touchstart={keypad.close}>
-        <div slot="left">
+        <div>
             <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
         </div>
-        <div slot="right">
+        <div>
             {#if !items.length && searchValue.length > 3}
                 <Button on:click={handleAddClick}>add</Button>
             {:else if started && !searchValue}

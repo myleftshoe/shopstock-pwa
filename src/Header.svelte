@@ -18,6 +18,5 @@
     }
 </style>
 <header on:touchstart>
-    <slot name="left"/>
-    <slot name="right"/>
+    <slot/>
 </header>
