@@ -2,7 +2,7 @@
     import { onMount, onDestroy, tick } from 'svelte'
     import Toast from 'svelte-toast'
     import stocklist, { textify } from './store'
-    import Scrollable, { saveScrollPosition, resetScrollPosition, scrollToElement } from './Scrollable.svelte'
+    import { saveScrollPosition, resetScrollPosition, scrollToElement } from './scrollHelper.js'
     import Keypad, { keypad } from './Keypad'
     import EditDialog from './EditDialog.svelte'
     import Main from './Main.svelte'
@@ -121,23 +121,21 @@
             {/if}
         </div>
     </Header>
-    <Scrollable>
-        <Main bind:ref={main}>
-            <List
-                {items}
-                {selectedItem}
-                on:itemclick={handleItemClick}
-                on:longpress={handleLongpress}
-                on:editclick={handleEditClick}
-                on:hideclick={handleHideClick}
-            />
-            <Footer>
-                {#if !searchValue}
-                    <Button on:click={startOver} style="margin-top:24px" disabled={!started}>Start over</Button>
-                {/if}
-            </Footer>
-        </Main>
-    </Scrollable>
+    <Main bind:ref={main}>
+        <List
+            {items}
+            {selectedItem}
+            on:itemclick={handleItemClick}
+            on:longpress={handleLongpress}
+            on:editclick={handleEditClick}
+            on:hideclick={handleHideClick}
+        />
+        <Footer>
+            {#if !searchValue}
+                <Button on:click={startOver} style="margin-top:24px" disabled={!started}>Start over</Button>
+            {/if}
+        </Footer>
+    </Main>
     <Keypad 
         on:click={handleKeypadClick} 
         on:open={handleKeypadOpen} 
