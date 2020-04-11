@@ -73,6 +73,7 @@
     }
     function handleKeypadClick(e) {
         handleKeypress(e.target.dataset, selectedItem)
+        stocklist.replaceItem({...selectedItem})
         stocklist.update()
     }
 

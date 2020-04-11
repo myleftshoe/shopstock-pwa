@@ -1,11 +1,19 @@
+<svelte:options immutable={true}/>
+
 <script>
     export let item
     export let selected = false
 
+    import { afterUpdate } from 'svelte'
+    import flash from './flash.js'
     import IconButton from './IconButton.svelte'
 
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
+
+	afterUpdate(() => {
+		flash(div);
+	});
 
     const states = {
         init: { nextState: 'selected' },
@@ -41,10 +49,12 @@
         element.addEventListener('transitionend', dispatchHide)
     }
 
+    let div;
     $: state = !selected ? 'init' : state
 </script>
 
 <div
+    bind:this={div}
     id={item.id}
     data-name={item.name}
     class={`row ${state}`}
