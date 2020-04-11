@@ -131,11 +131,10 @@ store.findItemIndex = itemToFind => store.get().findIndex(item => item.id === it
 
 store.findItemById = id => store.get().find(item => item.id === id)
 
-store.replaceItem = item => {
+store.replaceItem = ({...item}) => {
     const index = store.findItemIndex(item)
-    const newItem = { ...item }
-    store.get()[index] = newItem
-    return newItem
+    store.get()[index] = item
+    return item
 }
 
 
