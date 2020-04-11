@@ -72,8 +72,7 @@
         autoscroll(selectedItem)
     }
     function handleKeypadClick(e) {
-        const { type, key } = e.target.dataset
-        handleKeypress({ type, key }, selectedItem)
+        handleKeypress(e.target.dataset, selectedItem)
         stocklist.update()
     }
 
