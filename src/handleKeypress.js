@@ -33,6 +33,9 @@ export default function handleKeypress({ type, key }, item) {
             qty = Number(`${qty}${key}`)
             break
     }
+
+    if (qty < 0 || qty > 999) return
+    
     item.qty = String(qty)
 
     if (item.qty) delete item.hidden
