@@ -1,6 +1,7 @@
 <script>
     export let item
     export let selected = false
+    let timeout;
 
     import IconButton from './IconButton.svelte'
 
@@ -17,6 +18,10 @@
         dispatch('itemclick', { item })
         await tick()
         state = states[state].nextState
+        if (state === 'edit') 
+            timeout = setTimeout(() => state = 'selected', 2000)
+        else 
+            clearTimeout(timeout)
     }
 
     async function handleQtyClick(e) {
