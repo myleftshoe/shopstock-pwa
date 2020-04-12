@@ -12,5 +12,6 @@
         on:longpress
         on:editclick
         on:hideclick
+        on:deleteclick
     />
 {/each}

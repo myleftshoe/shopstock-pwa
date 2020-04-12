@@ -29,33 +29,49 @@ store.load = async function (cacheFirst = true) {
 
 store.get = () => get(store)
 
-store.add = (itemToAdd = {}) => store.set([...store.get(), {
-    id: new UID({ charset: alpha }).value,
-    name: 'new item',
-    qty: '',
-    unit: '',
-    ...itemToAdd
-}])
+store.addItem = (item = {}) => {
+    const items = [...store.get()]
+    items.push({
+        id: new UID({ charset: alpha }).value,
+        name: 'new item',
+        qty: '',
+        unit: '',
+        ...item
+    })
+    store.set(items)
+    store.update();
+}
 
-store.remove = (itemToRemove = {}) => store.set(store.get().filter(item => item !== itemToRemove))
+store.updateItem = item => {
+    const index = store.findItemIndex(item)
+    store.get()[index] = {...item}
+    store.update();
+}
 
-store.hideOrDelete = function (item) {
-    if (item.hidden === true) {
-        store.remove(item)
-        return
-    }
-    item.hidden = true
-    item.qty = ''
+store.removeItem = item => {
+    const items = store.get().filter(({id}) => id !== item.id)
+    store.set(items)
     store.update()
 }
 
-store.update = (items = [...store.get()]) => {
+store.hideItem = function (item) {
+    item.hidden = true
+    item.qty = ''
+    store.updateItem(item)
+}
+
+store.update = () => {
+    const items = [...store.get()]
     store.isComplete = false
     store.set(items)
     cache.set(items)
 }
 
-store.reset = () => store.set(store.get().map(reset))
+store.reset = () => {
+    const items = [...store.get()]
+    store.set(items.map(reset))
+    store.update()
+}
 
 store.complete = async () => {
     persistMaster()
@@ -130,13 +146,6 @@ store.filter = function (searchValue) {
 store.findItemIndex = itemToFind => store.get().findIndex(item => item.id === itemToFind.id)
 
 store.findItemById = id => store.get().find(item => item.id === id)
-
-store.replaceItem = ({...item}) => {
-    const index = store.findItemIndex(item)
-    store.get()[index] = item
-    return item
-}
-
 
 const reset = item => ({ id: new UID({ charset: alpha }).value, ...item, qty: '' })
 

@@ -5,15 +5,10 @@
     export let selected = false
 
     import { afterUpdate } from 'svelte'
-    import flash from './flash.js'
     import IconButton from './IconButton.svelte'
 
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
-
-	afterUpdate(() => {
-		flash(div);
-	});
 
     const states = {
         init: { nextState: 'selected' },
@@ -38,16 +33,28 @@
         dispatch('editclick', { item })
     }
 
+    function animateRemove(element, onComplete) {
+        requestAnimationFrame(() => {
+            element.style.transform = 'scaleX(0)'
+            element.style.opacity = 0.3
+            const handleTransitionend = () => {
+                element.removeEventListener('transitionend', handleTransitionend)
+                onComplete()
+            }
+            element.addEventListener('transitionend', handleTransitionend)
+        })
+    }
+
     function handleHideClick(e) {
         const element = e.target.closest('.row')
-        element.style.transform = 'scaleX(0)'
-        element.style.opacity = 0.3
-        const dispatchHide = () => {
-            element.removeEventListener('transitionend', dispatchHide)
-            dispatch('hideclick', { item })
-        }
-        element.addEventListener('transitionend', dispatchHide)
+        animateRemove(element, () => dispatch('hideclick', { item }))
     }
+
+    function handleDeleteClick(e) {
+        const element = e.target.closest('.row')
+        animateRemove(element, () => dispatch('deleteclick', { item }))
+    }
+
 
     let div;
     $: state = !selected ? 'init' : state
@@ -72,8 +79,12 @@
         <IconButton solid={false} icon="edit" style="color: #333" on:click={handleEditClick} aria-label="edit item" />
     </div>
     {#if state === 'edit'}
-        <div class={`right hide ${state}`} on:click|stopPropagation={handleHideClick}>
-            <div class="unit">{item.hidden ? 'delete' : 'hide'}</div>
+        <div class={`right hide ${state}`}>
+            {#if item.hidden}
+                <div class="unit"  on:click|stopPropagation={handleDeleteClick}>delete</div>
+            {:else}
+                <div class="unit"  on:click|stopPropagation={handleHideClick}>hide</div>
+            {/if}
         </div>
     {:else}
         <div class={`right ${state} quantity`}>

@@ -41,7 +41,7 @@
         stocklist.complete()
     }
     function handleAddClick() {
-        stocklist.add({ name: searchValue })
+        stocklist.addItem({ name: searchValue })
     }
 
     // Item handlers
@@ -57,14 +57,13 @@
         editDialogOpen = true
     }
     function handleHideClick(e) {
-        stocklist.hideOrDelete(e.detail.item)
+        stocklist.hideItem(e.detail.item)
     }
     function handleEditItemDone(e) {
-        Object.assign(selectedItem, e.detail.item)
-        stocklist.update()
+        stocklist.updateItem(e.detail.item)
     }
     function handleDelete() {
-        stocklist.remove(selectedItem)
+        stocklist.removeItem(selectedItem)
     }
 
     // Keypad handlers
@@ -73,8 +72,7 @@
     }
     function handleKeypadClick(e) {
         handleKeypress(e.target.dataset, selectedItem)
-        stocklist.replaceItem(selectedItem)
-        stocklist.update()
+        stocklist.updateItem(selectedItem)
     }
 
     // Other functions
@@ -129,6 +127,7 @@
             on:longpress={handleLongpress}
             on:editclick={handleEditClick}
             on:hideclick={handleHideClick}
+            on:deleteclick={handleDelete}
         />
         <Footer>
             {#if !searchValue}
