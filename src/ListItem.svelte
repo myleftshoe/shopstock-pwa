@@ -37,7 +37,8 @@
 
     function animateRemove(element, onComplete) {
         requestAnimationFrame(() => {
-            element.style.transform = 'scaleX(0)'
+            element.style.transform = 'scaleY(0)'
+            element.style.transformOrigin = 'center'
             element.style.opacity = 0.3
             const handleTransitionend = () => {
                 element.removeEventListener('transitionend', handleTransitionend)
