@@ -33,6 +33,7 @@
     const open = writable(false)
     const _type = writable(NUMERIC)
     const pacify = { passive: true }
+    const capture = true
 </script>
 
 <script>
@@ -44,20 +45,27 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
+    const isExcluded = target => closeExclusionSelectors.some(selector => Boolean(target.closest(selector)))
+
+    function preventClicks(e) {
+        if (!isExcluded(e.target)) e.stopPropagation()
+    }
+
     function handleOpen() {
         dispatch('open')
         body.addEventListener(closeOn, close, pacify)
+        body.addEventListener('click', preventClicks, capture)
     }
 
     function close(e) {
         e.stopPropagation()
-        const exclude = closeExclusionSelectors.some(selector => Boolean(e.target.closest(selector)))
-        if (!exclude) keypad.close()
+        if (!isExcluded(e.target)) keypad.close()
     }
 
     function handleClose(e) {
         dispatch('close')
         body.removeEventListener(closeOn, close, pacify)
+        body.removeEventListener('click', preventClicks, capture)
     }
 
     function handleTransitionEnd() {
