@@ -2,7 +2,6 @@
     export let item
     export let selected = false
 
-    import { longpress } from './longpress.js';
     import IconButton from './IconButton.svelte'
 
     import { createEventDispatcher, tick } from 'svelte'
@@ -17,14 +16,7 @@
     async function handleItemClick(e) {
         dispatch('itemclick', { item, target: e.target })
         await tick()
-        state = 'selected'
-    }
-
-    async function handleLongpress(e) {
-        console.log('fdsfsds')
-        dispatch('longpress', { item })
-        await tick()
-        state = 'edit'
+        state = states[state].nextState
     }
 
     function handleEditClick(e) {
@@ -66,9 +58,7 @@
     class={`row ${state}`}
     style={item.hidden && 'opacity: .7'}
     on:click={handleItemClick}
-    use:longpress
     on:contextmenu|preventDefault
-    on:longpress={handleLongpress}
 >
     <div class="left">
         <div>{item.name}</div>
