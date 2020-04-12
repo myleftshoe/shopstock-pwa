@@ -47,7 +47,7 @@
     // Item handlers
     function handleItemClick(e) {
         selectItem(e.detail.item)
-        keypad.open()
+        if (e.detail.target.closest('.quantity')) keypad.open()
     }
     function handleLongpress(e) {
         keypad.close()
@@ -103,7 +103,7 @@
 {#if !items}
     <Loader />
 {:else}
-    <Header on:touchstart={keypad.close}>
+    <Header>
         <div>
             <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
         </div>
@@ -141,7 +141,7 @@
     <Keypad 
         on:click={handleKeypadClick} 
         on:open={handleKeypadOpen} 
-        closeOn={[[main, 'touchmove']]}
+        closeExclusionSelectors={['.quantity']}
     />
 {/if}
 {#if editDialogOpen}

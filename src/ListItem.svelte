@@ -1,5 +1,3 @@
-<svelte:options immutable={true}/>
-
 <script>
     export let item
     export let selected = false
@@ -17,7 +15,7 @@
     }
 
     async function handleItemClick(e) {
-        dispatch('itemclick', { item })
+        dispatch('itemclick', { item, target: e.target })
         await tick()
         state = 'selected'
     }
@@ -55,11 +53,11 @@
         animateRemove(element, () => dispatch('deleteclick', { item }))
     }
 
-
-    let div;
+    let div
     $: state = !selected ? 'init' : state
 </script>
 
+<svelte:options immutable={true} />
 <div
     bind:this={div}
     id={item.id}
@@ -81,9 +79,9 @@
     {#if state === 'edit'}
         <div class={`right hide ${state}`}>
             {#if item.hidden}
-                <div class="unit"  on:click|stopPropagation={handleDeleteClick}>delete</div>
+                <div class="unit" on:click|stopPropagation={handleDeleteClick}>delete</div>
             {:else}
-                <div class="unit"  on:click|stopPropagation={handleHideClick}>hide</div>
+                <div class="unit" on:click|stopPropagation={handleHideClick}>hide</div>
             {/if}
         </div>
     {:else}

@@ -36,28 +36,26 @@
 
 <script>
     export let keypads = [NUMERIC]
-    export let closeOn = []
+    export let closeOn = 'touchstart'
+    export let closeExclusionSelectors = []
 
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
     function handleOpen() {
         dispatch('open')
-        closeOn.forEach(([element, event]) => {
-            element.addEventListener(event, close, pacify)
-        })
+        document.body.addEventListener(closeOn, close, pacify)
     }
 
     function close(e) {
         e.stopPropagation()
-        keypad.close()
+        const exclude = closeExclusionSelectors.some(selector => Boolean(e.target.closest(selector)))
+        if (!exclude) keypad.close()
     }
 
-    function handleClose() {
+    function handleClose(e) {
         dispatch('close')
-        closeOn.forEach(([element, event]) => {
-            element.removeEventListener(event, close, pacify)
-        })
+        document.body.removeEventListener(closeOn, close, pacify)
     }
 
     function handleTransitionEnd() {
