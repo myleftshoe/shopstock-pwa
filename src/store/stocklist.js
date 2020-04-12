@@ -159,7 +159,7 @@ const by = {
 }
 
 // conversion functions
-const textifyItem = ({ name, qty, unit }) => `${qty} x ${unit} ${name}`.replace(/ +/g, ' ').trim().replace(/^x /, '')
+const textifyItem = ({ name, qty, unit, notes }) => `${qty} x ${unit} ${name}${notes && `\r\n${notes}`}`.replace(/ +/g, ' ').trim().replace(/^x /, '')
 const textify = items => items.filter(keep.validQuantities).map(textifyItem).join('\r\n')
 const htmlify = items => items.filter(keep.validQuantities).map(textifyItem).join('<br>')
 
