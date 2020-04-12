@@ -7,7 +7,7 @@
 {#each items as item (item.id)}
     <Item
         {item}
-        selected={selectedItem === item}
+        selected={selectedItem.id === item.id}
         on:itemclick
         on:longpress
         on:editclick
