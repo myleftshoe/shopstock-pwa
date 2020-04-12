@@ -47,11 +47,10 @@
     // Item handlers
     function handleItemClick(e) {
         selectItem(e.detail.item)
-        if (e.detail.target.closest('.quantity')) keypad.open()
     }
-    function handleLongpress(e) {
-        keypad.close()
+    function handleQtyClick(e) {
         selectItem(e.detail.item)
+        keypad.open()
     }
     function handleEditClick(e) {
         editDialogOpen = true
@@ -125,7 +124,7 @@
                 {items}
                 {selectedItem}
                 on:itemclick={handleItemClick}
-                on:longpress={handleLongpress}
+                on:qtyclick={handleQtyClick}
                 on:editclick={handleEditClick}
                 on:hideclick={handleHideClick}
                 on:deleteclick={handleDelete}

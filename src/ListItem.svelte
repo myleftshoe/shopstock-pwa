@@ -14,9 +14,15 @@
     }
 
     async function handleItemClick(e) {
-        dispatch('itemclick', { item, target: e.target })
+        dispatch('itemclick', { item })
         await tick()
         state = states[state].nextState
+    }
+
+    async function handleQtyClick(e) {
+        dispatch('qtyclick', { item })
+        await tick()
+        state = 'selected'
     }
 
     function handleEditClick(e) {
@@ -57,29 +63,30 @@
     data-name={item.name}
     class={`row ${state}`}
     style={item.hidden && 'opacity: .7'}
-    on:click={handleItemClick}
     on:contextmenu|preventDefault
 >
-    <div class="left">
+    <div class="left" on:click={handleItemClick}>
         <div>{item.name}</div>
         {#if item.notes}
             <div class="notes">{item.notes}</div>
         {/if}
     </div>
-    <div class="editbutton" class:visible={state === 'edit'}>
-        <IconButton solid={false} icon="edit" style="color: #333" on:click={handleEditClick} aria-label="edit item" />
+    <div class="editbutton" class:visible={state === 'edit'} on:click={handleEditClick}>
+        <IconButton solid={false} icon="edit" style="color: #333; pointer-events: none;" aria-label="edit item" />
     </div>
     {#if state === 'edit'}
-        <div class={`right hide ${state}`}>
-            {#if item.hidden}
-                <div class="unit" on:click|stopPropagation={handleDeleteClick}>delete</div>
-            {:else}
-                <div class="unit" on:click|stopPropagation={handleHideClick}>hide</div>
-            {/if}
-        </div>
+        {#if item.hidden}
+            <div class={`right hide unit ${state}`} on:click|stopPropagation={handleDeleteClick}>
+                delete
+            </div>
+        {:else}
+            <div class={`right hide unit ${state}`} on:click|stopPropagation={handleHideClick}>
+                hide
+            </div>
+        {/if}
     {:else}
-        <div class={`right ${state} quantity`}>
-            <div tabindex="0">{item.qty}</div>
+        <div class={`right ${state} quantity`} on:click={handleQtyClick}>
+            {item.qty}
             <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
             <div class="unit">{item.unit}</div>
         </div>
@@ -124,8 +131,6 @@
     }
     .editbutton {
         display: flex;
-        align-items: center;
-        justify-content: center;
         visibility: hidden;
     }
     .visible {
