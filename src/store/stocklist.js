@@ -3,7 +3,6 @@ import UID, { alpha } from '../utils/uid.js'
 import Cache from './cache.js'
 import Jsonbin from './jsonbin.js'
 import { jsonbin } from '../secrets.js'
-import { isComplete } from './complete.js'
 
 const LOCAL_STORAGE_KEY = 'items'
 const MASTERBIN_ID = jsonbin.masterBinId
@@ -62,7 +61,6 @@ store.hideItem = function (item) {
 
 store.update = () => {
     const items = [...store.get()]
-    store.isComplete = false
     store.set(items)
     cache.set(items)
 }
@@ -77,7 +75,6 @@ store.complete = async () => {
     persistMaster()
     await persistWorking()
     notifyBackend()
-    store.isComplete = true
 }
 
 async function persistMaster() {
@@ -105,11 +102,6 @@ async function notifyBackend() {
     const text = await response.text()
     console.log('notifyBackend', text)
 }
-
-Object.defineProperty(store, 'isComplete', {
-    get() { return get(isComplete) },
-    set(boolean) { isComplete.set(boolean) },
-})
 
 Object.defineProperty(store, 'completedItems', {
     get() {
