@@ -1,4 +1,4 @@
-<header on:touchstart>
+<header>
     <slot />
 </header>
 
