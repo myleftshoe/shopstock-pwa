@@ -136,6 +136,8 @@
     }
     .editbutton {
         display: flex;
+        align-items:center;
+        justify-content: center;
         visibility: hidden;
     }
     .visible {
