@@ -3,6 +3,7 @@
     import NumericKeypad from './NumericKeypad.svelte'
     import UnitKeypad from './UnitKeypad.svelte'
     import Button from '../Button.svelte'
+
     export const NUMERIC = NumericKeypad
     export const UNIT = UnitKeypad
 
@@ -36,6 +37,7 @@
 
 <script>
     export let keypads = [NUMERIC]
+    export let body = document.body
     export let closeOn = 'touchstart'
     export let closeExclusionSelectors = []
 
@@ -44,7 +46,7 @@
 
     function handleOpen() {
         dispatch('open')
-        document.body.addEventListener(closeOn, close, pacify)
+        body.addEventListener(closeOn, close, pacify)
     }
 
     function close(e) {
@@ -55,7 +57,7 @@
 
     function handleClose(e) {
         dispatch('close')
-        document.body.removeEventListener(closeOn, close, pacify)
+        body.removeEventListener(closeOn, close, pacify)
     }
 
     function handleTransitionEnd() {

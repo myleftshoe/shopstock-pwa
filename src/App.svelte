@@ -16,7 +16,7 @@
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
 
-    let main
+    let main, body
     let copiedText = ''
     let searchValue = ''
     let selectedItem = {}
@@ -103,44 +103,47 @@
 {#if !items}
     <Loader />
 {:else}
-    <Header>
-        <div>
-            <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
-        </div>
-        <div>
-            {#if !items.length && searchValue.length > 3}
-                <Button on:click={handleAddClick}>add</Button>
-            {:else if started && !searchValue}
-                {#if copied}
-                    <IconButton icon="clipboard-check" on:click={handleCopy} aria-label="copy" />
-                {:else}
-                    <IconButton icon="copy" on:click={handleCopy} aria-label="copy" />
+    <div bind:this={body}>
+        <Header>
+            <div>
+                <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
+            </div>
+            <div>
+                {#if !items.length && searchValue.length > 3}
+                    <Button on:click={handleAddClick}>add</Button>
+                {:else if started && !searchValue}
+                    {#if copied}
+                        <IconButton icon="clipboard-check" on:click={handleCopy} aria-label="copy" />
+                    {:else}
+                        <IconButton icon="copy" on:click={handleCopy} aria-label="copy" />
+                    {/if}
                 {/if}
-            {/if}
-        </div>
-    </Header>
-    <Main bind:ref={main}>
-        <List
-            {items}
-            {selectedItem}
-            on:itemclick={handleItemClick}
-            on:longpress={handleLongpress}
-            on:editclick={handleEditClick}
-            on:hideclick={handleHideClick}
-            on:deleteclick={handleDelete}
-        />
-        <Footer>
-            {#if !searchValue}
-                <Button on:click={startOver} style="margin-top:24px" disabled={!started}>Start over</Button>
-            {/if}
-            {#if !items.length}
-                <Button on:click={startOver} style="margin-top:24px" disabled>No results</Button>
-            {/if}
-        </Footer>
-    </Main>
+            </div>
+        </Header>
+        <Main bind:ref={main}>
+            <List
+                {items}
+                {selectedItem}
+                on:itemclick={handleItemClick}
+                on:longpress={handleLongpress}
+                on:editclick={handleEditClick}
+                on:hideclick={handleHideClick}
+                on:deleteclick={handleDelete}
+            />
+            <Footer>
+                {#if !searchValue}
+                    <Button on:click={startOver} style="margin-top:24px" disabled={!started}>Start over</Button>
+                {/if}
+                {#if !items.length}
+                    <Button on:click={startOver} style="margin-top:24px" disabled>No results</Button>
+                {/if}
+            </Footer>
+        </Main>
+    </div>
     <Keypad 
         on:click={handleKeypadClick} 
-        on:open={handleKeypadOpen} 
+        on:open={handleKeypadOpen}
+        {body}
         closeExclusionSelectors={['.quantity']}
     />
 {/if}
