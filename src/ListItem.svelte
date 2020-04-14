@@ -13,24 +13,33 @@
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
 
-    const nextState = {
-        [INIT]: SELECTED,
-        [SELECTED]: EDIT,
-        [EDIT]: SELECTED,
+    let state
+    const { nextState, setState, select } = {
+        nextState: {
+            [INIT]: SELECTED,
+            [SELECTED]: EDIT,
+            [EDIT]: SELECTED,
+        },
+        setState(newState) { 
+            state = newState 
+        },
+        select() {
+            setState(SELECTED)
+        }
     }
 
     async function handleItemClick(e) {
         dispatch('itemclick', { item })
         await tick()
         state = nextState[state]
-        if (state === EDIT) timeout = setTimeout(() => (state = SELECTED), 2000)
+        if (state === EDIT) timeout = setTimeout(select, 2000)
         else clearTimeout(timeout)
     }
 
     async function handleQtyClick(e) {
         dispatch('qtyclick', { item })
         await tick()
-        state = SELECTED
+        select()
     }
 
     function handleEditClick(e) {
