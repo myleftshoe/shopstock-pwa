@@ -1,10 +1,11 @@
 <script>
     export let item
     export let selected = false
-    let timeout;
+    let timeout
 
-    import IconButton from './IconButton.svelte'
+    import ListItemWrapper from './ListItemWrapper.svelte'
     import ListTextButton from './ListTextButton.svelte'
+    import IconButton from './IconButton.svelte'
 
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
@@ -19,9 +20,9 @@
         dispatch('itemclick', { item })
         await tick()
         state = states[state].nextState
-        if (state === 'edit') 
-            timeout = setTimeout(() => state = 'selected', 2000)
-        else 
+        if (state === 'edit')
+            timeout = setTimeout(() => (state = 'selected'), 2000)
+        else
             clearTimeout(timeout)
     }
 
@@ -64,25 +65,18 @@
 </script>
 
 <svelte:options immutable={true} />
-<div
-    bind:this={div}
-    id={item.id}
-    data-name={item.name}
-    class={`row ${state}`}
-    style={item.hidden && 'opacity: .7'}
-    on:contextmenu|preventDefault
->
+<ListItemWrapper {item} selected={state !== 'init'}>
     <div class="left" on:click={handleItemClick}>
         <div>{item.name}</div>
         {#if item.notes}
             <div class="notes">{item.notes}</div>
         {/if}
     </div>
-    <div class='actions' class:visible={state === 'edit'}>
-        <IconButton 
+    <div class="actions" class:visible={state === 'edit'}>
+        <IconButton
             icon="edit"
-            solid={false}  
-            aria-label="edit item" 
+            solid={false}
+            aria-label="edit item"
             on:click={handleEditClick}
             style="color: #333;"
         />
@@ -90,33 +84,18 @@
     <div class="right">
         {#if state === 'edit'}
             {#if item.hidden}
-                <ListTextButton subtext="DELETE" on:click={handleDeleteClick}/>
+                <ListTextButton subtext="DELETE" on:click={handleDeleteClick} />
             {:else}
-                <ListTextButton subtext="HIDE" on:click={handleHideClick}/>
+                <ListTextButton subtext="HIDE" on:click={handleHideClick} />
             {/if}
         {:else}
-            <ListTextButton text={item.qty} subtext={item.unit} on:click={handleQtyClick}/>
+            <ListTextButton text={item.qty} subtext={item.unit} on:click={handleQtyClick} />
             <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
         {/if}
     </div>
-</div>
+</ListItemWrapper>
 
 <style>
-    .row {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items:center;
-        margin-top: 1px;
-        flex: 0 0 auto;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-        max-height: 100px;
-        user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        background-color: #f9f6ef;
-    }
     .left {
         padding: 16px 12px;
         border: none;
@@ -126,7 +105,7 @@
         width: 30vw;
         padding: 5px;
         background-color: #aee1cd;
-        align-self:stretch;
+        align-self: stretch;
     }
     .actions {
         visibility: hidden;
