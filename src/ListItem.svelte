@@ -3,6 +3,10 @@
     export let selected = false
     let timeout
 
+    const INIT = Symbol('init')
+    const SELECTED = Symbol('selected')
+    const EDIT = Symbol('edit')
+
     import IconButton from './IconButton.svelte'
     import ListTextButton from './ListTextButton.svelte'
 
@@ -10,23 +14,23 @@
     const dispatch = createEventDispatcher()
 
     const nextState = {
-        init: 'selected',
-        selected: 'edit',
-        edit: 'selected',
+        [INIT]: SELECTED,
+        [SELECTED]: EDIT,
+        [EDIT]: SELECTED,
     }
 
     async function handleItemClick(e) {
         dispatch('itemclick', { item })
         await tick()
         state = nextState[state]
-        if (state === 'edit') timeout = setTimeout(() => (state = 'selected'), 2000)
+        if (state === EDIT) timeout = setTimeout(() => (state = SELECTED), 2000)
         else clearTimeout(timeout)
     }
 
     async function handleQtyClick(e) {
         dispatch('qtyclick', { item })
         await tick()
-        state = 'selected'
+        state = SELECTED
     }
 
     function handleEditClick(e) {
@@ -58,7 +62,7 @@
     }
 
     let div
-    $: state = !selected ? 'init' : state
+    $: state = !selected ? INIT : state
 </script>
 
 <svelte:options immutable={true} />
@@ -67,7 +71,7 @@
     id={item.id}
     data-name={item.name}
     class="row"
-    class:selected={state !== 'init'}
+    class:selected={state !== INIT}
     style={item.hidden && 'opacity: .7'}
     on:contextmenu|preventDefault
 >
@@ -77,7 +81,7 @@
             <div class="notes">{item.notes}</div>
         {/if}
     </div>
-    <div class="actions" class:visible={state === 'edit'}>
+    <div class="actions" class:visible={state === EDIT}>
         <IconButton 
             icon="edit" 
             solid={false} 
@@ -87,7 +91,7 @@
         />
     </div>
     <div class="right">
-        {#if state === 'edit'}
+        {#if state === EDIT}
             {#if item.hidden}
                 <ListTextButton subtext="DELETE" on:click={handleDeleteClick} />
             {:else}
