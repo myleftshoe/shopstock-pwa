@@ -4,6 +4,7 @@
     let timeout;
 
     import IconButton from './IconButton.svelte'
+    import ListTextButton from './ListTextButton.svelte'
 
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
@@ -77,26 +78,27 @@
             <div class="notes">{item.notes}</div>
         {/if}
     </div>
-    <div class="editbutton" class:visible={state === 'edit'} on:click={handleEditClick}>
-        <IconButton solid={false} icon="edit" style="color: #333; pointer-events: none;" aria-label="edit item" />
+    <div class='actions' class:visible={state === 'edit'}>
+        <IconButton 
+            icon="edit"
+            solid={false}  
+            aria-label="edit item" 
+            on:click={handleEditClick}
+            style="color: #333;"
+        />
     </div>
-    {#if state === 'edit'}
-        {#if item.hidden}
-            <div class={`right hide unit ${state}`} on:click|stopPropagation={handleDeleteClick}>
-                delete
-            </div>
+    <div class="right">
+        {#if state === 'edit'}
+            {#if item.hidden}
+                <ListTextButton subtext="DELETE" on:click={handleDeleteClick}/>
+            {:else}
+                <ListTextButton subtext="HIDE" on:click={handleHideClick}/>
+            {/if}
         {:else}
-            <div class={`right hide unit ${state}`} on:click|stopPropagation={handleHideClick}>
-                hide
-            </div>
-        {/if}
-    {:else}
-        <div class={`right ${state} quantity`} on:click={handleQtyClick}>
-            {item.qty}
+            <ListTextButton text={item.qty} subtext={item.unit} on:click={handleQtyClick}/>
             <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
-            <div class="unit">{item.unit}</div>
-        </div>
-    {/if}
+        {/if}
+    </div>
 </div>
 
 <style>
@@ -104,6 +106,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items:center;
         margin-top: 1px;
         flex: 0 0 auto;
         transition: transform 0.3s ease, opacity 0.3s ease;
@@ -120,39 +123,19 @@
         flex-basis: 100%;
     }
     .right {
-        display: flex;
-        flex-direction: column;
         width: 30vw;
-        /* flex-basis: content; */
         padding: 5px;
-        justify-content: center;
-        align-items: center;
         background-color: #aee1cd;
+        align-self:stretch;
     }
-    .selected {
-        background-color: #aee1cd;
-    }
-    .edit {
-        background-color: #aee1cd;
-    }
-    .editbutton {
-        display: flex;
-        align-items:center;
-        justify-content: center;
+    .actions {
         visibility: hidden;
     }
     .visible {
         visibility: visible;
     }
-    .unit {
-        font-size: 10px;
-    }
     .notes {
         font-size: 12px;
         margin-top: 8px;
-    }
-    .hide {
-        text-transform: uppercase;
-        font-size: 10px;
     }
 </style>
