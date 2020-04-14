@@ -27,7 +27,7 @@
         font-size: large;
     }
     .subtext {
-        font-size: 10px;
+        font-size: x-small;
     }
     .spacer {
         flex: 0 0 2px;

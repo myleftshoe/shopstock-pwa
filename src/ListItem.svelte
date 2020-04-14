@@ -150,7 +150,7 @@
         visibility: visible;
     }
     .notes {
-        font-size: 12px;
+        font-size: x-small;
         margin-top: 8px;
     }
 </style>
