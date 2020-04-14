@@ -5,17 +5,17 @@
 
 <button on:click|stopPropagation>
     <span class="text">{text}</span>
-    {#if text && subtext} 
-        <div class="spacer"/>
+    {#if text && subtext}
+        <div class="spacer" />
     {/if}
-    <span class="subtext" class:empty={subtext === ""}>{subtext}</span>
+    <span class="subtext" class:empty={subtext === ''}>{subtext}</span>
 </button>
 
 <style>
     button {
         display: flex;
         flex-direction: column;
-        align-items:  center;
+        align-items: center;
         justify-content: center;
         width: 100%;
         height: 100%;
