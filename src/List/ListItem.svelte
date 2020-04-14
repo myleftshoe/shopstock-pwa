@@ -5,7 +5,7 @@
 
     import ListItemWrapper from './ListItemWrapper.svelte'
     import ListTextButton from './ListTextButton.svelte'
-    import IconButton from './IconButton.svelte'
+    import IconButton from '../IconButton.svelte'
 
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
