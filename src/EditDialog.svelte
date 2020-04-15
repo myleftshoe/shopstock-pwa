@@ -2,6 +2,10 @@
     export let item = {}
     export let open = false
     import Button from './Button.svelte'
+    import IconButton from './IconButton.svelte'
+    import TimesIcon from './icons/Times.svelte'
+    import CheckIcon from './icons/Check.svelte'
+
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
@@ -33,12 +37,12 @@
     </div>
     <textarea id="notes" rows="4" placeholder="Notes" bind:value={item.notes} aria-label="notes" />
     <div class="actions">
-        <button type="button" on:click={handleClose} aria-label="cancel">
-            <i class="fas fa-times" />
-        </button>
-        <button type="submit" aria-label="submit">
-            <i class="fas fa-check" />
-        </button>
+        <IconButton type="button" on:click={handleClose} aria-label="cancel" style="fill:#333">
+            <TimesIcon/>
+        </IconButton>
+        <IconButton type="submit" on:click={handleClose} aria-label="submit" style="fill:#333">
+            <CheckIcon/>
+        </IconButton>
     </div>
     <Button type="button" on:click={handleDelete} style="color: #333;">
         Delete this item permanently
@@ -97,19 +101,7 @@
         resize: none;
         width: calc(100vw - 64px);
     }
-    textarea:focus {
-        /* border: 1px solid #000; */
-    }
     .actions {
         display: flex;
-    }
-    button {
-        border: none;
-        outline: none;
-        background: none;
-        font-size: 32px;
-        padding: 16px;
-        margin: 16px;
-        color: #333;
     }
 </style>

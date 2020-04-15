@@ -1,6 +1,8 @@
 <script>
     import KeyRow from './KeyRow.svelte'
     import Key from './Key.svelte'
+    import IconButton from '../IconButton.svelte'
+    import BackspaceIcon from '../icons/Backspace.svelte'
 </script>
 
 <KeyRow>
@@ -26,6 +28,8 @@
     <Key type="number" value="0" />
     <Key type="decrement" value="-" />
     <Key type="clear" value="X">
-        <i class="fas fa-backspace" style="pointer-events: none;" />
+        <IconButton style="pointer-events: none;">
+            <BackspaceIcon/>
+        </IconButton>
     </Key>
 </KeyRow>
