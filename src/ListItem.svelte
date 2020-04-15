@@ -139,7 +139,7 @@
         flex-basis: 100%;
     }
     .quantity {
-        width: 30vw;
+        flex: 0 0 20vw;
         padding: 5px;
         background-color: #aee1cd;
         align-self: stretch;
