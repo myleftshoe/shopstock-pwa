@@ -8,7 +8,6 @@ const cacheFiles = [
     '/global.css',
     '/favicon.png',
     '/images/icons/icon-512x512.png',
-    'https://kit.fontawesome.com/03c244340e.js',
 ]
 
 // Cache all the files to make a PWA
