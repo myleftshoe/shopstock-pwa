@@ -100,7 +100,7 @@
             <EditIcon/>
         </IconButton>
     </div>
-    <div class="right">
+    <div class="quantity">
         {#if state === EDIT}
             {#if item.hidden}
                 <ListTextButton subtext="DELETE" on:click={handleDeleteClick} />
@@ -138,7 +138,7 @@
         border: none;
         flex-basis: 100%;
     }
-    .right {
+    .quantity {
         width: 30vw;
         padding: 5px;
         background-color: #aee1cd;
@@ -152,6 +152,6 @@
     }
     .notes {
         font-size: x-small;
-        margin-top: 8px;
+        /* margin-top: 8px; */
     }
 </style>
