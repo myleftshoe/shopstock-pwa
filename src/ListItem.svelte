@@ -84,8 +84,9 @@
     class:selected={state !== INIT}
     style={item.hidden && 'opacity: .7'}
     on:contextmenu|preventDefault
+    on:click={handleItemClick}
 >
-    <div class="item" on:click={handleItemClick}>
+    <div class="item">
         <div>{item.name}</div>
         {#if item.notes}
             <div class="notes">{item.notes}</div>
@@ -120,7 +121,8 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin-top: 1px;
+        /* margin-top: 1px; */
+        border-top: 1px solid #888;
         flex: 0 0 auto;
         transition: transform 0.3s ease, opacity 0.3s ease;
         max-height: 100px;
