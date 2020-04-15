@@ -31,22 +31,20 @@
             required
             type="text"
             bind:value={item.name}
-            placeholder="Enter item name"
+            placeholder="item name"
             aria-label="item name"
         />
     </div>
-    <textarea id="notes" rows="4" placeholder="Notes" bind:value={item.notes} aria-label="notes" />
+    <textarea id="notes" rows="3" placeholder="notes" bind:value={item.notes} aria-label="notes" />
     <div class="actions">
         <IconButton type="button" on:click={handleClose} aria-label="cancel" style="fill:#333">
-            <TimesIcon/>
+            <TimesIcon />
         </IconButton>
         <IconButton type="submit" on:click={handleClose} aria-label="submit" style="fill:#333">
-            <CheckIcon/>
+            <CheckIcon />
         </IconButton>
     </div>
-    <Button type="button" on:click={handleDelete} style="color: #333;">
-        Delete this item permanently
-    </Button>
+    <Button type="button" on:click={handleDelete} style="color: #777;">Delete this item permanently</Button>
 </form>
 
 <style>
@@ -79,14 +77,14 @@
         align-self: center;
         background-color: transparent;
         border: none;
-        border-bottom: 1px solid #000;
+        border-bottom: 1px solid #ddd;
         outline: none;
         margin: 0 16px;
         padding: 8px 16px;
         width: 100%;
     }
     input[type='text']:focus {
-        border-bottom: 1px solid #000;
+        border-bottom: 1px solid #777;
     }
     input[type='text']::-ms-clear {
         display: none;
@@ -100,8 +98,10 @@
         padding: 8px 16px;
         resize: none;
         width: calc(100vw - 64px);
+        font-family: Arial;
     }
     .actions {
         display: flex;
+        margin-bottom: 16px;
     }
 </style>
