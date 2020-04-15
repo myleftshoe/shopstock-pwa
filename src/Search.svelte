@@ -3,6 +3,8 @@
     import debounce from 'lodash-es/debounce'
     import { createEventDispatcher } from 'svelte'
     import IconButton from './IconButton.svelte'
+    import SearchIcon from './icons/Search.svelte'
+    import ArrowLeftIcon from './icons/ArrowLeft.svelte'
 
     const dispatch = createEventDispatcher()
 
@@ -38,9 +40,14 @@
 </script>
 
 {#if value}
-    <IconButton icon="arrow-left" on:click={handleBackClick} aria-label="back"/>
+    <!-- <IconButton icon="arreeeow-left" on:click={handleBackClick} aria-label="back"/> -->
+    <IconButton on:click={handleBackClick} aria-label="back">
+        <ArrowLeftIcon/>
+    </IconButton>
 {:else}
-    <IconButton icon="search" on:click={handleSearchClick} aria-label="search"/>
+    <IconButton on:click={handleSearchClick} aria-label="search">
+        <SearchIcon/>
+    </IconButton>
 {/if}
 <input
     bind:this={input}

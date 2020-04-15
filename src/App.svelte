@@ -12,6 +12,8 @@
     import Loader from './Loader.svelte'
     import Button from './Button.svelte'
     import IconButton from './IconButton.svelte'
+    import CopyIcon from './icons/Copy.svelte'
+    import ClipboardCheckIcon from './icons/ClipboardCheck.svelte'
     import Search from './Search.svelte'
     import handleKeypress from './handleKeypress'
     import clipboard from './clipboard.js'
@@ -112,9 +114,13 @@
                     <Button on:click={handleAddClick}>add</Button>
                 {:else if started && !searchValue}
                     {#if copied}
-                        <IconButton icon="clipboard-check" on:click={handleCopy} aria-label="copy" />
+                        <IconButton on:click={handleCopy} aria-label="copy">
+                            <ClipboardCheckIcon/>
+                        </IconButton>
                     {:else}
-                        <IconButton icon="copy" on:click={handleCopy} aria-label="copy" />
+                        <IconButton on:click={handleCopy} aria-label="copy">
+                            <CopyIcon/>
+                        </IconButton>
                     {/if}
                 {/if}
             </div>
