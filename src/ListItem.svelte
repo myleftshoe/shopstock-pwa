@@ -8,6 +8,7 @@
     const EDIT = Symbol('edit')
 
     import IconButton from './IconButton.svelte'
+    import EditIcon from './icons/Edit.svelte'
     import ListTextButton from './ListTextButton.svelte'
 
     import { createEventDispatcher, tick } from 'svelte'
@@ -92,12 +93,12 @@
     </div>
     <div class="actions" class:visible={state === EDIT}>
         <IconButton 
-            icon="edit" 
-            solid={false} 
             aria-label="edit item" 
             on:click={handleEditClick} 
-            style="color: #333;" 
-        />
+            style="fill: #333;" 
+        >
+            <EditIcon/>
+        </IconButton>
     </div>
     <div class="right">
         {#if state === EDIT}
