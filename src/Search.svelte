@@ -38,28 +38,32 @@
     $: if (!value) dispatch('clear')
     $: icon = value ? 'arrow-left' : 'search'
 </script>
-
-{#if value}
-    <!-- <IconButton icon="arreeeow-left" on:click={handleBackClick} aria-label="back"/> -->
-    <IconButton on:click={handleBackClick} aria-label="back">
-        <ArrowLeftIcon/>
-    </IconButton>
-{:else}
-    <IconButton on:click={handleSearchClick} aria-label="search">
-        <SearchIcon/>
-    </IconButton>
-{/if}
-<input
-    bind:this={input}
-    type="text"
-    autocapitalize="none"
-    {placeholder}
-    on:focus={handleFocus}
-    on:blur={hidePlaceholder}
-    aria-label='search'
-/>
-
+<div>
+    {#if value}
+        <!-- <IconButton icon="arreeeow-left" on:click={handleBackClick} aria-label="back"/> -->
+        <IconButton on:click={handleBackClick} aria-label="back">
+            <ArrowLeftIcon/>
+        </IconButton>
+    {:else}
+        <IconButton on:click={handleSearchClick} aria-label="search">
+            <SearchIcon/>
+        </IconButton>
+    {/if}
+    <input
+        bind:this={input}
+        type="text"
+        autocapitalize="none"
+        {placeholder}
+        on:focus={handleFocus}
+        on:blur={hidePlaceholder}
+        aria-label='search'
+    />
+</div>
 <style>
+    div {
+        display:flex;
+        align-items:center;
+    }
     input {
         background: none;
         border: none;
@@ -68,11 +72,9 @@
         margin: 4px;
         color: #ddd;
         font-weight: 600;
+        font-size: larger;
     }
     input:focus {
         border-bottom: 1px solid #ddd;
-    }
-    i {
-        padding: 8px;
     }
 </style>
