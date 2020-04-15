@@ -85,7 +85,7 @@
     style={item.hidden && 'opacity: .7'}
     on:contextmenu|preventDefault
 >
-    <div class="left" on:click={handleItemClick}>
+    <div class="item" on:click={handleItemClick}>
         <div>{item.name}</div>
         {#if item.notes}
             <div class="notes">{item.notes}</div>
@@ -133,8 +133,8 @@
     .selected {
         background-color: #aee1cd;
     }
-    .left {
-        padding: 16px 12px;
+    .item {
+        padding: 12px 12px;
         border: none;
         flex-basis: 100%;
     }
@@ -152,6 +152,6 @@
     }
     .notes {
         font-size: x-small;
-        /* margin-top: 8px; */
+        margin-top: 4px;
     }
 </style>

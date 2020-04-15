@@ -40,7 +40,7 @@
         <IconButton type="button" on:click={handleClose} aria-label="cancel" style="fill:#333">
             <TimesIcon />
         </IconButton>
-        <IconButton type="submit" on:click={handleClose} aria-label="submit" style="fill:#333">
+        <IconButton type="submit" aria-label="submit" style="fill:#333">
             <CheckIcon />
         </IconButton>
     </div>
