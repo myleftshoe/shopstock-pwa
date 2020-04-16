@@ -18,7 +18,7 @@
 
     let placeholder = ''
 
-    const showPlaceholder = () => (placeholder = 'SEARCH')
+    const showPlaceholder = () => (placeholder = 'search')
     const hidePlaceholder = () => (placeholder = '')
 
     function handleFocus() {
@@ -66,15 +66,13 @@
     }
     input {
         background: none;
-        border: none;
+        border:none;
         outline: none;
-        padding: 4px;
-        margin: 4px;
         color: #ddd;
-        font-weight: 600;
-        font-size: larger;
+        font-size: large;
+        width:50vw;
     }
     input:focus {
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #555;
     }
 </style>

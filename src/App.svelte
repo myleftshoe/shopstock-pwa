@@ -106,24 +106,20 @@
 {:else}
     <div bind:this={body}>
         <Header>
-            <div>
-                <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
-            </div>
-            <div>
-                {#if !items.length && searchValue.length > 3}
-                    <Button on:click={handleAddClick}>add</Button>
-                {:else if started && !searchValue}
-                    {#if copied}
-                        <IconButton on:click={handleCopy} aria-label="copy">
-                            <ClipboardCheckIcon/>
-                        </IconButton>
-                    {:else}
-                        <IconButton on:click={handleCopy} aria-label="copy">
-                            <CopyIcon/>
-                        </IconButton>
-                    {/if}
+            <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
+            {#if !items.length && searchValue.length > 3}
+                <Button on:click={handleAddClick}>add</Button>
+            {:else if started && !searchValue}
+                {#if copied}
+                    <IconButton on:click={handleCopy} aria-label="copy">
+                        <ClipboardCheckIcon/>
+                    </IconButton>
+                {:else}
+                    <IconButton on:click={handleCopy} aria-label="copy">
+                        <CopyIcon/>
+                    </IconButton>
                 {/if}
-            </div>
+            {/if}
         </Header>
         <Main bind:ref={main}>
             <List
