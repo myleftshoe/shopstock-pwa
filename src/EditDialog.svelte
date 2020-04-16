@@ -11,6 +11,7 @@
 
     function handleSubmit(e) {
         open = false
+        item.notes = item.notes.trim()
         dispatch('done', { item })
     }
 
@@ -35,14 +36,11 @@
             aria-label="item name"
         />
     </div>
-    <textarea id="notes" rows="3" placeholder="notes" bind:value={item.notes} aria-label="notes" />
+    <textarea id="notes" rows="3" placeholder="NOTES" bind:value={item.notes} aria-label="notes" />
     <div class="actions">
-        <IconButton type="button" on:click={handleClose} aria-label="cancel" color="#aaa" size="2x" style="margin:16px">
-            <TimesIcon />
-        </IconButton>
-        <IconButton type="submit" aria-label="submit" color="#333" size="2x" style="margin:16px 24px">
-            <CheckIcon />
-        </IconButton>
+        <Button type="submit" aria-label="submit" size="2x" style="color:#5fc9f8; margin:16px 24px">
+            DONE
+        </Button>
     </div>
     <Button type="button" on:click={handleDelete} style="color: #777;">Delete this item permanently</Button>
 </form>
@@ -64,15 +62,15 @@
         overflow: hidden;
     }
     .itemname {
-        flex-basis: 100px;
         display: flex;
         align-items: center;
         justify-items: center;
         background-color: transparent;
         width: 100%;
+        margin: 8px;
     }
     input[type='text'] {
-        font-size: 24px;
+        font-size: x-large;
         text-align: center;
         align-self: center;
         background-color: transparent;
@@ -90,15 +88,13 @@
         display: none;
     }
     textarea {
-        font-size: 20px;
+        font-size: large;
         background-color: transparent;
-        /* border: 1px solid #777; */
         border: none;
         outline: none;
         padding: 8px 16px;
         resize: none;
-        width: calc(100vw - 64px);
-        font-family: Arial;
+        width: calc(100vw - 32px);
     }
     .actions {
         display: flex;
