@@ -37,6 +37,7 @@
 
     $: if (!value) dispatch('clear')
     $: icon = value ? 'arrow-left' : 'search'
+    $: console.log(value)
 </script>
 <div>
     {#if value}
@@ -50,6 +51,7 @@
         </IconButton>
     {/if}
     <input
+        {value}
         bind:this={input}
         type="text"
         autocapitalize="none"
