@@ -25,8 +25,8 @@
     }
 </script>
 
-<form on:submit|preventDefault|stopPropagation={handleSubmit}>
-    <div class="itemname">
+<div class="container">
+    <form on:submit|preventDefault|stopPropagation={handleSubmit}>
         <input
             id="itemname"
             required
@@ -35,25 +35,25 @@
             placeholder="item name"
             aria-label="item name"
         />
-    </div>
-    <textarea id="notes" rows="3" placeholder="NOTES" bind:value={item.notes} aria-label="notes" />
-    <div class="actions">
-        <Button type="submit" aria-label="submit" size="2x" style="color:#5fc9f8; margin:16px 24px">
+        <textarea id="notes" rows="4" placeholder="notes" bind:value={item.notes} aria-label="notes" />
+        <Button type="submit" aria-label="submit" size="2x" style="color:#5fc9f8; margin:16px 24px; font-size:1.33em">
             DONE
         </Button>
+    </form>
+    <div class="actions">
+        <Button type="button" on:click={handleDelete} style="color: #777;">Delete this item permanently</Button>
     </div>
-    <Button type="button" on:click={handleDelete} style="color: #777;">Delete this item permanently</Button>
-</form>
+</div>
 
 <style>
-    form {
+    .container {
         height: calc(100vh - 48px);
         width: 100vw;
         margin: 0;
         padding: 0;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
         background-color: #f9f6ef;
         position: fixed;
@@ -61,13 +61,11 @@
         z-index: 101;
         overflow: hidden;
     }
-    .itemname {
+    form {
         display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        justify-items: center;
-        background-color: transparent;
-        width: 100%;
-        margin: 8px;
     }
     input[type='text'] {
         font-size: x-large;
@@ -77,9 +75,10 @@
         border: none;
         border-bottom: 1px solid #ddd;
         outline: none;
-        margin: 0 16px;
-        padding: 8px 16px;
-        width: 100%;
+        margin: 8px 16px;
+        padding: 8px 0;
+        padding-bottom: 12px;
+        width: calc(100% - 32px);
     }
     input[type='text']:focus {
         border-bottom: 1px solid #777;
@@ -98,6 +97,6 @@
     }
     .actions {
         display: flex;
-        margin-bottom: 16px;
+        margin-bottom: 48px;
     }
 </style>
