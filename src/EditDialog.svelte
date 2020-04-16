@@ -40,7 +40,7 @@
         <IconButton type="button" on:click={handleClose} aria-label="cancel" color="#aaa" size="2x" style="margin:16px">
             <TimesIcon />
         </IconButton>
-        <IconButton type="submit" on:click={handleSubmit} aria-label="submit" color="#333" size="2x" style="margin:16px 24px">
+        <IconButton type="submit" aria-label="submit" color="#333" size="2x" style="margin:16px 24px">
             <CheckIcon />
         </IconButton>
     </div>
@@ -49,7 +49,7 @@
 
 <style>
     form {
-        height: 100vh;
+        height: calc(100vh - 48px);
         width: 100vw;
         margin: 0;
         padding: 0;
@@ -59,7 +59,7 @@
         align-items: center;
         background-color: #f9f6ef;
         position: fixed;
-        top: 0;
+        top: 48px;
         z-index: 101;
         overflow: hidden;
     }

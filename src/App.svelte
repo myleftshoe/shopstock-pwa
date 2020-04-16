@@ -12,6 +12,7 @@
     import Loader from './Loader.svelte'
     import Button from './Button.svelte'
     import IconButton from './IconButton.svelte'
+    import ArrowLeftIcon from './icons/ArrowLeft.svelte'
     import CopyIcon from './icons/Copy.svelte'
     import ClipboardCheckIcon from './icons/ClipboardCheck.svelte'
     import Search from './Search.svelte'
@@ -44,6 +45,9 @@
     }
     function handleAddClick() {
         stocklist.addItem({ name: searchValue })
+    }
+    function handleBackClick() {
+        editDialogOpen = false
     }
 
     // Item handlers
@@ -106,18 +110,24 @@
 {:else}
     <div bind:this={body}>
         <Header>
-            <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
-            {#if !items.length && searchValue.length > 3}
-                <Button on:click={handleAddClick}>add</Button>
-            {:else if started && !searchValue}
-                {#if copied}
-                    <IconButton on:click={handleCopy} aria-label="copy">
-                        <ClipboardCheckIcon/>
-                    </IconButton>
-                {:else}
-                    <IconButton on:click={handleCopy} aria-label="copy">
-                        <CopyIcon/>
-                    </IconButton>
+            {#if editDialogOpen}
+                <IconButton on:click={handleBackClick} aria-label="back">
+                    <ArrowLeftIcon/>
+                </IconButton>            
+            {:else}
+                <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
+                {#if !items.length && searchValue.length > 3}
+                    <Button on:click={handleAddClick}>add</Button>
+                {:else if started && !searchValue}
+                    {#if copied}
+                        <IconButton on:click={handleCopy} aria-label="copy">
+                            <ClipboardCheckIcon/>
+                        </IconButton>
+                    {:else}
+                        <IconButton on:click={handleCopy} aria-label="copy">
+                            <CopyIcon/>
+                        </IconButton>
+                    {/if}
                 {/if}
             {/if}
         </Header>
