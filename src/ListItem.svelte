@@ -96,7 +96,7 @@
         <IconButton 
             aria-label="edit item" 
             on:click={handleEditClick} 
-            style="fill: #333;" 
+            color="#333" 
         >
             <EditIcon/>
         </IconButton>

@@ -37,10 +37,10 @@
     </div>
     <textarea id="notes" rows="3" placeholder="notes" bind:value={item.notes} aria-label="notes" />
     <div class="actions">
-        <IconButton type="button" on:click={handleClose} aria-label="cancel" style="fill:#333">
+        <IconButton type="button" on:click={handleClose} aria-label="cancel" color="#aaa" size="2x" style="margin:16px">
             <TimesIcon />
         </IconButton>
-        <IconButton type="submit" aria-label="submit" style="fill:#333">
+        <IconButton type="submit" aria-label="submit" color="#333" size="2x" style="margin:16px 24px">
             <CheckIcon />
         </IconButton>
     </div>

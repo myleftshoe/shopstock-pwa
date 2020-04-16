@@ -28,6 +28,7 @@
     i {
         display: flex;
         align-items: center;
+        justify-content: center;
         fill: white;
         width: 1em;
         height: 1em;
