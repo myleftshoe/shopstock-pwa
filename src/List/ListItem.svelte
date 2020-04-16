@@ -7,10 +7,9 @@
     const SELECTED = Symbol('selected')
     const EDIT = Symbol('edit')
 
-    import IconButton from './IconButton.svelte'
-    import EditIcon from './icons/Edit.svelte'
-    import ListTextButton from './ListTextButton.svelte'
     import IconButton from '../IconButton.svelte'
+    import EditIcon from '../icons/Edit.svelte'
+    import ListTextButton from './ListTextButton.svelte'
 
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
@@ -114,7 +113,7 @@
             <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
         {/if}
     </div>
-</ListItemWrapper>
+</div>
 
 <style>
     .row {
