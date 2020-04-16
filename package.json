@@ -19,6 +19,7 @@
     "svelte-scrollto": "^0.1.1"
   },
   "dependencies": {
+    "awesome-clipboard": "^2.0.4",
     "sirv-cli": "^0.4.5",
     "svelte-toast": "^1.0.0"
   },

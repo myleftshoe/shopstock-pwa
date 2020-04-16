@@ -1,14 +1,5 @@
-function copy(text) {
+import Clipboard from 'awesome-clipboard'
 
-    document.addEventListener('copy', handleCopy)
-    document.execCommand('copy')
-
-    function handleCopy(e) {
-        e.preventDefault()
-        e.stopPropagation()
-        e.clipboardData.setData('text', text);
-        document.removeEventListener('copy', handleCopy)
-    }
-}
+const copy = async text => Clipboard.write(text)
 
 export default { copy }

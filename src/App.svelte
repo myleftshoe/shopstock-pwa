@@ -34,11 +34,11 @@
         await tick()
         resetScrollPosition(main)
     }
-    function handleCopy() {
+    async function handleCopy() {
         const toast = new Toast({ position: 'top-center' })
         const items = stocklist.completedItems
         copiedText = textify(items)
-        clipboard.copy(copiedText)
+        await clipboard.copy(copiedText)
         toast.success(`Copied ${items.length} items!`)
         stocklist.complete()
     }

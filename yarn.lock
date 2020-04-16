@@ -868,6 +868,11 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+awesome-clipboard@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/awesome-clipboard/-/awesome-clipboard-2.0.4.tgz#200ab75042af41ea1da243a59145e4edac2e9c53"
+  integrity sha512-ccWWO6xqzJpYZJL0HNDju7UHA88Y3v+9ke256i9soxybhmrVPWwT8MJFVsvvkoegBqxbxnAdHSVHEG03+2OB0A==
+
 babel-plugin-dynamic-import-node@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.3.0.tgz#f00f507bdaa3c3e3ff6e7e5e98d90a7acab96f7f"
