@@ -8,7 +8,7 @@
     import Main from './Main.svelte'
     import Header from './Header.svelte'
     import Footer from './Footer.svelte'
-    import List from './List.svelte'
+    import List from './List'
     import Loader from './Loader.svelte'
     import Button from './Button.svelte'
     import IconButton from './IconButton.svelte'

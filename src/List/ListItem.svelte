@@ -10,6 +10,7 @@
     import IconButton from './IconButton.svelte'
     import EditIcon from './icons/Edit.svelte'
     import ListTextButton from './ListTextButton.svelte'
+    import IconButton from '../IconButton.svelte'
 
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
@@ -113,7 +114,7 @@
             <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
         {/if}
     </div>
-</div>
+</ListItemWrapper>
 
 <style>
     .row {
