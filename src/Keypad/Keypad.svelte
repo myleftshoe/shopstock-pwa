@@ -81,7 +81,14 @@
     }
 </script>
 
-<div id="keypad" class="container" class:hidden={!$open} on:click on:transitionend={handleTransitionEnd}>
+<div
+    id="keypad"
+    class="container"
+    class:hidden={!$open}
+    on:click
+    on:transitionend={handleTransitionEnd}
+    on:contextmenu|capture|preventDefault|stopPropagation
+>
     <!-- <div class="header" data-type="header" on:click={handleHeaderClick}> -->
     <div class="header">
         {#each ['bags', 'boxes', 'black tubs', 'trays', 'bin', 'shelf'] as unit}
