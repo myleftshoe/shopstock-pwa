@@ -123,7 +123,7 @@
         align-items: center;
         /* margin-top: 1px; */
         border-top: 1px solid #888;
-        flex: 0 0 auto;
+        flex: 0 0 3.33em;
         transition: transform 0.3s ease, opacity 0.3s ease;
         max-height: 100px;
         user-select: none;

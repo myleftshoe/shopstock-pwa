@@ -1,16 +1,17 @@
 <script>
     import Icon from './Icon.svelte'
 </script>
-<div on:click on:contextmenu|preventDefault {...$$restProps}>
-    <Icon {...$$restProps}><slot/></Icon>
-</div>
+<button on:click on:contextmenu|preventDefault {...$$restProps}>
+    <Icon size="lg" {...$$restProps}><slot/></Icon>
+</button>
 
 <style>
-    div {
-        display:inline-block;
+    button {
+        background: none;
         border: none;
         border-radius: 50%;
         outline: none;
-        padding:.75em;
+        padding:1em;
+        margin:0;
     }
 </style>
