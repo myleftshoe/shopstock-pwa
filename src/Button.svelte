@@ -11,7 +11,7 @@
         border: none;
         outline: none;
         border-radius: 7px;
-        color: white;
+        color: #5fc9f8;
         padding: 12px 16px;
         font-weight: 600;
         font-size: 16px;

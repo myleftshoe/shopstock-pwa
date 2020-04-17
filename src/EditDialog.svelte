@@ -11,7 +11,8 @@
 
     function handleSubmit(e) {
         open = false
-        item.notes = item.notes.trim()
+        if (item.notes) 
+            item.notes = item.notes.trim()
         dispatch('done', { item })
     }
 
@@ -36,7 +37,7 @@
             aria-label="item name"
         />
         <textarea id="notes" rows="4" placeholder="notes" bind:value={item.notes} aria-label="notes" />
-        <Button type="submit" aria-label="submit" size="2x" style="color:#5fc9f8; margin:16px 24px; font-size:1.33em">
+        <Button type="submit" aria-label="submit" size="2x" style="margin:16px 24px; font-size:1.33em">
             DONE
         </Button>
     </form>
