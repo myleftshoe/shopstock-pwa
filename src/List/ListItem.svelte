@@ -73,7 +73,6 @@
 
     let div
     $: state = !selected ? INIT : state
-    $: console.log(state)
 </script>
 
 <svelte:options immutable={true} />

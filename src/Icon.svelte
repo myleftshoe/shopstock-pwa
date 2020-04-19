@@ -22,7 +22,7 @@
 
 </script>
 
-<i {style}><slot/></i>
+<i {style} {...$$restProps}><slot/></i>
 
 <style>
     i {
