@@ -7,3 +7,4 @@ tmp*
 secrets.js
 scripts/jsonbin.create
 utils
+svgs

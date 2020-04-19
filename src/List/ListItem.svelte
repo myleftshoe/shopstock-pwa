@@ -8,6 +8,8 @@
     const EDIT = Symbol('edit')
 
     import IconButton from '../IconButton.svelte'
+    import EyeSlashIcon from '../icons/EyeSlash.svelte'
+    import TrashIcon from '../icons/Trash.svelte'
     import EditIcon from '../icons/Edit.svelte'
     import ListTextButton from './ListTextButton.svelte'
 
@@ -17,7 +19,7 @@
     let state
     const { nextState, setState, select } = {
         nextState: {
-            [INIT]: SELECTED,
+            [INIT]: EDIT,
             [SELECTED]: EDIT,
             [EDIT]: SELECTED,
         },
@@ -33,8 +35,6 @@
         dispatch('itemclick', { item })
         await tick()
         state = nextState[state]
-        if (state === EDIT) timeout = setTimeout(select, 2000)
-        else clearTimeout(timeout)
     }
 
     async function handleQtyClick(e) {
@@ -73,6 +73,7 @@
 
     let div
     $: state = !selected ? INIT : state
+    $: console.log(state)
 </script>
 
 <svelte:options immutable={true} />
@@ -92,26 +93,18 @@
             <div class="notes">{item.notes}</div>
         {/if}
     </div>
-    <div class="actions" class:visible={state === EDIT}>
-        <IconButton 
-            aria-label="edit item" 
-            on:click={handleEditClick} 
-            color="#333" 
-        >
-            <EditIcon/>
-        </IconButton>
-    </div>
-    <div class="quantity">
-        {#if state === EDIT}
+    {#if state === EDIT}
+        <div class="actions">
             {#if item.hidden}
-                <ListTextButton subtext="DELETE" on:click={handleDeleteClick} />
+                <IconButton aria-label="delete item" on:click={handleDeleteClick} color="#333"><TrashIcon/></IconButton>
             {:else}
-                <ListTextButton subtext="HIDE" on:click={handleHideClick} />
+                <IconButton aria-label="hide item" on:click={handleHideClick} color="#333"><EyeSlashIcon/></IconButton>
             {/if}
-        {:else}
-            <ListTextButton text={item.qty} subtext={item.unit} on:click={handleQtyClick} />
-            <!-- <input type=number tabindex='0' class='quantity' on:click={handleQtyClick} value={item.qty}/> -->
-        {/if}
+            <IconButton aria-label="edit item" on:click={handleEditClick} color="#333"><EditIcon/></IconButton>
+        </div>
+    {/if}
+    <div class="quantity">
+        <ListTextButton text={item.qty} subtext={item.unit} on:click={handleQtyClick} />
     </div>
 </div>
 
@@ -121,7 +114,6 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        /* margin-top: 1px; */
         border-top: 1px solid #888;
         flex: 0 0 3.33em;
         transition: transform 0.3s ease, opacity 0.3s ease;
@@ -147,10 +139,11 @@
         align-self: stretch;
     }
     .actions {
-        visibility: hidden;
-    }
-    .visible {
-        visibility: visible;
+        position: absolute;
+        right: calc(20vw + 17px);
+        display:flex;
+        background-color: #aee1cd;
+        box-shadow: -20px 0 10px #aee1cd
     }
     .notes {
         font-size: x-small;
