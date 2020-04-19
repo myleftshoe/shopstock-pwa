@@ -121,10 +121,10 @@
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        background-color: #f9f6ef;
+        background-color: var(--paper-color);
     }
     .selected {
-        background-color: #aee1cd;
+        background-color: var(--primary-color);
     }
     .item {
         padding: 12px 12px;
@@ -134,15 +134,15 @@
     .quantity {
         flex: 0 0 20vw;
         padding: 5px;
-        background-color: #aee1cd;
+        background-color: var(--primary-color);
         align-self: stretch;
     }
     .actions {
         position: absolute;
         right: calc(20vw + 17px);
         display:flex;
-        background-color: #aee1cd;
-        box-shadow: -20px 0 10px #aee1cd
+        background-color: var(--primary-color);
+        box-shadow: -20px 0 10px var(--primary-color);
     }
     .notes {
         font-size: x-small;

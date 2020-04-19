@@ -18,3 +18,9 @@ body {
 	background-color: #232323
 }
 
+/* variables */
+:root {
+	--paper-color: #f9f6ef;
+	--primary-color: #aee1cd;
+}
+

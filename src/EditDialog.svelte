@@ -56,7 +56,7 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        background-color: #f9f6ef;
+        background-color: var(--paper-color);;
         position: fixed;
         top: 48px;
         z-index: 101;
