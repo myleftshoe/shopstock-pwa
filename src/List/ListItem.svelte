@@ -73,6 +73,8 @@
 
     let div
     $: state = !selected ? INIT : state
+    $: hidden = item.hidden
+    $: isEdge = /Edge/.test(navigator.userAgent)
 </script>
 
 <svelte:options immutable={true} />
@@ -82,7 +84,7 @@
     data-name={item.name}
     class="row"
     class:selected={state !== INIT}
-    style={item.hidden && 'opacity: .7'}
+    class:hidden
     on:contextmenu|preventDefault
     on:click={handleItemClick}
 >
@@ -93,9 +95,9 @@
         {/if}
     </div>
     {#if state === EDIT}
-        <div class="actions">
+        <div class="actions" class:hidden={hidden && isEdge}>
             {#if item.hidden}
-                <IconButton aria-label="delete item" on:click={handleDeleteClick} color="#333"><TrashIcon/></IconButton>
+                <IconButton aria-label="delete item" on:click={handleDeleteClick} color="#f33"><TrashIcon/></IconButton>
             {:else}
                 <IconButton aria-label="hide item" on:click={handleHideClick} color="#333"><EyeSlashIcon/></IconButton>
             {/if}
@@ -147,5 +149,8 @@
     .notes {
         font-size: x-small;
         margin-top: 4px;
+    }
+    .hidden {
+        filter: brightness(.9);
     }
 </style>
