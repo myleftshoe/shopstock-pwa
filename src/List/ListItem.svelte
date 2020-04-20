@@ -115,7 +115,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        border-top: 1px solid #888;
+        border-top: 1px solid #aaa;
         flex: 0 0 3.33em;
         transition: transform 0.3s ease, opacity 0.3s ease;
         max-height: 100px;
