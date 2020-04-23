@@ -4,7 +4,6 @@
     import stocklist, { textify } from './store'
     import { saveScrollPosition, resetScrollPosition, scrollToElement } from './scrollHelper.js'
     import Keypad, { keypad } from './Keypad'
-    import EditDialog from './EditDialog.svelte'
     import Main from './Main.svelte'
     import Header from './Header.svelte'
     import Footer from './Footer.svelte'
@@ -23,7 +22,6 @@
     let copiedText = ''
     let searchValue = ''
     let selectedItem = {}
-    let editDialogOpen = false
 
     onMount(stocklist.load)
 
@@ -41,13 +39,9 @@
         copiedText = textify(items)
         await clipboard.copy(copiedText)
         toast.success(`Copied ${items.length} items!`)
-        stocklist.complete()
     }
     function handleAddClick() {
         stocklist.addItem({ name: searchValue })
-    }
-    function handleBackClick() {
-        editDialogOpen = false
     }
 
     // Item handlers
@@ -57,18 +51,6 @@
     function handleQtyClick(e) {
         selectItem(e.detail.item)
         keypad.open()
-    }
-    function handleEditClick(e) {
-        editDialogOpen = true
-    }
-    function handleHideClick(e) {
-        stocklist.hideItem(e.detail.item)
-    }
-    function handleEditItemDone(e) {
-        stocklist.updateItem(e.detail.item)
-    }
-    function handleDelete() {
-        stocklist.removeItem(selectedItem)
     }
 
     // Keypad handlers
@@ -110,24 +92,18 @@
 {:else}
     <div bind:this={body}>
         <Header>
-            {#if editDialogOpen}
-                <IconButton on:click={handleBackClick} aria-label="back">
-                    <ArrowLeftIcon/>
-                </IconButton>            
-            {:else}
-                <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
-                {#if !items.length && searchValue.length > 3}
-                    <Button on:click={handleAddClick}>add</Button>
-                {:else if started && !searchValue}
-                    {#if copied}
-                        <IconButton on:click={handleCopy} aria-label="copy">
-                            <ClipboardCheckIcon/>
-                        </IconButton>
-                    {:else}
-                        <IconButton on:click={handleCopy} aria-label="copy">
-                            <CopyIcon/>
-                        </IconButton>
-                    {/if}
+            <Search bind:value={searchValue} on:focus={handleSearchFocus} on:clear={handleSearchClear} />
+            {#if !items.length && searchValue.length > 3}
+                <Button on:click={handleAddClick}>add</Button>
+            {:else if started && !searchValue}
+                {#if copied}
+                    <IconButton on:click={handleCopy} aria-label="copy">
+                        <ClipboardCheckIcon/>
+                    </IconButton>
+                {:else}
+                    <IconButton on:click={handleCopy} aria-label="copy">
+                        <CopyIcon/>
+                    </IconButton>
                 {/if}
             {/if}
         </Header>
@@ -137,9 +113,6 @@
                 {selectedItem}
                 on:itemclick={handleItemClick}
                 on:qtyclick={handleQtyClick}
-                on:editclick={handleEditClick}
-                on:hideclick={handleHideClick}
-                on:deleteclick={handleDelete}
             />
             <Footer>
                 {#if !searchValue}
@@ -156,13 +129,5 @@
         on:open={handleKeypadOpen}
         {body}
         closeExclusionSelectors={['.quantity']}
-    />
-{/if}
-{#if editDialogOpen}
-    <EditDialog
-        bind:open={editDialogOpen}
-        item={{ ...selectedItem }}
-        on:done={handleEditItemDone}
-        on:delete={handleDelete}
     />
 {/if}

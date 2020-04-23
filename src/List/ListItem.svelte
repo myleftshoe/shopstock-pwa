@@ -1,11 +1,6 @@
 <script>
     export let item
     export let selected = false
-    let timeout
-
-    const INIT = Symbol('init')
-    const SELECTED = Symbol('selected')
-    const EDIT = Symbol('edit')
 
     import IconButton from '../IconButton.svelte'
     import EyeSlashIcon from '../icons/EyeSlash.svelte'
@@ -16,75 +11,22 @@
     import { createEventDispatcher, tick } from 'svelte'
     const dispatch = createEventDispatcher()
 
-    let state
-    const { nextState, setState, select } = {
-        nextState: {
-            [INIT]: EDIT,
-            [SELECTED]: EDIT,
-            [EDIT]: SELECTED,
-        },
-        setState(newState) { 
-            state = newState 
-        },
-        select() {
-            setState(SELECTED)
-        }
-    }
-
     async function handleItemClick(e) {
         dispatch('itemclick', { item })
-        await tick()
-        state = nextState[state]
     }
 
     async function handleQtyClick(e) {
         dispatch('qtyclick', { item })
-        await tick()
-        select()
     }
 
-    function handleEditClick(e) {
-        e.stopPropagation()
-        dispatch('editclick', { item })
-    }
-
-    function animateRemove(element, onComplete) {
-        requestAnimationFrame(() => {
-            element.style.transform = 'scaleY(0)'
-            element.style.transformOrigin = 'center'
-            element.style.opacity = 0.3
-            const handleTransitionend = () => {
-                element.removeEventListener('transitionend', handleTransitionend)
-                onComplete()
-            }
-            element.addEventListener('transitionend', handleTransitionend)
-        })
-    }
-
-    function handleHideClick(e) {
-        const element = e.target.closest('.row')
-        animateRemove(element, () => dispatch('hideclick', { item }))
-    }
-
-    function handleDeleteClick(e) {
-        const element = e.target.closest('.row')
-        animateRemove(element, () => dispatch('deleteclick', { item }))
-    }
-
-    let div
-    $: state = !selected ? INIT : state
-    $: hidden = item.hidden
-    $: isEdge = /Edge/.test(navigator.userAgent)
 </script>
 
 <svelte:options immutable={true} />
 <div
-    bind:this={div}
     id={item.id}
     data-name={item.name}
     class="row"
-    class:selected={state !== INIT}
-    class:hidden
+    class:selected
     on:contextmenu|preventDefault
     on:click={handleItemClick}
 >
@@ -94,18 +36,11 @@
             <div class="notes">{item.notes}</div>
         {/if}
     </div>
-    {#if state === EDIT}
-        <div class="actions" class:hidden={hidden && isEdge}>
-            {#if item.hidden}
-                <IconButton aria-label="delete item" on:click={handleDeleteClick} color="#f33"><TrashIcon/></IconButton>
-            {:else}
-                <IconButton aria-label="hide item" on:click={handleHideClick} color="#333"><EyeSlashIcon/></IconButton>
-            {/if}
-            <IconButton aria-label="edit item" on:click={handleEditClick} color="#333"><EditIcon/></IconButton>
-        </div>
-    {/if}
-    <div class="quantity">
-        <ListTextButton text={item.qty} subtext={item.unit} on:click={handleQtyClick} />
+    <div class="quantity warehouse">
+        <ListTextButton text={item.whqty} subtext={item.whunit} />
+    </div>
+    <div class="quantity shop">
+        <ListTextButton text={item.qty} subtext={item.unit} on:click={handleQtyClick}/>
     </div>
 </div>
 
@@ -136,21 +71,16 @@
     .quantity {
         flex: 0 0 20vw;
         padding: 5px;
-        background-color: var(--primary-color);
         align-self: stretch;
     }
-    .actions {
-        position: absolute;
-        right: calc(20vw + 17px);
-        display:flex;
+    .shop {
         background-color: var(--primary-color);
-        box-shadow: -20px 0 10px var(--primary-color);
+    }
+    .warehouse {
+        background-color: none;        
     }
     .notes {
         font-size: x-small;
         margin-top: 4px;
-    }
-    .hidden {
-        filter: brightness(.9);
     }
 </style>

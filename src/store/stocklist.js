@@ -22,7 +22,7 @@ store.load = async function (cacheFirst = true) {
         }
     }
     const items = await storage.read()
-    store.set(items.map(reset))
+    store.set(items.map(reset).filter(keep.inStock))
     cache.set(store.get())
 }
 
@@ -53,12 +53,6 @@ store.removeItem = item => {
     store.update()
 }
 
-store.hideItem = function (item) {
-    item.hidden = true
-    item.qty = ''
-    store.updateItem(item)
-}
-
 store.update = () => {
     const items = [...store.get()]
     store.set(items)
@@ -80,7 +74,7 @@ store.complete = async () => {
 async function persistMaster() {
     const items = store.get()
     if (!items) return
-    const data = items.map(({ name, unit, hidden }) => ({ name, unit, hidden }))
+    const data = items.map(({ name, unit }) => ({ name, unit }))
     return storage.update(data)
 }
 
@@ -105,7 +99,7 @@ async function notifyBackend() {
 
 Object.defineProperty(store, 'completedItems', {
     get() {
-        return [...store.get()].filter(keep.validQuantities).filter(discard.hidden)
+        return [...store.get()].filter(keep.validQuantities)
     },
     set() { throw 'Cannot assign to property completedItems' },
 })
@@ -115,16 +109,6 @@ store.filter = function (searchValue) {
     console.log(items)
     if (!items || !items.length)
         return items
-    if (!searchValue)
-        items = items.filter(discard.hidden)
-    if (searchValue.startsWith('-')) {
-        items = items.filter(keep.hidden)
-        searchValue = searchValue.substr(1)
-    }
-    if (searchValue.startsWith('#')) {
-        items = items.filter(keep.validQuantities)
-        searchValue = searchValue.substr(1)
-    }
     if (searchValue) {
         if (searchValue.length < 3)
             items = items.filter(keep.namesStartingWith(searchValue))
@@ -139,18 +123,14 @@ store.findItemIndex = itemToFind => store.get().findIndex(item => item.id === it
 
 store.findItemById = id => store.get().find(item => item.id === id)
 
-const reset = item => ({ id: new UID({ charset: alpha }).value, ...item, qty: '' })
+const reset = item => ({ id: new UID({ charset: alpha }).value, ...item, whqty: String(item.whqty), qty: '', unit: '' })
 
 // filter functions
 const keep = {
     validQuantities: item => item.qty.length > 0,
-    hidden: item => item.hidden,
+    inStock: item => item.whqty.length > 0,
     namesWith: string => ({ name }) => name.toLowerCase().includes(string.toLowerCase()),
     namesStartingWith: string => ({ name }) => name.toLowerCase().startsWith(string.toLowerCase()),
-}
-
-const discard = {
-    hidden: item => !item.hidden,
 }
 
 // sort functions
@@ -165,6 +145,6 @@ const htmlify = items => items.filter(keep.validQuantities).map(textifyItem).joi
 
 
 export default store
-export { keep, discard, textify, htmlify }
+export { keep, textify, htmlify }
 
 

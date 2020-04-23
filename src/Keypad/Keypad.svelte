@@ -91,7 +91,7 @@
 >
     <!-- <div class="header" data-type="header" on:click={handleHeaderClick}> -->
     <div class="header">
-        {#each ['bags', 'boxes', 'black tubs', 'trays', 'bin', 'shelf'] as unit}
+        {#each ['bags', 'boxes', 'black tubs', 'trays', 'bin', 'hat bin', 'shelf'] as unit}
             <Button data-type="header" data-key={unit} style="text-transform: lowercase; font-weight: 400;">
                 {unit}
             </Button>

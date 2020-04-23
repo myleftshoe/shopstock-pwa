@@ -38,6 +38,4 @@ export default function handleKeypress({ type, key }, item) {
     
     item.qty = String(qty)
 
-    if (item.qty) delete item.hidden
-
 }

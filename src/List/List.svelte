@@ -10,9 +10,5 @@
         selected={selectedItem.id === item.id}
         on:itemclick
         on:qtyclick
-        on:longpress
-        on:editclick
-        on:hideclick
-        on:deleteclick
     />
 {/each}
