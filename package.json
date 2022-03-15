@@ -8,7 +8,7 @@
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "eases-jsnext": "^1.0.10",
-    "lodash-es": "^4.17.15",
+    "lodash-es": "^4.17.21",
     "npm-run-all": "^4.1.5",
     "rollup": "^1.31.0",
     "rollup-plugin-babel": "^4.4.0",
